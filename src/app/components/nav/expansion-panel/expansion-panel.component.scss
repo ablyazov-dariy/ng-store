@@ -1,0 +1,10 @@
+:host(app-expansion-panel) {
+  inset: 0;
+  position: absolute;
+
+  .ex-container {
+    z-index: 2;
+    position: absolute;
+    inset: 0;
+  }
+}

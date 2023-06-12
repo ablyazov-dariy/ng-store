@@ -24,7 +24,7 @@
   grid-template-columns: minmax(0, 30%) 1fr minmax(0, 30%);
   place-items: center;
   grid-template-rows: 70px;
-  background: white;
+  background: transparent;
   border-bottom: 1px solid #e0e0e0;
 
   @media screen and (max-width: 360px) {
@@ -65,8 +65,10 @@
 }
 
 .app-container {
-  margin: 0 min(100px, 5%);
-  background: red;
+  @media screen and (max-width: 960px) {
+    margin: min(10px, 5%);
+  }
+  margin: 0 max(10px, 10%);
   min-height: 100%;
   display: grid;
   grid-template-areas:
@@ -77,7 +79,8 @@
 
   .main {
     grid-area: main;
-    background: greenyellow;
+    display: flex;
+    flex-direction: column;
   }
   .expansion-panel {
     background: gray;
