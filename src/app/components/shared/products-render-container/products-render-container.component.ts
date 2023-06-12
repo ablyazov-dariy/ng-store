@@ -8,5 +8,9 @@ import { Product } from '../../../interfaces/product';
 })
 export class ProductsRenderContainerComponent {
   @Input() cols: number = 4;
-  @Input({ required: true }) products!: Product[] | Product[];
+  @Input({ required: true }) products!: Product[];
+
+  calculateGap(): string {
+    return `${10 / this.cols}%`;
+  }
 }

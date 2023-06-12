@@ -21,7 +21,7 @@ $black-white-palette: (
   ),
 );
 
-$ngStore-primary: mat.define-palette(mat.$gray-palette, 200, 900, 900);
+$ngStore-primary: mat.define-palette(mat.$gray-palette, 500, 700);
 $ngStore-accent: mat.define-palette($black-white-palette, 700, 500, 50);
 
 // The warn palette is optional (defaults to red).

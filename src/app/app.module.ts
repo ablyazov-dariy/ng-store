@@ -25,6 +25,8 @@ import { PopupCartComponent } from './components/nav/popup-cart/popup-cart.compo
 import { MatMenuModule } from '@angular/material/menu';
 import { SearchOpenBtnComponent } from './components/nav/search-open-btn/search-open-btn.component';
 import { ExpansionPanelComponent } from './components/nav/expansion-panel/expansion-panel.component';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { ShippingAddComponent } from './components/shipping-add/shipping-add.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import { ExpansionPanelComponent } from './components/nav/expansion-panel/expans
     PopupCartComponent,
     SearchOpenBtnComponent,
     ExpansionPanelComponent,
+    ShippingAddComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,6 +54,7 @@ import { ExpansionPanelComponent } from './components/nav/expansion-panel/expans
     MatListModule,
     MatTabsModule,
     MatMenuModule,
+    MatGridListModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

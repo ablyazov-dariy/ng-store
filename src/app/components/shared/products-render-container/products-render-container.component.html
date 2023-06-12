@@ -1,4 +1,4 @@
-<mat-grid-list [cols]="cols" rowHeight="28:43" gutterSize="10">
+<mat-grid-list [cols]="cols" rowHeight="28:43" [gutterSize]="calculateGap()">
   <mat-grid-tile *ngFor="let product of products">
     <div class="absolute inset-0 flex w-full flex-col">
       <div class="relative flex-auto">

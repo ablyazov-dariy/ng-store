@@ -1,0 +1,13 @@
+<div class="h-96 bg-gray-800">carousel</div>
+
+<div class="text-center">
+  <h2 class="mat-headline-6">PARKS AND RECREATION</h2>
+  <button mat-button class="inline underline" routerLink="">SHOP NEW</button>
+</div>
+
+<app-collection-preview [collections]="collections.slice(0, 2)"></app-collection-preview>
+
+<div class="hr bg-gray-400"></div>
+
+<h3 class="mat-headline-6 text-center">Featured</h3>
+<app-products-render-container [products]="products" [cols]="4"></app-products-render-container>
