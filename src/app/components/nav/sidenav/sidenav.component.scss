@@ -19,12 +19,15 @@
 }
 
 .main-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 999;
   grid-area: toolbar;
   display: grid;
   grid-template-columns: minmax(0, 30%) 1fr minmax(0, 30%);
   place-items: center;
   grid-template-rows: 70px;
-  background: transparent;
+  background: #fafafa;
   border-bottom: 1px solid #e0e0e0;
 
   @media screen and (max-width: 360px) {

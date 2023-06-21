@@ -1,6 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 
 import { Collection } from '../../../interfaces/collection';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Observable } from 'rxjs';
+import { map, shareReplay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-collection-preview',
@@ -10,6 +13,16 @@ import { Collection } from '../../../interfaces/collection';
 export class CollectionPreviewComponent {
   cols: number = 2;
   @Input({ required: true }) collections!: Collection[];
+
+  private breakpointObserver: BreakpointObserver = inject(BreakpointObserver);
+
+  isSmall$: Observable<number> = this.breakpointObserver
+    .observe([Breakpoints.Small, Breakpoints.XSmall])
+    .pipe(
+      map(result => result.matches),
+      map(matches => (matches ? 0.5 : 1)),
+      shareReplay()
+    );
 
   calculateGap(): string {
     return `${10 / this.cols}%`;

@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MatButtonModule } from '@angular/material/button'; // remove
+import { MatButtonModule } from '@angular/material/button';
 import { FooterComponent } from './components/footer/footer.component';
 
 import { SharedModule } from './components/shared/shared.module';
@@ -27,6 +27,8 @@ import { SearchOpenBtnComponent } from './components/nav/search-open-btn/search-
 import { ExpansionPanelComponent } from './components/nav/expansion-panel/expansion-panel.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { ShippingAddComponent } from './components/shipping-add/shipping-add.component';
+
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [

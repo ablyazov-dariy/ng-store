@@ -1,4 +1,4 @@
-<div class="justify-between sm:flex">
+<div class="w-full justify-between sm:flex">
   <div class="mbs-20">
     <h4 class="mat-headline-6">Participle+</h4>
     <mat-list class="mat-body-2">
@@ -35,8 +35,8 @@
   </div>
 </div>
 
-<form class="">
-  <mat-form-field color="primary">
+<form class="flex flex-wrap items-center gap-3.5 max-sm:justify-between sm:flex-nowrap">
+  <mat-form-field class="max-sm:w-full">
     <mat-label>Email</mat-label>
     <input type="email" matInput [formControl]="emailFormControl" placeholder="ex.pat@gmail.com" />
     <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
@@ -46,5 +46,7 @@
       Email is <strong>required</strong>
     </mat-error>
   </mat-form-field>
-  <button (click)="onSubmit()" mat-flat-button color="accent">Sing Up!</button>
+  <button (click)="onSubmit()" mat-flat-button color="accent" class="max-sm:w-full">
+    Sing Up!
+  </button>
 </form>

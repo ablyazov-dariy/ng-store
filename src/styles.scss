@@ -13,7 +13,7 @@
 // hue. Available color palettes: https://material.io/design/color/
 $black-white-palette: (
   50: #ffffff,
-  500: gray,
+  500: transparent,
   700: #000000,
   contrast: (
     50: white,
@@ -21,7 +21,7 @@ $black-white-palette: (
   ),
 );
 
-$ngStore-primary: mat.define-palette(mat.$gray-palette, 500, 700);
+$ngStore-primary: mat.define-palette(mat.$gray-palette, 500, 700, 400);
 $ngStore-accent: mat.define-palette($black-white-palette, 700, 500, 50);
 
 // The warn palette is optional (defaults to red).

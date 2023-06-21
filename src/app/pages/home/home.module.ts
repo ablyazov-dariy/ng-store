@@ -7,9 +7,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { SharedModule } from '../../components/shared/shared.module';
 import { CollectionPreviewComponent } from './collection-preview/collection-preview.component';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { CarouselComponent } from './carousel/carousel.component';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
-  declarations: [HomeComponent, CollectionPreviewComponent],
+  declarations: [HomeComponent, CollectionPreviewComponent, CarouselComponent],
   imports: [
     CommonModule,
     HomeRoutingModule,
@@ -17,6 +19,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
     SharedModule,
     MatGridListModule,
     NgOptimizedImage,
+    MatRadioModule,
   ],
 })
 export class HomeModule {}
