@@ -28,8 +28,6 @@ import { ExpansionPanelComponent } from './components/nav/expansion-panel/expans
 import { MatGridListModule } from '@angular/material/grid-list';
 import { ShippingAddComponent } from './components/shipping-add/shipping-add.component';
 
-import { MatExpansionModule } from '@angular/material/expansion';
-
 @NgModule({
   declarations: [
     AppComponent,

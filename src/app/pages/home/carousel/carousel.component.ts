@@ -4,12 +4,11 @@ import {
   ElementRef,
   Input,
   OnDestroy,
-  OnInit,
   signal,
   ViewChild,
   WritableSignal,
 } from '@angular/core';
-import { filter, Subject, takeUntil, tap, timer } from 'rxjs';
+import { filter, Subject, takeUntil, timer } from 'rxjs';
 
 @Component({
   selector: 'app-carousel',
