@@ -8,6 +8,7 @@ import {
   ViewChild,
   WritableSignal,
 } from '@angular/core';
+import { Collection } from '@interfaces/collection';
 import { filter, Subject, takeUntil, timer } from 'rxjs';
 
 @Component({
@@ -17,7 +18,11 @@ import { filter, Subject, takeUntil, timer } from 'rxjs';
 })
 export class CarouselComponent implements AfterViewInit, OnDestroy {
   @ViewChild('carousel', { static: true }) carousel!: ElementRef<HTMLElement>;
-  @Input() slides: any[] = [0, 1, 2, 3, 4, 5];
+  @Input() slides: Collection[] = [
+    { name: 'slide 1', img: 'https://picsum.photos/seed/1/800/400', contain: 'contain' },
+    { name: 'slide 2', img: 'https://picsum.photos/seed/2/800/400', contain: 'contain' },
+    { name: 'slide 3', img: 'https://picsum.photos/seed/3/800/400', contain: 'contain' },
+  ];
   destroy$: Subject<boolean> = new Subject();
 
   activeSlideIndex: WritableSignal<number> = signal(0);

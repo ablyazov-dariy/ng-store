@@ -5,8 +5,8 @@
   [style.transform]="'translateX(-' + (activeSlideIndex() * 100).toString() + '%)'"
 >
   <div *ngFor="let slide of slides; let i = index" class="slide relative">
-    <img ngSrc="https://picsum.photos/200/300" fill alt="" />
-    slide {{ i }}
+    <img [ngSrc]="slide.img" fill alt="" />
+    <h3 class="absolute right-1/2 top-1/2 z-50">slide {{ slide.name }}</h3>
   </div>
 </div>
 

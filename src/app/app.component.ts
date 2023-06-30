@@ -7,7 +7,7 @@ import { Product } from '@interfaces/product';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title: string = 'ngStore';
+  title = 'ngStore';
 
   public data: Product = {
     id: 1,

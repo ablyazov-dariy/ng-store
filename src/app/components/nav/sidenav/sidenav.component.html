@@ -32,7 +32,7 @@
             [isXSmall]="(isSmall$ | async)!"
             (click)="expansionPanelOpened.set(true)"
           />
-          <app-account-dropdown *ngIf="!(isSmall$ | async)" />
+          <app-account-dropdown *ngIf="(isSmall$ | async) === false" />
           <app-popup-cart />
         </div>
       </div>
