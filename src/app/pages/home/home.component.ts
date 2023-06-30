@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Product } from '../../interfaces/product';
-import { Collection } from '../../interfaces/collection';
+import { CollectionInterface } from '@interfaces/collection.interface';
+import { ProductInterface } from '@interfaces/product.interface';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +8,7 @@ import { Collection } from '../../interfaces/collection';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  products: Product[] = [
+  products: ProductInterface[] = [
     {
       id: 1,
       name: 'Camiseta',
@@ -41,7 +41,7 @@ export class HomeComponent {
     },
   ];
 
-  collections: Collection[] = [
+  collections: CollectionInterface[] = [
     {
       name: 'Best Sellers',
       img: 'https://picsum.photos/200/300',
