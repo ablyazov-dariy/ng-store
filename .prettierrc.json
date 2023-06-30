@@ -9,7 +9,5 @@
   "bracketSpacing": true,
   "jsxBracketSameLine": false,
   "proseWrap": "always",
-  "importOrder": ["^@angular/", "^[^.]"],
-  "importSortOrder": ["asc", "asc"],
   "plugins": ["prettier-plugin-tailwindcss"]
 }

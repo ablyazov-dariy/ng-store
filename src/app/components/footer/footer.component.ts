@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -6,10 +6,9 @@ import { FormControl, Validators } from '@angular/forms';
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss'],
 })
-export class FooterComponent implements OnInit {
+export class FooterComponent {
   emailFormControl: FormControl = new FormControl('', [Validators.required, Validators.email]);
 
-  ngOnInit(): void {}
 
   onSubmit(): void {
     if (this.emailFormControl.valid) {

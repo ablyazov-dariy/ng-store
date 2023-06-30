@@ -23,7 +23,11 @@ export class CarouselComponent implements AfterViewInit, OnDestroy {
   activeSlideIndex: WritableSignal<number> = signal(0);
 
   ngAfterViewInit() {
-    timer(0, 3000)
+    this.carouselRunner();
+  }
+
+  carouselRunner(): void {
+    timer(3000, 3000)
       .pipe(
         takeUntil(this.destroy$),
         filter(() => !this.carousel.nativeElement.matches(':hover'))
