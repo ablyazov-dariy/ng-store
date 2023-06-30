@@ -1,0 +1,13 @@
+<mat-grid-list [cols]="(isSmall$ | async)! * cols" rowHeight="28:43" [gutterSize]="calculateGap()">
+  <mat-grid-tile *ngFor="let collection of collections">
+    <div class="absolute inset-0 flex w-full flex-col">
+      <div class="relative flex-auto">
+        <img [ngSrc]="collection.img" fill [alt]="collection.contain" priority />
+      </div>
+      <h3 class="mat-headline-6 mt-4 text-center uppercase text-black">{{ collection.name }}</h3>
+      <a class="block text-center text-gray-500 underline" routerLink=""
+        >SHOP {{ collection.contain }}
+      </a>
+    </div>
+  </mat-grid-tile>
+</mat-grid-list>

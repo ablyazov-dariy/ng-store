@@ -1,0 +1,9 @@
+<button mat-button *ngIf="!isXSmall; else icon">
+  <span>Search</span>
+  <mat-icon>search</mat-icon>
+</button>
+<ng-template #icon>
+  <button mat-icon-button>
+    <mat-icon>search</mat-icon>
+  </button>
+</ng-template>

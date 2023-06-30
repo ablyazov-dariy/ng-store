@@ -1,0 +1,20 @@
+<div
+  #carousel
+  class="carousel"
+  [style.grid-template-columns]="'repeat(' + slides.length.toString() + ', 100%)'"
+  [style.transform]="'translateX(-' + (activeSlideIndex() * 100).toString() + '%)'"
+>
+  <div *ngFor="let slide of slides; let i = index" class="slide relative">
+    <img [ngSrc]="slide.img" fill alt="" />
+    <h3 class="absolute right-1/2 top-1/2 z-50">slide {{ slide.name }}</h3>
+  </div>
+</div>
+
+<mat-radio-group color="primary" class="dots">
+  <mat-radio-button
+    *ngFor="let slide of slides; let i = index"
+    [value]="i"
+    (change)="activeSlideIndex.set(i)"
+    [checked]="i === activeSlideIndex()"
+  ></mat-radio-button>
+</mat-radio-group>

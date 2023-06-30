@@ -1,0 +1,13 @@
+:host(app-home) {
+  & > * {
+    margin-block-start: 3rem;
+  }
+  .text-center {
+    h2 {
+      margin-bottom: 0 !important;
+    }
+  }
+}
+.hr {
+  height: 1px;
+}

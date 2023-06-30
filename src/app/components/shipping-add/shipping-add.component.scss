@@ -1,0 +1,8 @@
+:host(app-shipping-add) {
+  @apply bg-gray-300;
+  display: block;
+  text-align: center;
+  mat-icon {
+    float: right;
+  }
+}
