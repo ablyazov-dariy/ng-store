@@ -1,56 +1,44 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
+
 import { CollectionInterface } from '@interfaces/collection.interface';
 import { ProductInterface } from '@interfaces/product.interface';
+import { ProductsDataService } from '@services/products-data.service';
+
+import { Observable, Subject, takeUntil } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent {
-  products: ProductInterface[] = [
-    {
-      id: 1,
-      name: 'Camiseta',
-      image: 'https://picsum.photos/200/300',
-      price: 80000,
-      description: 'bla bla bla bla bla',
-    },
-    {
-      id: 2,
-      name: 'Hoodie',
-      image: 'https://picsum.photos/200/300',
-      price: 80000,
-      description: 'bla bla bla bla bla',
-      discount: 10,
-    },
-    {
-      id: 3,
-      name: 'Mug',
-      image: 'https://picsum.photos/200/300',
-      price: 80000,
-      discount: 10,
-      description: 'bla bla bla bla bla',
-    },
-    {
-      id: 4,
-      name: 'Pin',
-      image: 'https://picsum.photos/200/300',
-      price: 80000,
-      description: 'bla bla bla bla bla',
-    },
-  ];
+export class HomeComponent implements OnDestroy {
+  private ProductsDataService: ProductsDataService = inject(ProductsDataService);
+  private destroy$: Subject<boolean> = new Subject();
+  public featuredProducts$: Observable<ProductInterface[]> = this.getFeaturedProducts();
 
   collections: CollectionInterface[] = [
     {
       name: 'Best Sellers',
-      img: 'https://picsum.photos/200/300',
-      contain: 'dress',
+      img: 'assets/image.png',
+      contain: 'best-sellers',
     },
     {
       name: 'All Over Velvet',
-      img: 'https://picsum.photos/200/300',
+      img: 'assets/image (4).png',
       contain: 'velvet',
     },
   ];
+
+  private getFeaturedProducts(): Observable<ProductInterface[]> {
+    return this.ProductsDataService.getJsonData().pipe(
+      takeUntil(this.destroy$),
+      map(products => products.filter(product => product.featured).slice(0, 4))
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
+  }
 }

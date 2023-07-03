@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -27,6 +28,7 @@ import { SharedModule } from '@shared/shared.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CharacterLimitPipe } from './pipes/character-limit.pipe';
 
 @NgModule({
   declarations: [
@@ -39,8 +41,10 @@ import { AppComponent } from './app.component';
     SearchOpenBtnComponent,
     ExpansionPanelComponent,
     ShippingAddComponent,
+    CharacterLimitPipe,
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

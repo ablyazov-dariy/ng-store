@@ -1,8 +1,19 @@
+import { ReviewInterface } from '@interfaces/review.interface';
+
 export interface ProductInterface {
   id: number;
-  name: string;
+  imgUrl: string;
   price: number;
-  description: string;
-  image: string;
   discount?: number;
+  featured?: boolean;
+  collection: string;
+  name: string;
+  description: string;
+  discountUntil?: Date;
+  new?: boolean;
+  colors: string[];
+  size: Size[];
+  reviews: ReviewInterface[];
 }
+
+type Size = 'S' | 'M' | 'L' | 'XL' | 'XXL';

@@ -1,0 +1,204 @@
+[
+  {
+    "id": 1,
+    "imgUrl": "assets/image.png",
+    "price": 29.99,
+    "discount": 10,
+    "featured": true,
+    "collection": "Fashion Store",
+    "name": "Striped T-Shirt",
+    "description": "A stylish striped t-shirt made from high-quality cotton.",
+    "discountUntil": "2023-07-15T00:00:00Z",
+    "new": true,
+    "colors": ["Blue", "Red", "White"],
+    "size": ["S", "M", "L"],
+    "reviews": [
+      {
+        "id": 1,
+        "author": "John Doe",
+        "rating": 4,
+        "comment": "Great shirt! Fits perfectly."
+      },
+      {
+        "id": 2,
+        "author": "Jane Smith",
+        "rating": 5,
+        "comment": "Love the quality and design."
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "imgUrl": "assets/image (1).png",
+    "price": 49.99,
+    "featured": false,
+    "collection": "Fashion Outlet",
+    "name": "Denim Jeans",
+    "description": "Classic denim jeans with a slim fit.",
+    "new": false,
+    "colors": ["Blue", "Black"],
+    "size": ["M", "L", "XL"],
+    "reviews": [
+      {
+        "id": 3,
+        "author": "David Brown",
+        "rating": 5,
+        "comment": "Best jeans I've ever owned!"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "imgUrl": "assets/image (2).png",
+    "price": 39.99,
+    "featured": true,
+    "collection": "Fashion Store",
+    "name": "Printed Dress",
+    "description": "A beautiful printed dress for any occasion.",
+    "new": true,
+    "colors": ["Green", "Yellow"],
+    "size": ["S", "M", "L"],
+    "reviews": [
+      {
+        "id": 4,
+        "author": "Emily Johnson",
+        "rating": 4,
+        "comment": "Lovely dress! Fits perfectly and looks great."
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "imgUrl": "assets/image (4).png",
+    "price": 19.99,
+    "discount": 5,
+    "featured": false,
+    "collection": "Fashion Outlet",
+    "name": "Basic T-Shirt",
+    "description": "A comfortable basic t-shirt for everyday wear.",
+    "discountUntil": "2023-07-10T00:00:00Z",
+    "colors": ["White", "Black", "Gray"],
+    "size": ["S", "M", "L", "XL"],
+    "reviews": []
+  },
+  {
+    "id": 5,
+    "imgUrl": "assets/image (5).png",
+    "price": 59.99,
+    "featured": true,
+    "collection": "Fashion Store",
+    "name": "Leather Jacket",
+    "description": "A stylish leather jacket for a trendy look.",
+    "new": false,
+    "colors": ["Black", "Brown"],
+    "size": ["M", "L", "XL"],
+    "reviews": [
+      {
+        "id": 5,
+        "author": "Michael Thompson",
+        "rating": 5,
+        "comment": "Great jacket! It's well-made and fits perfectly."
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "imgUrl": "assets/image (6).png",
+    "price": 34.99,
+    "featured": true,
+    "collection": "Fashion Store",
+    "name": "Floral Skirt",
+    "description": "A trendy floral skirt for a feminine look.",
+    "new": true,
+    "colors": ["Pink", "Purple"],
+    "size": ["S", "M"],
+    "reviews": []
+  },
+  {
+    "id": 7,
+    "imgUrl": "assets/image 2.2.png",
+    "price": 44.99,
+    "featured": false,
+    "collection": "Fashion Outlet",
+    "name": "Checked Shirt",
+    "description": "A classic checked shirt for a casual style.",
+    "new": false,
+    "colors": ["Red", "Blue"],
+    "size": ["L", "XL"],
+    "reviews": [
+      {
+        "id": 6,
+        "author": "Sarah Wilson",
+        "rating": 4,
+        "comment": "Nice shirt! Good quality fabric."
+      },
+      {
+        "id": 7,
+        "author": "Robert Davis",
+        "rating": 5,
+        "comment": "I love the design of this shirt!"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "imgUrl": "assets/image 2.3.png",
+    "price": 24.99,
+    "discount": 15,
+    "featured": true,
+    "collection": "Fashion Store",
+    "name": "Casual Shorts",
+    "description": "Comfortable and stylish shorts for everyday wear.",
+    "discountUntil": "2023-07-20T00:00:00Z",
+    "new": false,
+    "colors": ["Khaki", "Navy"],
+    "size": ["S", "M", "L"],
+    "reviews": [
+      {
+        "id": 8,
+        "author": "Jessica Parker",
+        "rating": 4,
+        "comment": "Great shorts! They're very comfortable."
+      },
+      {
+        "id": 9,
+        "author": "Daniel Johnson",
+        "rating": 5,
+        "comment": "I like the fit of these shorts."
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "imgUrl": "assets/image 2.3 (1).png",
+    "price": 39.99,
+    "featured": false,
+    "collection": "Fashion Outlet",
+    "name": "Knit Sweater",
+    "description": "A cozy knit sweater for chilly days.",
+    "new": true,
+    "colors": ["Gray", "Beige"],
+    "size": ["M", "L", "XL"],
+    "reviews": [
+      {
+        "id": 10,
+        "author": "Sophia Anderson",
+        "rating": 4,
+        "comment": "Nice sweater! It keeps me warm."
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "imgUrl": "assets/image.png",
+    "price": 54.99,
+    "featured": true,
+    "collection": "Fashion Store",
+    "name": "Pleated Skirt",
+    "description": "A chic pleated skirt for a sophisticated look.",
+    "new": false,
+    "colors": ["Black", "Navy"],
+    "size": ["S", "M", "L"],
+    "reviews": []
+  }
+]
