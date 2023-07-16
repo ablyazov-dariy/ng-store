@@ -1,10 +1,10 @@
-import { Component, computed, OnDestroy, OnInit, Signal, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductInterface } from '@interfaces/product.interface';
-import { FilterStateService } from '@services/filter-state.service';
-import { ProductsDataService } from '@services/products-data.service';
+import { ProductsService } from '@services/products.service';
 
-import { filter, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { switchMap, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-shop',
@@ -13,35 +13,20 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class ShopComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<boolean>();
-  private products = signal<ProductInterface[]>([]);
+  public products$: Observable<ProductInterface[]> = this.productsData();
 
   constructor(
-    private productsDataService: ProductsDataService,
-    private filterService: FilterStateService
+    private router: Router,
+    private route: ActivatedRoute,
+    private productsService: ProductsService
   ) {}
 
-  ngOnInit(): void {
-    this.filterProducts();
-  }
+  ngOnInit(): void {}
 
-  filterProducts() {
-    this.productsDataService
-      .getJsonData()
-      .pipe(
-        takeUntil(this.destroy$),
-        filter(
-          data => true
-          // add filter logic here
-        )
-      )
-      .subscribe(data => this.products.set(data));
-  }
-
-  getSortedProducts(): Signal<ProductInterface[]> {
-    return computed(() =>
-      this.products().sort((a, b) =>
-        this.filterService.sortDirection() === 'asc' ? a.price - b.price : b.price - a.price
-      )
+  private productsData(): Observable<ProductInterface[]> {
+    return this.route.queryParams.pipe(
+      takeUntil(this.destroy$),
+      switchMap(params => this.productsService.getProductsObservable(params))
     );
   }
 

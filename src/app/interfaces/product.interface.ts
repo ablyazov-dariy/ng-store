@@ -17,3 +17,4 @@ export interface ProductInterface {
 }
 
 type Size = 'S' | 'M' | 'L' | 'XL' | 'XXL';
+// isArrayOfProductInterface

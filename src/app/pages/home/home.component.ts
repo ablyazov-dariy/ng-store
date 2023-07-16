@@ -1,22 +1,20 @@
-import { Component, inject, OnDestroy } from '@angular/core';
-
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CollectionInterface } from '@interfaces/collection.interface';
 import { ProductInterface } from '@interfaces/product.interface';
-import { ProductsDataService } from '@services/products-data.service';
+import { ProductsService } from '@services/products.service';
 
-import { Observable, Subject, takeUntil } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
+import { switchMap, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnDestroy {
-  private ProductsDataService: ProductsDataService = inject(ProductsDataService);
+export class HomeComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject();
-  public featuredProducts$: Observable<ProductInterface[]> = this.getFeaturedProducts();
-
+  public products$: Observable<ProductInterface[]> = this.productsData();
+  // // TODO: get collections from server
   collections: CollectionInterface[] = [
     {
       name: 'Best Sellers',
@@ -30,10 +28,17 @@ export class HomeComponent implements OnDestroy {
     },
   ];
 
-  private getFeaturedProducts(): Observable<ProductInterface[]> {
-    return this.ProductsDataService.getJsonData().pipe(
+  constructor(private productsService: ProductsService) {}
+
+  ngOnInit(): void {}
+
+  private productsData(): Observable<ProductInterface[]> {
+    return of({
+      limit: 4,
+      newOnly: true,
+    }).pipe(
       takeUntil(this.destroy$),
-      map(products => products.filter(product => product.featured).slice(0, 4))
+      switchMap(params => this.productsService.getProductsObservable(params))
     );
   }
 

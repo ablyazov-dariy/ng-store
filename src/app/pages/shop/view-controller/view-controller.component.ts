@@ -1,6 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
-import { Sort } from '@angular/material/sort';
-import { FilterStateService } from '@services/filter-state.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-view-controller',
@@ -8,19 +6,26 @@ import { FilterStateService } from '@services/filter-state.service';
   styleUrls: ['./view-controller.component.scss'],
 })
 export class ViewControllerComponent {
-  private filterService: FilterStateService = inject(FilterStateService);
-
-  sortLabel = computed((): 'low to high' | 'high to low' => {
-    if (this.filterService.sortDirection() === 'asc') {
-      return 'low to high';
-    } else if (this.filterService.sortDirection() === 'desc') {
-      return 'high to low';
-    } else {
-      throw new Error('Invalid sort direction, try set disableClear to true');
-    }
-  });
-
-  sortData(sort: Sort): void {
-    this.filterService.sortDirection.set(sort.direction);
-  }
+  // activatedRoute = inject(ActivatedRoute);
+  // router = inject(Router);
+  // sortLabel = computed((): 'low to high' | 'high to low' | '' => {
+  //   if (this.dataStateService.filtersState().sort === 'asc') {
+  //     return 'low to high';
+  //   } else if (this.dataStateService.filtersState().sort === 'desc') {
+  //     return 'high to low';
+  //   } else {
+  //     return '';
+  //   }
+  // });
+  // sortData(sort: Sort): void {
+  //   // this.dataStateService.sort.set(sort.direction);
+  //
+  //   this.router.navigateByUrl('shop?q=12').then(() => {
+  //     console.log('add q');
+  //   });
+  // }
+  //
+  // setGrid(num: number) {
+  //   this.dataStateService.gridSize.set(num);
+  // }
 }

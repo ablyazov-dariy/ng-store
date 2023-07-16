@@ -17,7 +17,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FooterComponent } from '@components/footer/footer.component';
 import { AccountDropdownComponent } from '@components/nav/account-dropdown/account-dropdown.component';
 import { DrawerTabsComponent } from '@components/nav/drawer/drawer-tabs/drawer-tabs.component';
-import { ExpansionPanelComponent } from '@components/nav/expansion-panel/expansion-panel.component';
 
 import { PopupCartComponent } from '@components/nav/popup-cart/popup-cart.component';
 import { SearchOpenBtnComponent } from '@components/nav/search-open-btn/search-open-btn.component';
@@ -39,7 +38,6 @@ import { CharacterLimitPipe } from './pipes/character-limit.pipe';
     AccountDropdownComponent,
     PopupCartComponent,
     SearchOpenBtnComponent,
-    ExpansionPanelComponent,
     ShippingAddComponent,
     CharacterLimitPipe,
   ],

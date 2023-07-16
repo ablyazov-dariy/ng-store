@@ -9,7 +9,4 @@
 <div class="hr bg-gray-400"></div>
 
 <h3 class="mat-headline-6 text-center">Featured</h3>
-<app-products-render-container
-  [products]="(featuredProducts$ | async)!"
-  [cols]="4"
-></app-products-render-container>
+<app-products-render-container [products]="(products$ | async)!" [cols]="4" />
