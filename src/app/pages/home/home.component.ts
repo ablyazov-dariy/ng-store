@@ -1,56 +1,47 @@
-import { Component } from '@angular/core';
-import { Product } from '../../interfaces/product';
-import { Collection } from '../../interfaces/collection';
+import { Component, OnDestroy } from '@angular/core';
+import { CollectionInterface } from '@interfaces/collection.interface';
+import { ProductInterface } from '@interfaces/product.interface';
+import { ProductsService } from '@services/products.service';
+
+import { Observable, of, Subject } from 'rxjs';
+import { switchMap, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent {
-  products: Product[] = [
-    {
-      id: 1,
-      name: 'Camiseta',
-      image: 'https://picsum.photos/200/300',
-      price: 80000,
-      description: 'bla bla bla bla bla',
-    },
-    {
-      id: 2,
-      name: 'Hoodie',
-      image: 'https://picsum.photos/200/300',
-      price: 80000,
-      description: 'bla bla bla bla bla',
-      discount: 10,
-    },
-    {
-      id: 3,
-      name: 'Mug',
-      image: 'https://picsum.photos/200/300',
-      price: 80000,
-      discount: 10,
-      description: 'bla bla bla bla bla',
-    },
-    {
-      id: 4,
-      name: 'Pin',
-      image: 'https://picsum.photos/200/300',
-      price: 80000,
-      description: 'bla bla bla bla bla',
-    },
-  ];
-
-  collections: Collection[] = [
+export class HomeComponent implements OnDestroy {
+  private destroy$: Subject<boolean> = new Subject();
+  public products$: Observable<ProductInterface[]> = this.productsData();
+  // // TODO: get collections from server
+  collections: CollectionInterface[] = [
     {
       name: 'Best Sellers',
-      img: 'https://picsum.photos/200/300',
-      contain: 'dress',
+      img: 'assets/image.png',
+      contain: 'best-sellers',
     },
     {
       name: 'All Over Velvet',
-      img: 'https://picsum.photos/200/300',
+      img: 'assets/image (4).png',
       contain: 'velvet',
     },
   ];
+
+  constructor(private productsService: ProductsService) {}
+
+  private productsData(): Observable<ProductInterface[]> {
+    return of({
+      limit: 4,
+      newOnly: true,
+    }).pipe(
+      takeUntil(this.destroy$),
+      switchMap(params => this.productsService.getProductsObservable(params))
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
+  }
 }

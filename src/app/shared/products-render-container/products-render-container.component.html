@@ -2,17 +2,17 @@
   <mat-grid-tile *ngFor="let product of products">
     <div class="absolute inset-0 flex w-full flex-col">
       <div class="relative flex-auto">
-        <img [ngSrc]="product.image" fill [alt]="product.name" priority />
+        <img [ngSrc]="product.imgUrl" fill [alt]="product.name" priority />
       </div>
       <div class="m-b-s text-center">
         <div class="mat-body-2 text-gray-500">{{ product.name }}</div>
         <div class="flex w-full justify-center gap-3.5">
           <span class="font-Ovo text-gray-500" [ngClass]="product.discount ? 'line-through' : ''">{{
-            product.price | currency : 'USD' : 'symbol' : '1.0-2'
+            product.price | currency : 'EUR' : 'symbol' : '1.0-2'
           }}</span>
           <span class="font-Ovo text-red" *ngIf="product.discount">{{
             product.price - (product.price * product.discount) / 100
-              | currency : 'USD' : 'symbol' : '1.0-2'
+              | currency : 'EUR' : 'symbol' : '1.0-2'
           }}</span>
         </div>
       </div>

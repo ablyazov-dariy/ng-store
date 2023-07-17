@@ -1,7 +1,7 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, inject, Input } from '@angular/core';
 
-import { Collection } from '@interfaces/collection';
+import { CollectionInterface } from '@interfaces/collection.interface';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
@@ -11,8 +11,8 @@ import { map, shareReplay } from 'rxjs/operators';
   styleUrls: ['./collection-preview.component.scss'],
 })
 export class CollectionPreviewComponent {
-  cols: number = 2;
-  @Input({ required: true }) collections!: Collection[];
+  cols = 2;
+  @Input({ required: true }) collections!: CollectionInterface[];
 
   private breakpointObserver: BreakpointObserver = inject(BreakpointObserver);
 

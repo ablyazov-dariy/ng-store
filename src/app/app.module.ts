@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -16,7 +17,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FooterComponent } from '@components/footer/footer.component';
 import { AccountDropdownComponent } from '@components/nav/account-dropdown/account-dropdown.component';
 import { DrawerTabsComponent } from '@components/nav/drawer/drawer-tabs/drawer-tabs.component';
-import { ExpansionPanelComponent } from '@components/nav/expansion-panel/expansion-panel.component';
 
 import { PopupCartComponent } from '@components/nav/popup-cart/popup-cart.component';
 import { SearchOpenBtnComponent } from '@components/nav/search-open-btn/search-open-btn.component';
@@ -27,6 +27,7 @@ import { SharedModule } from '@shared/shared.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CharacterLimitPipe } from './pipes/character-limit.pipe';
 
 @NgModule({
   declarations: [
@@ -37,10 +38,11 @@ import { AppComponent } from './app.component';
     AccountDropdownComponent,
     PopupCartComponent,
     SearchOpenBtnComponent,
-    ExpansionPanelComponent,
     ShippingAddComponent,
+    CharacterLimitPipe,
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

@@ -34,7 +34,6 @@
     display: flex;
     justify-content: space-around;
   }
-
   .logo {
     max-width: 100%;
     overflow: hidden;
@@ -85,10 +84,15 @@
     display: flex;
     flex-direction: column;
   }
-  .expansion-panel {
-    background: gray;
-    height: 200px;
-    grid-area: main;
-    z-index: 2;
+}
+
+.dialog {
+  border: none;
+  width: 100%;
+  top: 100%;
+  background: #fafafa;
+
+  p {
+    max-width: 15ch;
   }
 }

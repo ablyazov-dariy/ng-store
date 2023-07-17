@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Product } from '@interfaces/product';
 
 @Component({
   selector: 'app-root',
@@ -8,13 +7,4 @@ import { Product } from '@interfaces/product';
 })
 export class AppComponent {
   title = 'ngStore';
-
-  public data: Product = {
-    id: 1,
-    name: 'Test',
-    price: 100,
-    description: 'Test',
-    image: 'https://picsum.photos/200/300',
-    discount: 10,
-  };
 }

@@ -28,18 +28,18 @@
 
         <a routerLink=""><span class="logo">Participle+</span></a>
         <div class="toolbar-container">
-          <app-search-open-btn
-            [isXSmall]="(isSmall$ | async)!"
-            (click)="expansionPanelOpened.set(true)"
-          />
+          <app-search-open-btn [isXSmall]="(isSmall$ | async)!" />
           <app-account-dropdown *ngIf="(isSmall$ | async) === false" />
           <app-popup-cart />
         </div>
+        <dialog class="dialog" #dialogElement>
+          <button (click)="dialogElement.close()" mat-icon-button>
+            <mat-icon>close</mat-icon>
+          </button>
+        </dialog>
       </div>
+
       <!-- Add Content Here -->
-      <div class="expansion-panel relative" *ngIf="expansionPanelOpened()">
-        <app-expansion-panel (close$)="closeExpansionPanel()" />
-      </div>
       <div class="main">
         <ng-content></ng-content>
       </div>
@@ -49,10 +49,10 @@
 
 <ng-template #navLinks>
   <div class="toolbar-container">
-    <button mat-button (click)="expansionPanelOpened.set(true)">
+    <button mat-button (click)="dialogElement.show()">
       {{ 'New Arrivals' }}
     </button>
-    <button mat-button routerLink="">Shop</button>
+    <button mat-button routerLink="shop">Shop</button>
     <button mat-button routerLink="about">About Us</button>
   </div>
 </ng-template>

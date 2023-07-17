@@ -1,9 +1,6 @@
-import {
-  BreakpointObserver,
-  Breakpoints,
-} from '@angular/cdk/layout';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, inject, Input } from '@angular/core';
-import { Product } from '@interfaces/product';
+import { ProductInterface } from '@interfaces/product.interface';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
@@ -13,8 +10,8 @@ import { map, shareReplay } from 'rxjs/operators';
   styleUrls: ['./products-render-container.component.scss'],
 })
 export class ProductsRenderContainerComponent {
-  @Input() cols: number = 4;
-  @Input({ required: true }) products!: Product[];
+  @Input() cols = 4;
+  @Input({ required: true }) products!: ProductInterface[];
 
   private breakpointObserver: BreakpointObserver = inject(BreakpointObserver);
 
