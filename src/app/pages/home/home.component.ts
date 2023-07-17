@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CollectionInterface } from '@interfaces/collection.interface';
 import { ProductInterface } from '@interfaces/product.interface';
 import { ProductsService } from '@services/products.service';
@@ -11,7 +11,7 @@ import { switchMap, takeUntil } from 'rxjs/operators';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnDestroy {
   private destroy$: Subject<boolean> = new Subject();
   public products$: Observable<ProductInterface[]> = this.productsData();
   // // TODO: get collections from server
@@ -29,8 +29,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   ];
 
   constructor(private productsService: ProductsService) {}
-
-  ngOnInit(): void {}
 
   private productsData(): Observable<ProductInterface[]> {
     return of({

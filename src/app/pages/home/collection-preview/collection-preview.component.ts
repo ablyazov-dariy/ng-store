@@ -11,7 +11,7 @@ import { map, shareReplay } from 'rxjs/operators';
   styleUrls: ['./collection-preview.component.scss'],
 })
 export class CollectionPreviewComponent {
-  cols: number = 2;
+  cols = 2;
   @Input({ required: true }) collections!: CollectionInterface[];
 
   private breakpointObserver: BreakpointObserver = inject(BreakpointObserver);

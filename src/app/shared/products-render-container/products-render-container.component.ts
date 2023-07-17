@@ -10,7 +10,7 @@ import { map, shareReplay } from 'rxjs/operators';
   styleUrls: ['./products-render-container.component.scss'],
 })
 export class ProductsRenderContainerComponent {
-  @Input() cols: number = 4;
+  @Input() cols = 4;
   @Input({ required: true }) products!: ProductInterface[];
 
   private breakpointObserver: BreakpointObserver = inject(BreakpointObserver);

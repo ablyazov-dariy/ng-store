@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductInterface } from '@interfaces/product.interface';
 import { ProductsService } from '@services/products.service';
@@ -11,7 +11,7 @@ import { switchMap, takeUntil } from 'rxjs/operators';
   templateUrl: './shop.component.html',
   styleUrls: ['./shop.component.scss'],
 })
-export class ShopComponent implements OnInit, OnDestroy {
+export class ShopComponent implements OnDestroy {
   private destroy$ = new Subject<boolean>();
   public products$: Observable<ProductInterface[]> = this.productsData();
 
@@ -20,8 +20,6 @@ export class ShopComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private productsService: ProductsService
   ) {}
-
-  ngOnInit(): void {}
 
   private productsData(): Observable<ProductInterface[]> {
     return this.route.queryParams.pipe(

@@ -4,12 +4,24 @@
 
     <div class="mb-4 flex items-center">
       <mat-icon class="mr-2 text-gray-600">email</mat-icon>
-      <p class="text-gray-600">Email: contact@example.com</p>
+      <p
+        class="cursor-copy text-gray-600"
+        matTooltip="copy to cilpboard"
+        [cdkCopyToClipboard]="eMail"
+      >
+        Email: {{ eMail }}
+      </p>
     </div>
 
     <div class="mb-4 flex items-center">
       <mat-icon class="mr-2 text-gray-600">phone</mat-icon>
-      <p class="text-gray-600">Phone: +1 (123) 456-7890</p>
+      <p
+        class="cursor-copy text-gray-600"
+        matTooltip="copy to cilpboard"
+        [cdkCopyToClipboard]="phone"
+      >
+        Phone: {{ phone }}
+      </p>
     </div>
 
     <div class="flex items-center">
