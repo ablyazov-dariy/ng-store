@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
+import { Sort } from '@angular/material/sort';
+import { NavigationExtras, Router } from '@angular/router';
+import { SignalService } from '@services/signal.service';
 
 @Component({
   selector: 'app-view-controller',
@@ -6,26 +9,20 @@ import { Component } from '@angular/core';
   styleUrls: ['./view-controller.component.scss'],
 })
 export class ViewControllerComponent {
-  // activatedRoute = inject(ActivatedRoute);
-  // router = inject(Router);
-  // sortLabel = computed((): 'low to high' | 'high to low' | '' => {
-  //   if (this.dataStateService.filtersState().sort === 'asc') {
-  //     return 'low to high';
-  //   } else if (this.dataStateService.filtersState().sort === 'desc') {
-  //     return 'high to low';
-  //   } else {
-  //     return '';
-  //   }
-  // });
-  // sortData(sort: Sort): void {
-  //   // this.dataStateService.sort.set(sort.direction);
-  //
-  //   this.router.navigateByUrl('shop?q=12').then(() => {
-  //     console.log('add q');
-  //   });
-  // }
-  //
-  // setGrid(num: number) {
-  //   this.dataStateService.gridSize.set(num);
-  // }
+  constructor(private router: Router, private signalService: SignalService) {}
+
+  sortData(sort: Sort) {
+    let navigationExtras: NavigationExtras = {
+      queryParamsHandling: 'merge',
+      queryParams: { sortDirection: sort.direction },
+    };
+
+    this.router.navigate([], navigationExtras).then(() => this.sortLabel.set(sort.direction));
+  }
+
+  setGrid(grid: 2 | 4) {
+    this.signalService.viewGridSizeSignal.set(grid);
+  }
+
+  sortLabel = signal<string>('asc');
 }

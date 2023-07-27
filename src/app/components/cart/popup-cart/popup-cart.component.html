@@ -1,0 +1,7 @@
+<button mat-icon-button [matMenuTriggerFor]="popUpCart">
+  <mat-icon>shopping_cart</mat-icon>
+</button>
+
+<mat-menu #popUpCart="matMenu" xPosition="before">
+  <app-cart-item *ngFor="let item of [1, 2, 3, 4, 5]" />
+</mat-menu>

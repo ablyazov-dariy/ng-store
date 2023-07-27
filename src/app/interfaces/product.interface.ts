@@ -14,6 +14,7 @@ export interface ProductInterface {
   colors: string[];
   size: Size[];
   reviews: ReviewInterface[];
+  favorite?: boolean;
 }
 
 type Size = 'S' | 'M' | 'L' | 'XL' | 'XXL';
