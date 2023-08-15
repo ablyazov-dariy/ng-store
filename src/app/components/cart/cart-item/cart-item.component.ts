@@ -1,5 +1,6 @@
-import { Component, effect, EventEmitter, Input, Output, signal } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { ProductInterface } from '@interfaces/product.interface';
+import { ShoppingCartService } from '@services/shopping-cart.service';
 
 @Component({
   selector: 'app-cart-item',
@@ -7,28 +8,25 @@ import { ProductInterface } from '@interfaces/product.interface';
   styleUrls: ['./cart-item.component.scss'],
 })
 export class CartItemComponent {
-  @Input() product?: ProductInterface;
-  @Output() count$ = new EventEmitter<number>();
+  private cart = inject(ShoppingCartService);
+  @Input({ required: true }) item!: ProductInterface & { __count: number };
 
-  changeEffect = effect(() => {
-    console.log(this.count());
-  });
-
-  public count = signal<number>(1);
-
-  public increaseCount(event: MouseEvent): void {
-    event.stopPropagation();
-    this.count.update(count => ++count);
-    console.log(this.count());
+  remove() {
+    this.cart
+      .removeItemOrDecrementCount(this.item.id)
+      .then(s => console.log(s))
+      .catch(error => console.log(error));
   }
 
-  public decreaseCount(event: MouseEvent): void {
-    event.stopPropagation();
-    this.count.update(count => --count);
+  add() {
+    this.cart.addToCartOrIncrementCount(this.item);
   }
 
-  public remove(event: MouseEvent): void {
-    event.stopPropagation();
-    this.count.update(count => 0);
+  delete() {
+    this.item.__count = -1;
+    this.cart
+      .removeItemOrDecrementCount(this.item.id)
+      .then(s => console.log(s))
+      .catch(error => console.log(error));
   }
 }

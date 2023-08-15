@@ -1,6 +1,7 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, inject, Input } from '@angular/core';
 import { ProductInterface } from '@interfaces/product.interface';
+import { ShoppingCartService } from '@services/shopping-cart.service';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
@@ -15,6 +16,8 @@ export class ProductsRenderContainerComponent {
 
   private breakpointObserver: BreakpointObserver = inject(BreakpointObserver);
 
+  constructor(private cart: ShoppingCartService) {}
+
   isSmall$: Observable<number> = this.breakpointObserver
     .observe([Breakpoints.Small, Breakpoints.XSmall])
     .pipe(
@@ -25,5 +28,9 @@ export class ProductsRenderContainerComponent {
 
   calculateGap(): string {
     return `${10 / this.cols}%`;
+  }
+
+  addToCart(product: ProductInterface) {
+    this.cart.addToCartOrIncrementCount(product);
   }
 }

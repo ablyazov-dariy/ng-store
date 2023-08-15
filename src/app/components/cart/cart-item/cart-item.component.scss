@@ -1,0 +1,14 @@
+:host(app-cart-item) {
+  @apply relative flex items-stretch;
+  height: 130px;
+
+  div {
+    &:first-child {
+      flex-basis: 35%;
+    }
+    &:last-child {
+      // when flex-basis is on justify content just dont work. try it your self
+      flex-basis: 65%;
+    }
+  }
+}

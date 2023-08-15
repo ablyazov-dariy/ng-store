@@ -1,6 +1,7 @@
 <mat-grid-list [cols]="(isSmall$ | async)! * cols" rowHeight="28:43" [gutterSize]="calculateGap()">
-  <mat-grid-tile *ngFor="let product of products">
+  <mat-grid-tile *ngFor="let product of products" (click)="addToCart(product)">
     <div class="absolute inset-0 flex w-full flex-col">
+      <!--      [routerLink]="'/prod/' + product.id"-->
       <div class="relative flex-auto">
         <img [ngSrc]="product.imgUrl" fill [alt]="product.name" priority />
       </div>

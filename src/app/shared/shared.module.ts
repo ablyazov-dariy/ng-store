@@ -1,10 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
+import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { ProductsRenderContainerComponent } from './products-render-container/products-render-container.component';
+import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
+import { ProductsRenderContainerComponent } from './products-render-container/products-render-container.component';
 
 @NgModule({
   declarations: [ProductsRenderContainerComponent],
@@ -15,6 +16,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatIconModule,
     MatButtonModule,
     MatGridListModule,
+    RouterLink,
   ],
   exports: [ProductsRenderContainerComponent],
 })

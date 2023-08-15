@@ -1,8 +1,12 @@
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { NgOptimizedImage } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatBadgeModule } from '@angular/material/badge';
 
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -14,6 +18,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CartItemComponent } from '@components/cart/cart-item/cart-item.component';
 
 import { PopupCartComponent } from '@components/cart/popup-cart/popup-cart.component';
 import { FooterComponent } from '@components/footer/footer.component';
@@ -28,7 +33,6 @@ import { SharedModule } from '@shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CharacterLimitPipe } from './pipes/character-limit.pipe';
-import { CartItemComponent } from './components/cart/cart-item/cart-item.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +63,10 @@ import { CartItemComponent } from './components/cart/cart-item/cart-item.compone
     MatTabsModule,
     MatMenuModule,
     MatGridListModule,
+    NgOptimizedImage,
+    MatCardModule,
+    ScrollingModule,
+    MatBadgeModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
