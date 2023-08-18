@@ -1,6 +1,7 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, inject, Input } from '@angular/core';
 import { ProductInterface } from '@interfaces/product.interface';
+import { LikeService } from '@services/like.service';
 import { ShoppingCartService } from '@services/shopping-cart.service';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
@@ -16,7 +17,7 @@ export class ProductsRenderContainerComponent {
 
   private breakpointObserver: BreakpointObserver = inject(BreakpointObserver);
 
-  constructor(private cart: ShoppingCartService) {}
+  constructor(private cart: ShoppingCartService, private likeService: LikeService) {}
 
   isSmall$: Observable<number> = this.breakpointObserver
     .observe([Breakpoints.Small, Breakpoints.XSmall])
@@ -32,5 +33,9 @@ export class ProductsRenderContainerComponent {
 
   addToCart(product: ProductInterface) {
     this.cart.addToCartOrIncrementCount(product);
+  }
+
+  like(like: { id: number; like: boolean }) {
+    this.likeService.toggleLike(like.id, like.like);
   }
 }

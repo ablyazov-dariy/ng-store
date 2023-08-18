@@ -2,7 +2,8 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { ProductInterface } from '@interfaces/product.interface';
 import { ProductsFilterInterface } from '@interfaces/products-filter.interface';
 import { APIService } from '@services/api.service';
-import { combineLatest, Observable, of, scan, Subject } from 'rxjs';
+import { LikeService } from '@services/like.service';
+import { combineLatest, Observable, scan, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
 @Injectable({
@@ -11,11 +12,11 @@ import { map, takeUntil } from 'rxjs/operators';
 export class ProductsService implements OnDestroy {
   private destroy$ = new Subject<boolean>();
 
-  constructor(private api: APIService) {}
+  constructor(private api: APIService, private likeService: LikeService) {}
 
   getProductsObservable(params: { [key: string]: any }): Observable<ProductInterface[]> {
     // TODO: change to data src
-    let temp$: Observable<Map<number, true>> = of(new Map());
+    let temp$: Observable<Map<number, boolean>> = this.likeService.likesMapAsObservable();
 
     const options: ProductsFilterInterface = {
       searchQuery: params['searchQuery'] ?? '',
@@ -48,9 +49,9 @@ export class ProductsService implements OnDestroy {
       .slice(filters.startWith, filters.startWith + filters.limit);
   }
 
-  private mergeFav(prodData: ProductInterface[], likesMap: Map<number, true>) {
+  private mergeFav(prodData: ProductInterface[], likesMap: Map<number, boolean>) {
     return prodData.map(product => {
-      product.favorite = likesMap.has(product.id);
+      product.favorite = likesMap.get(product.id);
       return product;
     });
   }

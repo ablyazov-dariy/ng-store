@@ -1,15 +1,31 @@
 import { Injectable } from '@angular/core';
 import { ProductInterface } from '@interfaces/product.interface';
+import { LocalStorageService } from '@services/local-storage.service';
 import { Observable, startWith, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ShoppingCartService {
-  private data: (ProductInterface & { __count: number })[] = [];
+  private readonly accessKey: 'cartStorageKey' = 'cartStorageKey';
+  private data: (ProductInterface & { __count: number })[];
   private data$: Subject<(ProductInterface & { __count: number })[]> = new Subject();
 
+  constructor(private ls: LocalStorageService) {
+    const storedData = this.ls.getItem(this.accessKey);
+    storedData
+      ? (this.data = storedData as (ProductInterface & { __count: number })[])
+      : (this.data = []);
+    this.ls.notifier.subscribe(event => {
+      if (event.key !== this.accessKey) return;
+      if (!event.newValue) return;
+      this.data = JSON.parse(event.newValue);
+      this.data$.next(this.data);
+    });
+  }
+
   private observe() {
+    this.ls.setItem(this.accessKey, this.data);
     this.data$.next(this.data);
   }
 

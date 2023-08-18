@@ -6,9 +6,10 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { ProductsRenderContainerComponent } from './products-render-container/products-render-container.component';
+import { ProductsRenderItemComponent } from './products-render-item/products-render-item.component';
 
 @NgModule({
-  declarations: [ProductsRenderContainerComponent],
+  declarations: [ProductsRenderContainerComponent, ProductsRenderItemComponent],
   imports: [
     CommonModule,
     MatCardModule,
