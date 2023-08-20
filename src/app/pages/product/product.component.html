@@ -1,1 +1,40 @@
-<p>product works!</p>
+<div class="mt-10 grid grid-cols-2" *ngIf="product$ | async as product">
+  <div class="img-container relative">
+    <img [ngSrc]="product.imgUrl" alt="" fill />
+  </div>
+  <div class="ps-10">
+    <div class="flex items-center justify-between border-b border-b-gray-400">
+      <button mat-icon-button color="warn" class="absolute z-50" (click)="like(product)">
+        <mat-icon class="z-50">{{ product.favorite ? 'favorite' : 'favorite_outline' }}</mat-icon>
+      </button>
+      <h3 class="mat-headline-6 text-center">{{ product.name }}</h3>
+      <div class="flex flex-col justify-center gap-3.5">
+        <span class="font-Ovo text-gray-500" [ngClass]="product.discount ? 'line-through' : ''">{{
+          product.price | currency : 'EUR' : 'symbol' : '1.0-2'
+        }}</span>
+        <span class="font-Ovo text-red" *ngIf="product.discount && product.discount != 0">{{
+          product.price - (product.price * product.discount) / 100
+            | currency : 'EUR' : 'symbol' : '1.0-2'
+        }}</span>
+      </div>
+    </div>
+    <p class="mat-body-2 text-gray-700">{{ product.description }}</p>
+
+    <div class="mat-body-2">
+      Colors:<span *ngFor="let color of product.colors">{{ color }} </span>
+    </div>
+
+    <mat-chip-listbox required="true" [formControl]="sizeControl">
+      <mat-chip-option *ngFor="let size of product.sizes" [value]="size">{{
+        size
+      }}</mat-chip-option>
+    </mat-chip-listbox>
+
+    <button type="submit" mat-button (click)="addToCart(product)" [disabled]="sizeControl.invalid">
+      {{ sizeControl.invalid ? 'select size' : 'add to cart' }}
+    </button>
+  </div>
+</div>
+
+<h4 class="mat-headline-6 text-center capitalize">Complete your outfit</h4>
+<app-products-render-container [products]="(productsRecommendation$ | async)!" [cols]="4" />

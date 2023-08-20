@@ -9,7 +9,8 @@
   <div class="flex flex-col">
     <span class="text-sm text-gray-400">Color: {{ item.colors[0] }}</span>
     <span class="text-sm text-gray-400">
-      Size: {{ item.size[0] }}
+      <!--      TODO: change to size selected-->
+      Size: {{ item.sizes | json }}
       <span>Qnt: {{ item.__count }}</span>
     </span>
   </div>

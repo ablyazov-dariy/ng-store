@@ -12,7 +12,7 @@ export interface ProductInterface {
   discountUntil?: Date;
   new?: boolean;
   colors: string[];
-  size: Size[];
+  sizes: Size[];
   reviews: ReviewInterface[];
   favorite?: boolean;
 }

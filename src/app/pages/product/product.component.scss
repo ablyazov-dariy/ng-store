@@ -1,0 +1,11 @@
+:host {
+  margin-block-start: 3rem;
+
+  .img-container {
+    aspect-ratio: 3/4;
+  }
+
+  div > h3.mat-headline-6.text-center {
+    margin: 0 !important;
+  }
+}

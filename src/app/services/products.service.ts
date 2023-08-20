@@ -19,6 +19,7 @@ export class ProductsService implements OnDestroy {
     let temp$: Observable<Map<number, boolean>> = this.likeService.likesMapAsObservable();
 
     const options: ProductsFilterInterface = {
+      id: params['id'] ?? undefined,
       searchQuery: params['searchQuery'] ?? '',
       sortDirection: params['sortDirection'] ?? 'asc',
       startWith: params['startWith'] ?? 0,
@@ -38,12 +39,14 @@ export class ProductsService implements OnDestroy {
   }
 
   private filter(arr: ProductInterface[], filters: ProductsFilterInterface): ProductInterface[] {
+    console.log(filters);
     return arr
       .filter(
         item =>
           (!filters.searchQuery ||
             item.name.toLowerCase().includes(filters.searchQuery.toLowerCase())) &&
-          (!filters.newOnly || item.new)
+          (!filters.newOnly || item.new) &&
+          (!filters.id || item.id === Number(filters.id))
       )
       .sort((a, b) => (filters.sortDirection === 'desc' ? b.price - a.price : a.price - b.price))
       .slice(filters.startWith, filters.startWith + filters.limit);
