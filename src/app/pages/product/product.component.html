@@ -1,5 +1,5 @@
 <div class="mt-10 grid grid-cols-2" *ngIf="product$ | async as product">
-  <div class="img-container relative">
+  <div class="img-container relative" *ngIf="fixNgSrc">
     <img [ngSrc]="product.imgUrl" alt="" fill />
   </div>
   <div class="ps-10">

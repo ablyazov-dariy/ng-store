@@ -5,7 +5,7 @@ import { ProductInterface } from '@interfaces/product.interface';
 import { LikeService } from '@services/like.service';
 import { ProductsService } from '@services/products.service';
 import { ShoppingCartService } from '@services/shopping-cart.service';
-import { Observable, of, Subject, switchMap } from 'rxjs';
+import { Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -15,6 +15,7 @@ import { map, takeUntil } from 'rxjs/operators';
 })
 export class ProductComponent implements OnDestroy {
   private destroy$: Subject<boolean> = new Subject();
+  fixNgSrc = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -26,6 +27,12 @@ export class ProductComponent implements OnDestroy {
   public product$ = this.route.params.pipe(
     takeUntil(this.destroy$),
     switchMap(params => this.productsService.getProductsObservable(params)),
+    tap(() => {
+      // NgOptimizedImage don`t support attr changes so this will rerender the img.
+      // mb change the ngSrc to regular src will be better for performance ?
+      this.fixNgSrc = false;
+      setTimeout(() => (this.fixNgSrc = true), 0);
+    }),
     map(arr => arr[0])
   );
 
