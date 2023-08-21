@@ -15,9 +15,6 @@ export class ProductsService implements OnDestroy {
   constructor(private api: APIService, private likeService: LikeService) {}
 
   getProductsObservable(params: { [key: string]: any }): Observable<ProductInterface[]> {
-    // TODO: change to data src
-    let temp$: Observable<Map<number, boolean>> = this.likeService.likesMapAsObservable();
-
     const options: ProductsFilterInterface = {
       id: params['id'] ?? undefined,
       searchQuery: params['searchQuery'] ?? '',
@@ -32,7 +29,7 @@ export class ProductsService implements OnDestroy {
       scan((acc, value) => [...acc, ...value]),
       map(arr => this.filter(arr, options))
     );
-    return combineLatest([apiProductsData$, temp$]).pipe(
+    return combineLatest([apiProductsData$, this.likeService.likesMapAsObservable()]).pipe(
       takeUntil(this.destroy$),
       map(([productsData, likesData]) => this.mergeFav(productsData, likesData))
     );

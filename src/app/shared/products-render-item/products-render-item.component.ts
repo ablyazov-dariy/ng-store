@@ -16,8 +16,9 @@ export class ProductsRenderItemComponent {
   }
 
   like() {
+    if (!this.product) return;
     if (this.product?.favorite) {
-      this.likeProductEvent.emit({ id: this.product!.id, like: false });
-    } else this.likeProductEvent.emit({ id: this.product!.id, like: true });
+      this.likeProductEvent.emit({ id: this.product.id, like: false });
+    } else this.likeProductEvent.emit({ id: this.product.id, like: true });
   }
 }

@@ -44,9 +44,9 @@ export class ProductComponent implements OnDestroy {
   );
 
   like(product: ProductInterface) {
-    if (product?.favorite) {
+    if (product.favorite) {
       this.likeService.toggleLike(product.id, false);
-    } else this.likeService.toggleLike(product!.id, true);
+    } else this.likeService.toggleLike(product.id, true);
   }
 
   ngOnDestroy(): void {
@@ -56,7 +56,7 @@ export class ProductComponent implements OnDestroy {
 
   sizeControl: FormControl = new FormControl('', [Validators.required]);
   addToCart(product: ProductInterface) {
-    let copy = Object.assign({}, product);
+    const copy = Object.assign({}, product);
     copy.sizes = [this.sizeControl.value];
 
     this.cart.addToCartOrIncrementCount(copy);

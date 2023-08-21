@@ -12,7 +12,7 @@
         <span class="font-Ovo text-gray-500" [ngClass]="product.discount ? 'line-through' : ''">{{
           product.price | currency : 'EUR' : 'symbol' : '1.0-2'
         }}</span>
-        <span class="font-Ovo text-red" *ngIf="product.discount && product.discount != 0">{{
+        <span class="font-Ovo text-red" *ngIf="product.discount && product.discount !== 0">{{
           product.price - (product.price * product.discount) / 100
             | currency : 'EUR' : 'symbol' : '1.0-2'
         }}</span>

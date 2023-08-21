@@ -12,7 +12,7 @@ export class ViewControllerComponent {
   constructor(private router: Router, private signalService: SignalService) {}
 
   sortData(sort: Sort) {
-    let navigationExtras: NavigationExtras = {
+    const navigationExtras: NavigationExtras = {
       queryParamsHandling: 'merge',
       queryParams: { sortDirection: sort.direction },
     };

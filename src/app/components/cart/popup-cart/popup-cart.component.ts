@@ -3,7 +3,6 @@ import {
   Component,
   ElementRef,
   OnDestroy,
-  OnInit,
   ViewChild,
 } from '@angular/core';
 import { ProductInterface } from '@interfaces/product.interface';
@@ -16,7 +15,7 @@ import { Observable, Subject } from 'rxjs';
   styleUrls: ['./popup-cart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PopupCartComponent implements OnInit, OnDestroy {
+export class PopupCartComponent implements OnDestroy {
   private destroy$: Subject<boolean> = new Subject();
   @ViewChild('dialogElement') private dialogElement!: ElementRef<HTMLDialogElement>;
 
@@ -25,8 +24,6 @@ export class PopupCartComponent implements OnInit, OnDestroy {
   constructor(private cartService: ShoppingCartService) {
     this.data$ = this.cartService.dataAsObservable();
   }
-
-  ngOnInit(): void {}
 
   toggleDialog() {
     const element = this.dialogElement.nativeElement;

@@ -7,7 +7,7 @@ import { Observable, startWith, Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class ShoppingCartService {
-  private readonly accessKey: 'cartStorageKey' = 'cartStorageKey';
+  private readonly accessKey = 'cartStorageKey' as const;
   private data: (ProductInterface & { __count: number })[];
   private data$: Subject<(ProductInterface & { __count: number })[]> = new Subject();
 

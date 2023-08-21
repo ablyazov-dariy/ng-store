@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageService } from '@services/local-storage.service';
+
 import { Observable, startWith, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LikeService {
-  private readonly accessKey: 'likesStorageKey' = 'likesStorageKey';
+  private readonly accessKey = 'likesStorageKey' as const;
   private likesMap: Map<number, boolean>;
   private likesMap$: Subject<Map<number, boolean>> = new Subject();
 
