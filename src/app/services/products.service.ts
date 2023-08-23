@@ -29,7 +29,7 @@ export class ProductsService implements OnDestroy {
       scan((acc, value) => [...acc, ...value]),
       map(arr => this.filter(arr, options))
     );
-    return combineLatest([apiProductsData$, this.likeService.likesMapAsObservable()]).pipe(
+    return combineLatest([apiProductsData$, this.likeService.likesMap$]).pipe(
       takeUntil(this.destroy$),
       map(([productsData, likesData]) => this.mergeFav(productsData, likesData))
     );

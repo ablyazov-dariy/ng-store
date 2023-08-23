@@ -4,8 +4,7 @@ import { ProductWithCountInterface } from '@interfaces/product-with-count.interf
 import { ProductInterface } from '@interfaces/product.interface';
 
 import { LocalStorageService } from '@services/local-storage.service';
-import { Observable, Subject } from 'rxjs';
-import { startWith } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,11 +12,16 @@ import { startWith } from 'rxjs/operators';
 export class ShoppingCartService {
   private readonly accessKey = environment.cartAccessKey;
   private data: ProductWithCountInterface[];
-  private data$: Subject<ProductWithCountInterface[]> = new Subject();
+  public data$: BehaviorSubject<ProductWithCountInterface[]>;
 
   constructor(private ls: LocalStorageService) {
     const storedData = this.ls.getItem(this.accessKey);
     storedData ? (this.data = storedData as ProductWithCountInterface[]) : (this.data = []);
+    this.data$ = new BehaviorSubject(this.data);
+    this.handelStorageEvent();
+  }
+
+  private handelStorageEvent() {
     this.ls.notifier.subscribe(event => {
       if (event.key !== this.accessKey) return;
       if (!event.newValue) return;
@@ -49,10 +53,6 @@ export class ShoppingCartService {
     if (index === -1) return;
     this.data.splice(index, 1);
     this.observe();
-  }
-
-  dataAsObservable(): Observable<ProductWithCountInterface[]> {
-    return this.data$.asObservable().pipe(startWith(this.data));
   }
 
   private getItemIndexById(id: number): number {

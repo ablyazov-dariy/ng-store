@@ -22,7 +22,7 @@ export class PopupCartComponent implements OnDestroy {
   public data$: Observable<ProductWithCountInterface[]>;
 
   constructor(private cartService: ShoppingCartService) {
-    this.data$ = this.cartService.dataAsObservable();
+    this.data$ = this.cartService.data$;
   }
 
   toggleDialog() {
