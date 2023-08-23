@@ -1,5 +1,7 @@
 <div matSort (matSortChange)="sortData($event)">
-  <span mat-sort-header="price" disableClear="true">Sort by price: {{ sortLabel() }}</span>
+  <span mat-sort-header="price" disableClear="true" [start]="sortLabel()"
+    >Sort by price: {{ sortLabel() }}</span
+  >
 </div>
 
 <button mat-button [matMenuTriggerFor]="menu">Grid</button>

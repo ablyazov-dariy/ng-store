@@ -5,7 +5,7 @@ import {
   OnDestroy,
   ViewChild,
 } from '@angular/core';
-import { ProductInterface } from '@interfaces/product.interface';
+import { ProductWithCountInterface } from '@interfaces/product-with-count.interface';
 import { ShoppingCartService } from '@services/shopping-cart.service';
 import { Observable, Subject } from 'rxjs';
 
@@ -19,7 +19,7 @@ export class PopupCartComponent implements OnDestroy {
   private destroy$: Subject<boolean> = new Subject();
   @ViewChild('dialogElement') private dialogElement!: ElementRef<HTMLDialogElement>;
 
-  public data$: Observable<(ProductInterface & { __count: number })[]>;
+  public data$: Observable<ProductWithCountInterface[]>;
 
   constructor(private cartService: ShoppingCartService) {
     this.data$ = this.cartService.dataAsObservable();
@@ -35,7 +35,7 @@ export class PopupCartComponent implements OnDestroy {
     this.destroy$.complete();
   }
 
-  getTotalPrice(data: (ProductInterface & { __count: number })[]): number {
+  getTotalPrice(data: ProductWithCountInterface[]): number {
     return data.reduce((total, product) => total + product.price * product.__count, 0);
   }
 }

@@ -4,6 +4,7 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "paths": {
+        "@env/*": ["environments/*"],
         "@app/*": ["app/*"],
         "@components/*": ["app/components/*"],
         "@shared/*": ["app/shared/*"],
@@ -11,7 +12,7 @@
         "@services/*": ["app/services/*"],
         "@pages/*": ["app/pages/*"],
         "@assets/*": ["assets/*"],
-
+        "@pipes/*": ["app/shared/pipes/*"]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,

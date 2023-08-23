@@ -32,7 +32,7 @@ export class ProductsRenderContainerComponent {
   }
 
   addToCart(product: ProductInterface) {
-    this.cart.addToCartOrIncrementCount(product);
+    this.cart.addToCart(product);
   }
 
   like(like: { id: number; like: boolean }) {

@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
+import { environment } from '@env/environment';
 import { LocalStorageService } from '@services/local-storage.service';
 
-import { Observable, startWith, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { startWith } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LikeService {
-  private readonly accessKey = 'likesStorageKey' as const;
+  private readonly accessKey = environment.likeAccessKey;
   private likesMap: Map<number, boolean>;
   private likesMap$: Subject<Map<number, boolean>> = new Subject();
 
@@ -30,11 +32,9 @@ export class LikeService {
   }
 
   public toggleLike(id: number, like: boolean): void {
-    this.likesMap.set(id, like);
     if (like) {
       this.likesMap.set(id, like);
     } else this.likesMap.delete(id);
-
     this.observe();
   }
 

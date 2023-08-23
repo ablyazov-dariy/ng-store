@@ -1,5 +1,6 @@
 import { Component, inject, Input } from '@angular/core';
-import { ProductInterface } from '@interfaces/product.interface';
+import { ProductWithCountInterface } from '@interfaces/product-with-count.interface';
+
 import { ShoppingCartService } from '@services/shopping-cart.service';
 
 @Component({
@@ -8,25 +9,18 @@ import { ShoppingCartService } from '@services/shopping-cart.service';
   styleUrls: ['./cart-item.component.scss'],
 })
 export class CartItemComponent {
-  private cart = inject(ShoppingCartService);
-  @Input({ required: true }) item!: ProductInterface & { __count: number };
+  private cartService = inject(ShoppingCartService);
+  @Input({ required: true }) item!: ProductWithCountInterface;
 
-  remove() {
-    this.cart
-      .removeItemOrDecrementCount(this.item.id)
-      .then(s => console.log(s))
-      .catch(error => console.log(error));
+  decrement() {
+    this.cartService.decrement(this.item.id);
   }
 
-  add() {
-    this.cart.addToCartOrIncrementCount(this.item);
+  increment() {
+    this.cartService.increment(this.item);
   }
 
   delete() {
-    this.item.__count = -1;
-    this.cart
-      .removeItemOrDecrementCount(this.item.id)
-      .then(s => console.log(s))
-      .catch(error => console.log(error));
+    this.cartService.remove(this.item.id);
   }
 }

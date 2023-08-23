@@ -32,7 +32,6 @@ import { SharedModule } from '@shared/shared.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CharacterLimitPipe } from './pipes/character-limit.pipe';
 
 @NgModule({
   declarations: [
@@ -44,7 +43,6 @@ import { CharacterLimitPipe } from './pipes/character-limit.pipe';
     PopupCartComponent,
     SearchOpenBtnComponent,
     ShippingAddComponent,
-    CharacterLimitPipe,
     CartItemComponent,
   ],
   imports: [
@@ -70,5 +68,6 @@ import { CharacterLimitPipe } from './pipes/character-limit.pipe';
   ],
   providers: [],
   bootstrap: [AppComponent],
+  exports: [],
 })
 export class AppModule {}

@@ -1,6 +1,6 @@
-import { Component, signal } from '@angular/core';
-import { Sort } from '@angular/material/sort';
-import { NavigationExtras, Router } from '@angular/router';
+import { Component, OnInit, signal } from '@angular/core';
+import { Sort, SortDirection } from '@angular/material/sort';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { SignalService } from '@services/signal.service';
 
 @Component({
@@ -8,8 +8,16 @@ import { SignalService } from '@services/signal.service';
   templateUrl: './view-controller.component.html',
   styleUrls: ['./view-controller.component.scss'],
 })
-export class ViewControllerComponent {
-  constructor(private router: Router, private signalService: SignalService) {}
+export class ViewControllerComponent implements OnInit {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private signalService: SignalService
+  ) {}
+
+  ngOnInit(): void {
+    this.sortLabel.set(this.route.snapshot.queryParams['sortDirection']);
+  }
 
   sortData(sort: Sort) {
     const navigationExtras: NavigationExtras = {
@@ -24,5 +32,5 @@ export class ViewControllerComponent {
     this.signalService.viewGridSizeSignal.set(grid);
   }
 
-  sortLabel = signal<string>('asc');
+  sortLabel = signal<SortDirection>('asc');
 }

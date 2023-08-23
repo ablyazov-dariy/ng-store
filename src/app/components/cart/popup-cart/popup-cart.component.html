@@ -12,10 +12,12 @@
     <div class="pipa"></div>
     <span class="bock bg-white text-xl font-medium">Your bag({{ data.length }})</span>
 
-    <cdk-virtual-scroll-viewport itemSize="130" class="cart-virtual-scroll-viewport">
-      <!-- i dont know why but it dose not render the  last element     -->
-      <!--      <app-cart-item *cdkVirtualFor="let item of data$" [item]="item" />-->
-      <app-cart-item *ngFor="let item of data" [item]="item" />
+    <cdk-virtual-scroll-viewport
+      itemSize="130"
+      class="cart-virtual-scroll-viewport"
+      minBufferPx="131"
+    >
+      <app-cart-item *cdkVirtualFor="let item of data$" [item]="item" />
     </cdk-virtual-scroll-viewport>
     <div class="grid grid-cols-2 gap-4">
       <span class="col-span-2 inline-flex justify-between text-xl font-medium">

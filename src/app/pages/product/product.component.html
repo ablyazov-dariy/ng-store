@@ -1,6 +1,6 @@
-<div class="mt-10 grid grid-cols-2" *ngIf="product$ | async as product">
-  <div class="img-container relative" *ngIf="fixNgSrc">
-    <img [ngSrc]="product.imgUrl" alt="" fill />
+<div class="mt-10 grid sm:grid-cols-2" *ngIf="product$ | async as product">
+  <div class="img-container relative">
+    <img [src]="product.imgUrl" alt="" class="absolute inset-0 h-full w-full" />
   </div>
   <div class="ps-10">
     <div class="flex items-center justify-between border-b border-b-gray-400">
@@ -13,7 +13,8 @@
           product.price | currency : 'EUR' : 'symbol' : '1.0-2'
         }}</span>
         <span class="font-Ovo text-red" *ngIf="product.discount && product.discount !== 0">{{
-          product.price - (product.price * product.discount) / 100
+          product.price
+            | discountCalculator : product.discount
             | currency : 'EUR' : 'symbol' : '1.0-2'
         }}</span>
       </div>
