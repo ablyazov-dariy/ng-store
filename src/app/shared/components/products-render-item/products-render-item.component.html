@@ -1,0 +1,26 @@
+<div *ngIf="product" class="absolute inset-0 flex w-full flex-col">
+  <div class="relative flex-auto">
+    <img [ngSrc]="product.imgUrl" fill [alt]="product.name" priority />
+    <button mat-icon-button color="warn" class="absolute z-50" (click)="like()">
+      <mat-icon class="z-50">{{ product.favorite ? 'favorite' : 'favorite_outline' }}</mat-icon>
+    </button>
+    <button mat-icon-button class="absolute z-50 float-right" (click)="addToCart()">
+      <mat-icon class="z-50">shopping_cart</mat-icon>
+    </button>
+  </div>
+  <div class="m-b-s text-center">
+    <div class="mat-body-2 text-gray-500">
+      <a [routerLink]="'/prod/' + product.id">{{ product.name }}</a>
+    </div>
+    <div class="flex w-full justify-center gap-3.5">
+      <span class="font-Ovo text-gray-500" [ngClass]="product.discount ? 'line-through' : ''">{{
+        product.price | currency : 'EUR' : 'symbol' : '1.0-2'
+      }}</span>
+      <span class="font-Ovo text-red" *ngIf="product.discount && product.discount !== 0">{{
+        product.price
+          | discountCalculator : product.discount
+          | currency : 'EUR' : 'symbol' : '1.0-2'
+      }}</span>
+    </div>
+  </div>
+</div>

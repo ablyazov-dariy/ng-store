@@ -1,0 +1,26 @@
+:host {
+  .button {
+  }
+  .dialog {
+    border: 1px solid black;
+    margin: 0;
+    padding: 0 10px 10px;
+    top: 100%;
+    left: auto;
+    background: #fafafa;
+    width: min(300px, 100%);
+    .cdk-virtual-scroll-viewport {
+      height: 260px;
+    }
+  }
+  .pipa {
+    right: 17px;
+    top: -10px;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 5px 8.7px 5px;
+    border-color: transparent transparent #000000 transparent;
+  }
+}

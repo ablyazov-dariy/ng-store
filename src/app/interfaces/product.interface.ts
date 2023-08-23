@@ -12,8 +12,9 @@ export interface ProductInterface {
   discountUntil?: Date;
   new?: boolean;
   colors: string[];
-  size: Size[];
+  sizes: Size[];
   reviews: ReviewInterface[];
+  favorite?: boolean;
 }
 
 type Size = 'S' | 'M' | 'L' | 'XL' | 'XXL';

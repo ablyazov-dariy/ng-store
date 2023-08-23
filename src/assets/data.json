@@ -11,7 +11,7 @@
     "discountUntil": "2023-07-15T00:00:00Z",
     "new": true,
     "colors": ["Blue", "Red", "White"],
-    "size": ["S", "M", "L"],
+    "sizes": ["S", "M", "L"],
     "reviews": [
       {
         "id": 1,
@@ -37,7 +37,7 @@
     "description": "Classic denim jeans with a slim fit.",
     "new": false,
     "colors": ["Blue", "Black"],
-    "size": ["M", "L", "XL"],
+    "sizes": ["M", "L", "XL"],
     "reviews": [
       {
         "id": 3,
@@ -57,7 +57,7 @@
     "description": "A beautiful printed dress for any occasion.",
     "new": true,
     "colors": ["Green", "Yellow"],
-    "size": ["S", "M", "L"],
+    "sizes": ["S", "M", "L"],
     "reviews": [
       {
         "id": 4,
@@ -78,7 +78,7 @@
     "description": "A comfortable basic t-shirt for everyday wear.",
     "discountUntil": "2023-07-10T00:00:00Z",
     "colors": ["White", "Black", "Gray"],
-    "size": ["S", "M", "L", "XL"],
+    "sizes": ["S", "M", "L", "XL"],
     "reviews": []
   },
   {
@@ -91,7 +91,7 @@
     "description": "A stylish leather jacket for a trendy look.",
     "new": false,
     "colors": ["Black", "Brown"],
-    "size": ["M", "L", "XL"],
+    "sizes": ["M", "L", "XL"],
     "reviews": [
       {
         "id": 5,
@@ -111,7 +111,7 @@
     "description": "A trendy floral skirt for a feminine look.",
     "new": true,
     "colors": ["Pink", "Purple"],
-    "size": ["S", "M"],
+    "sizes": ["S", "M"],
     "reviews": []
   },
   {
@@ -124,7 +124,7 @@
     "description": "A classic checked shirt for a casual style.",
     "new": false,
     "colors": ["Red", "Blue"],
-    "size": ["L", "XL"],
+    "sizes": ["L", "XL"],
     "reviews": [
       {
         "id": 6,
@@ -152,7 +152,7 @@
     "discountUntil": "2023-07-20T00:00:00Z",
     "new": false,
     "colors": ["Khaki", "Navy"],
-    "size": ["S", "M", "L"],
+    "sizes": ["S", "M", "L"],
     "reviews": [
       {
         "id": 8,
@@ -178,7 +178,7 @@
     "description": "A cozy knit sweater for chilly days.",
     "new": true,
     "colors": ["Gray", "Beige"],
-    "size": ["M", "L", "XL"],
+    "sizes": ["M", "L", "XL"],
     "reviews": [
       {
         "id": 10,
@@ -198,7 +198,7 @@
     "description": "A chic pleated skirt for a sophisticated look.",
     "new": false,
     "colors": ["Black", "Navy"],
-    "size": ["S", "M", "L"],
+    "sizes": ["S", "M", "L"],
     "reviews": []
   }
 ]

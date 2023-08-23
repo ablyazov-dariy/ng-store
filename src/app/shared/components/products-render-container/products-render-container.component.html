@@ -1,0 +1,9 @@
+<mat-grid-list [cols]="(isSmall$ | async)! * cols" rowHeight="28:43" [gutterSize]="calculateGap()">
+  <mat-grid-tile *ngFor="let product of products">
+    <app-products-render-item
+      [product]="product"
+      (cartProductEvent)="addToCart($event)"
+      (likeProductEvent)="like($event)"
+    ></app-products-render-item>
+  </mat-grid-tile>
+</mat-grid-list>

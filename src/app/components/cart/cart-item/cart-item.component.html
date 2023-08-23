@@ -1,0 +1,22 @@
+<div class="relative">
+  <img [ngSrc]="item.imgUrl" [alt]="item.description" fill />
+</div>
+<div class="flex w-full flex-col gap-2">
+  <span class="text-md flex justify-between font-medium capitalize">
+    {{ item.name | characterLimit : 12 }}
+    <span>{{ item.price | currency : 'EUR' }}</span>
+  </span>
+  <div class="flex flex-col">
+    <span class="text-sm text-gray-400">Color: {{ item.colors[0] }}</span>
+    <span class="text-sm text-gray-400">
+      <!--      TODO: change to size selected-->
+      Size: {{ item.sizes | json }}
+      <span>Qnt: {{ item.__count }}</span>
+    </span>
+  </div>
+  <div class="flex gap-4">
+    <button mat-mini-fab (click)="increment()"><mat-icon>add</mat-icon></button>
+    <button mat-mini-fab (click)="decrement()"><mat-icon>remove</mat-icon></button>
+    <button mat-mini-fab (click)="delete()" class="float-right"><mat-icon>delete</mat-icon></button>
+  </div>
+</div>
