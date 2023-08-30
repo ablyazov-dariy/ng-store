@@ -14,3 +14,10 @@ dialog {
        opacity: 0.5;
   }
 }
+:host {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}

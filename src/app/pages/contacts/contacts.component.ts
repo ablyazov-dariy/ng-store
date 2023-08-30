@@ -13,7 +13,7 @@ export class ContactsComponent {
   onModalClick(event: MouseEvent): void {
     const dialogDimensions: DOMRect | undefined =
       this.mapsModal?.nativeElement.getBoundingClientRect();
-    console.log(event);
+
     if (
       event.clientX < (dialogDimensions?.left ?? 0) ||
       event.clientX > (dialogDimensions?.right ?? 0) ||
