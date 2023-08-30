@@ -16,7 +16,7 @@ export class ViewControllerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.sortLabel.set(this.route.snapshot.queryParams['sortDirection']);
+    this.sortLabel.set(this.route.snapshot.queryParams['sortDirection'] ?? 'asc');
   }
 
   sortData(sort: Sort) {

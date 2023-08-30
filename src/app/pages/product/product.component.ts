@@ -52,7 +52,9 @@ export class ProductComponent implements OnDestroy {
   }
 
   addToCart(product: ProductInterface) {
+    if (this.sizeControl.invalid) return;
     const copy = Object.assign({}, product);
+
     copy.sizes = [this.sizeControl.value];
 
     this.cart.addToCart(copy);

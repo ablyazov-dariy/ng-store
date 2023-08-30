@@ -36,7 +36,6 @@ export class ProductsService implements OnDestroy {
   }
 
   private filter(arr: ProductInterface[], filters: ProductsFilterInterface): ProductInterface[] {
-    console.log(filters);
     return arr
       .filter(
         item =>
