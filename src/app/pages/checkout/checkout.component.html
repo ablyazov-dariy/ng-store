@@ -1,28 +1,26 @@
 <mat-stepper [linear]="true" headerPosition="bottom" #stepper class="h-full">
   <mat-step [stepControl]="(groupOne$ | async)!">
+    <ng-template matStepLabel>Confirm Cart</ng-template>
     <app-confirm-cart [confProdData]="(cartData$ | async)!" [formGroup]="(groupOne$ | async)!">
       <button mat-button matStepperNext>Next</button>
     </app-confirm-cart>
   </mat-step>
+
+  <mat-step [stepControl]="addressForm">
+    <ng-template matStepLabel>Fill out your address</ng-template>
+    <app-address-form [addressForm]="addressForm">
+      <button mat-button matStepperNext>Next</button>
+      <button mat-button matStepperPrevious>Previous</button>
+    </app-address-form>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Payment method</ng-template>
+    <app-payment-form>
+      <button mat-button matStepperNext>Next</button>
+      <button mat-button matStepperPrevious>Previous</button>
+    </app-payment-form>
+  </mat-step>
+
   <mat-step label="done"> done </mat-step>
 </mat-stepper>
-
-<!--<mat-step>-->
-<!--  <ng-template matStepLabel>Fill out your address</ng-template>-->
-<!--  <app-address-form></app-address-form>-->
-<!--</mat-step>-->
-<!--<mat-step>-->
-<!--  <ng-template matStepLabel>Fill out your address</ng-template>-->
-<!--  <app-payment-form> </app-payment-form>-->
-<!--</mat-step>-->
-<!--<mat-step>-->
-<!--  <ng-template matStepLabel>Done</ng-template>-->
-<!--  <p>You are now done.</p>-->
-<!--  <div>-->
-<!--    <button mat-button matStepperPrevious>Back</button>-->
-<!--    <button mat-button (click)="stepper.reset()">Reset</button>-->
-<!--  </div>-->
-<!--</mat-step>-->
-
-<!--    TODO: change label for all-->
-<!--<ng-template matStepLabel>Fill out your name</ng-template>-->

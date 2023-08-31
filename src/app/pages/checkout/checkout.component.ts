@@ -12,6 +12,7 @@ import { map, shareReplay, takeUntil } from 'rxjs/operators';
 export class CheckoutComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject();
   groupOne$: any;
+  addressForm: any;
 
   constructor(private formBuilder: FormBuilder, private cartService: ShoppingCartService) {}
   get cartData$() {
@@ -20,6 +21,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.groupOne$ = this.createGroupOne();
+    this.addressForm = this.createAddressForm();
   }
 
   // do I need to create interfaces for nested generics ?
@@ -40,6 +42,22 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       ),
       shareReplay()
     );
+  }
+  private createAddressForm() {
+    return this.formBuilder.group({
+      company: null,
+      firstName: [null, Validators.required],
+      lastName: [null, Validators.required],
+      address: [null, Validators.required],
+      address2: null,
+      city: [null, Validators.required],
+      state: [null, Validators.required],
+      postalCode: [
+        null,
+        Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(5)]),
+      ],
+      shipping: ['free', Validators.required],
+    });
   }
 
   ngOnDestroy(): void {
