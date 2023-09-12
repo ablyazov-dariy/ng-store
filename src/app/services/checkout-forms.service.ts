@@ -1,11 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  AbstractControl,
-  AsyncValidatorFn,
-  FormBuilder,
-  FormControl,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { GroupOne } from '@interfaces/form-types';
 import { ShoppingCartService } from '@services/shopping-cart.service';
 import { distinctUntilChanged, Observable } from 'rxjs';
@@ -63,20 +57,5 @@ export class CheckoutFormsService {
       paypalEmail: ['', [Validators.required, Validators.email]],
       paypalPassword: ['', [Validators.required]],
     });
-  }
-
-  myValidator(observable: Observable<boolean>): AsyncValidatorFn {
-    return (control: AbstractControl) => {
-      return observable.pipe(
-        map(isValid => {
-          if (!isValid) {
-            return {
-              massage: 'massage',
-            };
-          }
-          return null;
-        })
-      );
-    };
   }
 }

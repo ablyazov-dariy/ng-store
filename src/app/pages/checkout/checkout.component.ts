@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CreditCardForm, GroupOne, PayPalForm } from '@interfaces/form-types';
 import { CheckoutFormsService } from '@services/checkout-forms.service';
 import { ShoppingCartService } from '@services/shopping-cart.service';
-import { merge, Observable, of, Subject } from 'rxjs';
+import { combineLatest, debounceTime, map, merge, mergeMap, Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-check-out',
@@ -17,27 +18,29 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   paypalForm: PayPalForm = this.checkoutFormsService.createPaypalForm();
   cardForm: CreditCardForm = this.checkoutFormsService.createCreditCardForm();
 
-  thirdStepControl: AbstractControl;
+  payStepControl = new FormControl('false', Validators.pattern(/^(true)$/i));
 
   constructor(
     private checkoutFormsService: CheckoutFormsService,
     private cartService: ShoppingCartService
-  ) {
-    const my = merge();
-
-    this.thirdStepControl = new FormControl(
-      '',
-      [this.checkoutFormsService.myValidator(of(true))],
-      []
-    );
-  }
+  ) {}
 
   get cartData$() {
     return this.cartService.data$;
   }
 
   ngOnInit(): void {
+    this.controlPayStepValidation();
     this.finalize();
+  }
+
+  private controlPayStepValidation() {
+    merge(this.paypalForm.statusChanges, this.cardForm.statusChanges)
+      .pipe(takeUntil(this.destroy$), debounceTime(300))
+      .subscribe(value => {
+        if (value === 'VALID') this.payStepControl.setValue('true');
+        else this.payStepControl.setValue('false');
+      });
   }
 
   ngOnDestroy(): void {
@@ -45,5 +48,19 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  finalize() {}
+  finalize() {
+    const observables = {
+      data: this.groupOne$.pipe(mergeMap(value => value.valueChanges)),
+      address: this.addressForm.valueChanges,
+      payInfo: merge(this.paypalForm.valueChanges, this.cardForm.valueChanges),
+    };
+    combineLatest(observables)
+      .pipe(
+        map(value => {
+          // do something with data
+          return value;
+        })
+      )
+      .subscribe(value => console.log(value));
+  }
 }

@@ -6,15 +6,15 @@
     </app-confirm-cart>
   </mat-step>
 
-  <!--  <mat-step [stepControl]="addressForm">-->
-  <!--    <ng-template matStepLabel>Fill out your address</ng-template>-->
-  <!--    <app-address-form [addressForm]="addressForm">-->
-  <!--      <button mat-button matStepperNext>Next</button>-->
-  <!--      <button mat-button matStepperPrevious>Previous</button>-->
-  <!--    </app-address-form>-->
-  <!--  </mat-step>-->
+  <mat-step [stepControl]="addressForm">
+    <ng-template matStepLabel>Fill out your address</ng-template>
+    <app-address-form [addressForm]="addressForm">
+      <button mat-button matStepperNext>Next</button>
+      <button mat-button matStepperPrevious>Previous</button>
+    </app-address-form>
+  </mat-step>
 
-  <mat-step [stepControl]="thirdStepControl">
+  <mat-step [stepControl]="payStepControl">
     <ng-template matStepLabel>Payment method</ng-template>
     <app-payment-form [paypalForm]="paypalForm" [creditCardForm]="cardForm">
       <button mat-button matStepperNext>Next</button>
