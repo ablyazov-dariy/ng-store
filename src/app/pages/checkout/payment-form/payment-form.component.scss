@@ -1,0 +1,46 @@
+:host {
+  @apply bg-amber-400;
+  display: block;
+}
+
+.select-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: 1fr 2fr;
+  place-items: center center;
+  //animation: change-method 4000ms ease 1000ms 1;
+}
+
+.pay-card {
+  display: block;
+  width: 80%;
+  background: white;
+  aspect-ratio: 1.586;
+  border-radius: 2lvw;
+  order: -1;
+  &:has([type='radio']:checked) {
+    background: red;
+    grid-area: 1 / 2 / 2 / 3;
+  }
+}
+
+.form-container {
+  grid-area: 2 / 1 / 3 / 4;
+  background: yellowgreen;
+  height: 100%;
+  width: 100%;
+}
+
+//TODO:
+@keyframes change-method {
+  0% {
+    grid-template-columns: 1fr 2fr 1fr;
+  }
+
+  25% {
+    grid-template-columns: 2fr 1fr 1fr;
+  }
+
+  100% {
+  }
+}

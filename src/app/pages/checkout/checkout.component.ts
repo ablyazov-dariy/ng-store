@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { CreditCardForm, GroupOne, PayPalForm } from '@interfaces/form-types';
+import { CheckoutFormsService } from '@services/checkout-forms.service';
 import { ShoppingCartService } from '@services/shopping-cart.service';
-import { distinctUntilChanged, Observable, Subject } from 'rxjs';
-import { map, shareReplay, takeUntil } from 'rxjs/operators';
+import { merge, Observable, of, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-check-out',
@@ -11,57 +12,38 @@ import { map, shareReplay, takeUntil } from 'rxjs/operators';
 })
 export class CheckoutComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject();
-  groupOne$: any;
-  addressForm: any;
+  groupOne$: Observable<GroupOne> = this.checkoutFormsService.createGroupOne();
+  addressForm: FormGroup = this.checkoutFormsService.createAddressForm();
+  paypalForm: PayPalForm = this.checkoutFormsService.createPaypalForm();
+  cardForm: CreditCardForm = this.checkoutFormsService.createCreditCardForm();
 
-  constructor(private formBuilder: FormBuilder, private cartService: ShoppingCartService) {}
+  thirdStepControl: AbstractControl;
+
+  constructor(
+    private checkoutFormsService: CheckoutFormsService,
+    private cartService: ShoppingCartService
+  ) {
+    const my = merge();
+
+    this.thirdStepControl = new FormControl(
+      '',
+      [this.checkoutFormsService.myValidator(of(true))],
+      []
+    );
+  }
+
   get cartData$() {
     return this.cartService.data$;
   }
 
   ngOnInit(): void {
-    this.groupOne$ = this.createGroupOne();
-    this.addressForm = this.createAddressForm();
-  }
-
-  // do I need to create interfaces for nested generics ?
-  private createGroupOne(): Observable<
-    FormGroup<{
-      colors: FormArray<FormControl<string | null>>;
-      sizes: FormArray<FormControl<string | null>>;
-    }>
-  > {
-    return this.cartService.data$.pipe(
-      takeUntil(this.destroy$),
-      distinctUntilChanged((previous, current) => previous.length === current.length),
-      map(value =>
-        this.formBuilder.group({
-          colors: this.formBuilder.array(value.map(() => new FormControl('', Validators.required))),
-          sizes: this.formBuilder.array(value.map(() => new FormControl('', Validators.required))),
-        })
-      ),
-      shareReplay()
-    );
-  }
-  private createAddressForm() {
-    return this.formBuilder.group({
-      company: null,
-      firstName: [null, Validators.required],
-      lastName: [null, Validators.required],
-      address: [null, Validators.required],
-      address2: null,
-      city: [null, Validators.required],
-      state: [null, Validators.required],
-      postalCode: [
-        null,
-        Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(5)]),
-      ],
-      shipping: ['free', Validators.required],
-    });
+    this.finalize();
   }
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.complete();
   }
+
+  finalize() {}
 }

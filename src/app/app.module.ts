@@ -7,6 +7,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -65,6 +66,7 @@ import { AppComponent } from './app.component';
     MatCardModule,
     ScrollingModule,
     MatBadgeModule,
+    MatNativeDateModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

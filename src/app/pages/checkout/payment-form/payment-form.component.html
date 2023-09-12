@@ -1,1 +1,51 @@
-<p>payment-form works!</p>
+<h3 class="mat-headline-4 text-center">CHOOSE PAYMENT</h3>
+
+<div class="select-container">
+  <label for="paypal" class="pay-card relative-img-container">
+    <input
+      class="hidden"
+      id="paypal"
+      type="radio"
+      name="grid-order"
+      value="paypal"
+      [formControl]="pmControl"
+    />
+    <img src="assets/payment/pp-front-bg.png" alt="pay pal logo" draggable="false" />
+  </label>
+  <label for="card" class="pay-card">
+    <input
+      class="hidden"
+      id="card"
+      type="radio"
+      name="grid-order"
+      value="card"
+      checked
+      [formControl]="pmControl"
+    />
+  </label>
+  <label for="g-pay" class="pay-card relative-img-container">
+    <input
+      class="hidden"
+      id="g-pay"
+      type="radio"
+      name="grid-order"
+      value="g-pay"
+      [formControl]="pmControl"
+    />
+    <!--      TODO: find svg icon -->
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Pay_Logo.svg/2560px-Google_Pay_Logo.svg.png"
+      alt="pay pal logo"
+      draggable="false"
+    />
+  </label>
+
+  <div class="form-container">
+    <app-paypal-form *ngIf="(pmValueChanges | async) === 'paypal'" [paypalForm]="paypalForm" />
+    <app-card-form *ngIf="(pmValueChanges | async) === 'card'" [creditCardForm]="creditCardForm" />
+    <form *ngIf="(pmValueChanges | async) === 'g-pay'">hello</form>
+  </div>
+
+  <ng-content select="[matStepperPrevious]"></ng-content>
+  <ng-content select="[matStepperNext]"></ng-content>
+</div>
