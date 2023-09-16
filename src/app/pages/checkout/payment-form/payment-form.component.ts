@@ -13,8 +13,8 @@ export class PaymentFormComponent implements OnInit {
   @Input({ required: true }) creditCardForm!: CreditCardForm;
   pmControl = new FormControl<PaymentMethod>('card');
 
-  get pmValueChanges(): Observable<PaymentMethod> {
-    return this.pmControl.valueChanges.pipe(startWith(this.pmControl.value)) as any;
+  get pmValueChanges(): Observable<PaymentMethod | null> {
+    return this.pmControl.valueChanges.pipe(startWith(this.pmControl.value));
   }
 
   ngOnInit(): void {}
