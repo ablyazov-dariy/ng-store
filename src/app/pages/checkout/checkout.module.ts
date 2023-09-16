@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
+import { CheckoutFormsService } from '@pages/checkout/checkout-forms.service';
 import { PaymentFormComponent } from '@pages/checkout/payment-form/payment-form.component';
 import { SharedModule } from '@shared/shared.module';
 
@@ -17,8 +18,8 @@ import { CheckoutRoutingModule } from 'app/pages/checkout/checkout-routing.modul
 import { CheckoutComponent } from 'app/pages/checkout/checkout.component';
 import { AddressFormComponent } from './address-form/address-form.component';
 import { ConfirmCartComponent } from './confirm-cart/confirm-cart.component';
-import { PaypalFormComponent } from './payment-form/paypal-form/paypal-form.component';
 import { CardFormComponent } from './payment-form/card-form/card-form.component';
+import { PaypalFormComponent } from './payment-form/paypal-form/paypal-form.component';
 
 @NgModule({
   declarations: [
@@ -45,5 +46,6 @@ import { CardFormComponent } from './payment-form/card-form/card-form.component'
     SharedModule,
     MatDatepickerModule,
   ],
+  providers: [CheckoutFormsService],
 })
 export class CheckoutModule {}

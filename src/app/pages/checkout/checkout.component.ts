@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CreditCardForm, GroupOne, PayPalForm } from '@interfaces/form-types';
-import { CheckoutFormsService } from '@services/checkout-forms.service';
+import { CheckoutFormsService } from '@pages/checkout/checkout-forms.service';
 import { ShoppingCartService } from '@services/shopping-cart.service';
-import { combineLatest, debounceTime, map, merge, mergeMap, Observable, Subject } from 'rxjs';
+import { combineLatest, debounceTime, map, merge, mergeMap, Observable, Subject, tap } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -22,11 +23,17 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   constructor(
     private checkoutFormsService: CheckoutFormsService,
-    private cartService: ShoppingCartService
+    private cartService: ShoppingCartService,
+    private router: Router
   ) {}
 
   get cartData$() {
-    return this.cartService.data$;
+    return this.cartService.data$.pipe(
+      tap(data => {
+        // this will redirect user if cart is empty
+        if (data.length <= 0) this.router.navigateByUrl('').then();
+      })
+    );
   }
 
   ngOnInit(): void {

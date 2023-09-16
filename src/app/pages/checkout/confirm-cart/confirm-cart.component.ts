@@ -36,7 +36,6 @@ export class ConfirmCartComponent {
   }
 
   delete(id: number, index: number) {
-    // this.formGroup?.controls.colors.removeAt(index);
     this.cartService.remove(id);
   }
 }

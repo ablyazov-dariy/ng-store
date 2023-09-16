@@ -5,9 +5,7 @@ import { ShoppingCartService } from '@services/shopping-cart.service';
 import { distinctUntilChanged, Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class CheckoutFormsService {
   constructor(private formBuilder: FormBuilder, private cartService: ShoppingCartService) {}
 
