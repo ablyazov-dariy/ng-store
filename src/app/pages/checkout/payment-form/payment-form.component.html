@@ -12,7 +12,7 @@
     />
     <img src="assets/payment/pp-front-bg.png" alt="pay pal logo" draggable="false" />
   </label>
-  <label for="card" class="pay-card">
+  <label for="card" class="pay-card bank-card">
     <input
       class="hidden"
       id="card"
@@ -22,6 +22,18 @@
       checked
       [formControl]="pmControl"
     />
+    <span *ngIf="(pmValueChanges | async) === 'card'" class="card-number">{{
+      creditCardForm.controls.cardNumber.valueChanges | async | splitNumber
+    }}</span>
+    <span *ngIf="(pmValueChanges | async) === 'card'" class="card-hold-name">{{
+      creditCardForm.controls.cardName.valueChanges | async
+    }}</span>
+    <span *ngIf="(pmValueChanges | async) === 'card'" class="card-date">{{
+      creditCardForm.controls.expiryDate.valueChanges | async
+    }}</span>
+    <span *ngIf="(pmValueChanges | async) === 'card'" class="card-service">{{
+      creditCardForm.controls.cardNumber.valueChanges | async | cardType
+    }}</span>
   </label>
   <label for="g-pay" class="pay-card relative-img-container">
     <input
@@ -34,7 +46,7 @@
     />
     <!--      TODO: find svg icon -->
     <img
-      src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Pay_Logo.svg/2560px-Google_Pay_Logo.svg.png"
+      src="assets/payment/1604739259_featured-image-2020-11-07t142409.013.webp"
       alt="pay pal logo"
       draggable="false"
     />
@@ -45,7 +57,6 @@
     <app-card-form *ngIf="(pmValueChanges | async) === 'card'" [creditCardForm]="creditCardForm" />
     <form *ngIf="(pmValueChanges | async) === 'g-pay'">hello</form>
   </div>
-
-  <ng-content select="[matStepperPrevious]"></ng-content>
-  <ng-content select="[matStepperNext]"></ng-content>
 </div>
+<ng-content select="[matStepperPrevious]"></ng-content>
+<ng-content select="[matStepperNext]"></ng-content>

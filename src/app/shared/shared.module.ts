@@ -9,6 +9,8 @@ import { CharacterLimitPipe } from '@pipes/character-limit.pipe';
 import { ProductsRenderContainerComponent } from '@shared/components/products-render-container/products-render-container.component';
 import { ProductsRenderItemComponent } from '@shared/components/products-render-item/products-render-item.component';
 import { DiscountCalculatorPipe } from '@shared/pipes/discount-calculator.pipe';
+import { CardTypePipe } from './pipes/card-type.pipe';
+import { SplitNumberPipe } from './pipes/split-number.pipe';
 
 @NgModule({
   declarations: [
@@ -16,6 +18,8 @@ import { DiscountCalculatorPipe } from '@shared/pipes/discount-calculator.pipe';
     ProductsRenderItemComponent,
     DiscountCalculatorPipe,
     CharacterLimitPipe,
+    SplitNumberPipe,
+    CardTypePipe,
   ],
   imports: [
     CommonModule,
@@ -26,6 +30,12 @@ import { DiscountCalculatorPipe } from '@shared/pipes/discount-calculator.pipe';
     MatGridListModule,
     RouterLink,
   ],
-  exports: [ProductsRenderContainerComponent, DiscountCalculatorPipe, CharacterLimitPipe],
+  exports: [
+    ProductsRenderContainerComponent,
+    DiscountCalculatorPipe,
+    CharacterLimitPipe,
+    SplitNumberPipe,
+    CardTypePipe,
+  ],
 })
 export class SharedModule {}
