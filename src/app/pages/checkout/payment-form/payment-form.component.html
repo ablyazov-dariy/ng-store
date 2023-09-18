@@ -12,7 +12,7 @@
     />
     <img src="assets/payment/pp-front-bg.png" alt="pay pal logo" draggable="false" />
   </label>
-  <label for="card" class="pay-card bank-card">
+  <label for="card" class="pay-card bank-card" [@cardRotate]="isBack ? 'back' : 'face'">
     <input
       class="hidden"
       id="card"
@@ -22,17 +22,20 @@
       checked
       [formControl]="pmControl"
     />
-    <span *ngIf="(pmValueChanges | async) === 'card'" class="card-number">{{
-      creditCardForm.controls.cardNumber.valueChanges | async | splitNumber
+    <span *ngIf="(pmValueChanges | async) === 'card' && !isBack" class="card-number">{{
+      cardNumberControl | async | splitNumber
     }}</span>
-    <span *ngIf="(pmValueChanges | async) === 'card'" class="card-hold-name">{{
-      creditCardForm.controls.cardName.valueChanges | async
+    <span *ngIf="(pmValueChanges | async) === 'card' && !isBack" class="card-hold-name">{{
+      nameControl | async
     }}</span>
-    <span *ngIf="(pmValueChanges | async) === 'card'" class="card-date">{{
-      creditCardForm.controls.expiryDate.valueChanges | async
+    <span *ngIf="(pmValueChanges | async) === 'card' && !isBack" class="card-date">{{
+      expiryControl | async
     }}</span>
-    <span *ngIf="(pmValueChanges | async) === 'card'" class="card-service">{{
-      creditCardForm.controls.cardNumber.valueChanges | async | cardType
+    <span *ngIf="(pmValueChanges | async) === 'card' && !isBack" class="card-service">{{
+      cardNumberControl | async | cardType
+    }}</span>
+    <span *ngIf="(pmValueChanges | async) === 'card' && isBack" class="cvv">{{
+      cvvControl | async
     }}</span>
   </label>
   <label for="g-pay" class="pay-card relative-img-container">

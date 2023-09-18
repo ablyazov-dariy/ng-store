@@ -12,6 +12,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { CheckoutFormsService } from '@pages/checkout/checkout-forms.service';
 import { PaymentFormComponent } from '@pages/checkout/payment-form/payment-form.component';
+import { CardTypePipe } from '@pages/checkout/pipes/card-type.pipe';
+import { SplitNumberPipe } from '@pages/checkout/pipes/split-number.pipe';
 import { SharedModule } from '@shared/shared.module';
 
 import { CheckoutRoutingModule } from 'app/pages/checkout/checkout-routing.module';
@@ -29,6 +31,8 @@ import { PaypalFormComponent } from './payment-form/paypal-form/paypal-form.comp
     PaymentFormComponent,
     PaypalFormComponent,
     CardFormComponent,
+    SplitNumberPipe,
+    CardTypePipe,
   ],
   imports: [
     CommonModule,

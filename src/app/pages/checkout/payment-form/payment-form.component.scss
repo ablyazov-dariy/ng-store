@@ -8,7 +8,6 @@
   grid-template-rows: 1fr 2fr;
   place-items: center center;
   gap: 3rem;
-  //animation: change-method 4000ms ease 1000ms 1;
 }
 
 .pay-card {
@@ -31,20 +30,6 @@
   width: 100%;
 }
 
-//TODO:
-@keyframes change-method {
-  0% {
-    grid-template-columns: 1fr 2fr 1fr;
-  }
-
-  25% {
-    grid-template-columns: 2fr 1fr 1fr;
-  }
-
-  100% {
-  }
-}
-
 .bank-card {
   position: relative;
   background: rgb(194, 194, 214);
@@ -55,7 +40,6 @@
     rgba(2, 0, 36, 1) 83%
   );
   color: white;
-
   .card-hold-name {
     white-space: nowrap;
     position: absolute;
@@ -80,5 +64,12 @@
     bottom: 25%;
     left: 50%;
     translate: -50% 0;
+  }
+
+  .cvv {
+    rotate: y 180deg;
+    position: absolute;
+    bottom: 10%;
+    right: 10%;
   }
 }
