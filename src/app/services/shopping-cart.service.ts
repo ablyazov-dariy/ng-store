@@ -17,7 +17,8 @@ export class ShoppingCartService {
   constructor(private ls: LocalStorageService) {
     const storedData = this.ls.getItem(this.accessKey);
     storedData ? (this.data = storedData as ProductWithCountInterface[]) : (this.data = []);
-    this.data$ = new BehaviorSubject(this.data);
+
+    this.data$ = new BehaviorSubject([...this.data]);
     this.handelStorageEvent();
   }
 
@@ -26,7 +27,7 @@ export class ShoppingCartService {
       if (event.key !== this.accessKey) return;
       if (!event.newValue) return;
       this.data = JSON.parse(event.newValue);
-      this.data$.next(this.data);
+      this.data$.next([...this.data]);
     });
   }
 
@@ -44,7 +45,10 @@ export class ShoppingCartService {
     const index = this.getItemIndexById(id);
     if (index === -1) return;
     this.data[index].__count--;
-    this.data[index].__count <= 0 ? this.remove(id) : null;
+    if (this.data[index].__count <= 0) {
+      this.remove(id);
+      return;
+    }
     this.observe();
   }
 
@@ -65,6 +69,6 @@ export class ShoppingCartService {
 
   private observe() {
     this.ls.setItem(this.accessKey, this.data);
-    this.data$.next(this.data);
+    this.data$.next([...this.data]);
   }
 }

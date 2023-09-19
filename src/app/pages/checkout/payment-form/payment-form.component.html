@@ -1,0 +1,65 @@
+<h3 class="mat-headline-4 text-center">CHOOSE PAYMENT</h3>
+
+<div class="select-container">
+  <label for="paypal" class="pay-card relative-img-container">
+    <input
+      class="hidden"
+      id="paypal"
+      type="radio"
+      name="grid-order"
+      value="paypal"
+      [formControl]="pmControl"
+    />
+    <img src="assets/payment/pp-front-bg.png" alt="pay pal logo" draggable="false" />
+  </label>
+  <label for="card" class="pay-card bank-card" [@cardRotate]="isBack ? 'back' : 'face'">
+    <input
+      class="hidden"
+      id="card"
+      type="radio"
+      name="grid-order"
+      value="card"
+      checked
+      [formControl]="pmControl"
+    />
+    <span *ngIf="(pmValueChanges | async) === 'card' && !isBack" class="card-number">{{
+      cardNumberControl | async | splitNumber
+    }}</span>
+    <span *ngIf="(pmValueChanges | async) === 'card' && !isBack" class="card-hold-name">{{
+      nameControl | async
+    }}</span>
+    <span *ngIf="(pmValueChanges | async) === 'card' && !isBack" class="card-date">{{
+      expiryControl | async
+    }}</span>
+    <span *ngIf="(pmValueChanges | async) === 'card' && !isBack" class="card-service">{{
+      cardNumberControl | async | cardType
+    }}</span>
+    <span *ngIf="(pmValueChanges | async) === 'card' && isBack" class="cvv">{{
+      cvvControl | async
+    }}</span>
+  </label>
+  <label for="g-pay" class="pay-card relative-img-container">
+    <input
+      class="hidden"
+      id="g-pay"
+      type="radio"
+      name="grid-order"
+      value="g-pay"
+      [formControl]="pmControl"
+    />
+    <!--      TODO: find svg icon -->
+    <img
+      src="assets/payment/1604739259_featured-image-2020-11-07t142409.013.webp"
+      alt="pay pal logo"
+      draggable="false"
+    />
+  </label>
+
+  <div class="form-container">
+    <app-paypal-form *ngIf="(pmValueChanges | async) === 'paypal'" [paypalForm]="paypalForm" />
+    <app-card-form *ngIf="(pmValueChanges | async) === 'card'" [creditCardForm]="creditCardForm" />
+    <form *ngIf="(pmValueChanges | async) === 'g-pay'">hello</form>
+  </div>
+</div>
+<ng-content select="[matStepperPrevious]"></ng-content>
+<ng-content select="[matStepperNext]"></ng-content>

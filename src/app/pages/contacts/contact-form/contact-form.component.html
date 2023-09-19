@@ -1,0 +1,50 @@
+<h1 class="mat-headline-6 text-center capitalize">
+  {{ !sent ? 'Fill Out the form ' : 'Edit massage' }}
+</h1>
+
+<form
+  [formGroup]="contactForm"
+  (ngSubmit)="onSubmit()"
+  class="contact-form outline outline-1 outline-offset-2"
+  [ngClass]="{ 'outline-red': contactForm.touched && contactForm.invalid }"
+  autocomplete="on"
+>
+  <mat-form-field *ngIf="!sent" appearance="fill" class="track-state">
+    <mat-label>Name</mat-label>
+    <input matInput type="text" formControlName="name" />
+    <mat-error *ngIf="contactForm.controls.name.hasError('required')">
+      Name is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="!sent" appearance="fill">
+    <mat-label>Surname</mat-label>
+    <input matInput type="text" formControlName="surname" />
+    <mat-error *ngIf="contactForm.controls.surname.hasError('required')">
+      Surname is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="!sent" appearance="fill">
+    <mat-label>E-mail</mat-label>
+    <input matInput type="email" autocomplete="email" formControlName="email" />
+    <mat-error
+      *ngIf="
+        contactForm.controls.email.hasError('email') &&
+        !contactForm.controls.email.hasError('required')
+      "
+    >
+      Please enter a valid email address
+    </mat-error>
+    <mat-error *ngIf="contactForm.controls.email.hasError('required')">
+      Email is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Description</mat-label>
+    <textarea matInput formControlName="description"></textarea>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit">{{ !sent ? 'Send' : 'Edit' }}</button>
+</form>

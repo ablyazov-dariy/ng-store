@@ -1,0 +1,43 @@
+<form [formGroup]="creditCardForm">
+  <mat-form-field appearance="fill">
+    <mat-label>Card Holder's Name</mat-label>
+    <input matInput formControlName="cardName" placeholder="Card Holder's Name" type="text" />
+    <mat-error
+      *ngIf="creditCardForm.controls.cardName.invalid && creditCardForm.controls.cardName.touched"
+    >
+      Please provide a valid Card Holder's Name.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Card Number</mat-label>
+    <input matInput formControlName="cardNumber" placeholder="Card Number" type="text" />
+    <mat-error
+      *ngIf="
+        creditCardForm.controls.cardNumber.invalid && creditCardForm.controls.cardNumber.touched
+      "
+    >
+      Please provide a valid card number.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Expiry Date</mat-label>
+    <input matInput formControlName="expiryDate" placeholder="Expiry Date" />
+    <mat-error
+      *ngIf="
+        creditCardForm.controls.expiryDate.invalid && creditCardForm.controls.expiryDate.touched
+      "
+    >
+      Please provide a valid expiry date.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>CVV</mat-label>
+    <input matInput formControlName="cvv" placeholder="CVV" type="number" />
+    <mat-error *ngIf="creditCardForm.controls.cvv.invalid && creditCardForm.controls.cvv.touched">
+      Please provide a valid CVV.
+    </mat-error>
+  </mat-form-field>
+</form>
