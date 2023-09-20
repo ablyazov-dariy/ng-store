@@ -1,0 +1,32 @@
+.thank-you-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f6f6f6;
+
+  .title {
+    font-size: 2em;
+    color: #333;
+  }
+
+  .message {
+    font-size: 1.5em;
+    margin: 20px 0;
+    color: #666;
+    text-align: center;
+  }
+
+  .button {
+    background-color: #0099ff;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+
+    &:hover {
+      background-color: #0077cc;
+    }
+  }
+}
