@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { ProductDetailsInterface } from '@interfaces/product-details.interface';
 
 @Component({
   selector: 'app-confirm-table',
@@ -7,11 +8,6 @@ import { Component, Input } from '@angular/core';
 })
 export class ConfirmTableComponent {
   displayedColumns: string[] = ['id', 'name', 'color', 'size'];
-  @Input({ required: true }) products!: {
-    name: string;
-    id: number;
-    color: string;
-    size: string;
-  }[];
+  @Input({ required: true }) products!: ProductDetailsInterface[];
   @Input({ required: true }) address!: string;
 }

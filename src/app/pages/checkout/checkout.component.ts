@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CreditCardForm, GroupOne, PayPalForm } from '@interfaces/form-types';
 import { CheckoutFormsService } from '@pages/checkout/checkout-forms.service';
+import { CreateProductDetailsClass } from '@pages/checkout/create-product-details/create-product-details.class';
 import { ShoppingCartService } from '@services/shopping-cart.service';
 
 import { combineLatest, debounceTime, map, merge, Observable, Subject, switchMap, tap } from 'rxjs';
@@ -77,12 +78,12 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$),
       map(([cartData, formData]) => {
         return cartData.map((product, i) => {
-          return {
-            id: product.id,
-            name: product.name,
-            color: formData.colors?.at(i) ?? '',
-            size: formData.sizes?.at(i) ?? '',
-          };
+          return new CreateProductDetailsClass(
+            product.id,
+            product.name,
+            formData.colors?.at(i) ?? '',
+            formData.sizes?.at(i) ?? ''
+          );
         });
       }),
       shareReplay(1)
