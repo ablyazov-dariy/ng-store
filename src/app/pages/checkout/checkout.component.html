@@ -1,18 +1,18 @@
 <mat-stepper [linear]="true" headerPosition="bottom" #stepper class="h-full">
-  <!--  <mat-step [stepControl]="(groupOne$ | async)!">-->
-  <!--    <ng-template matStepLabel>Confirm Cart</ng-template>-->
-  <!--    <app-confirm-cart [confProdData]="(cartData$ | async)!" [formGroup]="(groupOne$ | async)!">-->
-  <!--      <button mat-button matStepperNext>Next</button>-->
-  <!--    </app-confirm-cart>-->
-  <!--  </mat-step>-->
+  <mat-step [stepControl]="(groupOne$ | async)!">
+    <ng-template matStepLabel>Confirm Cart</ng-template>
+    <app-confirm-cart [confProdData]="(cartData$ | async)!" [formGroup]="(groupOne$ | async)!">
+      <button mat-button matStepperNext>Next</button>
+    </app-confirm-cart>
+  </mat-step>
 
-  <!--  <mat-step [stepControl]="addressForm">-->
-  <!--    <ng-template matStepLabel>Fill out your address</ng-template>-->
-  <!--    <app-address-form [addressForm]="addressForm">-->
-  <!--      <button mat-button matStepperNext>Next</button>-->
-  <!--      <button mat-button matStepperPrevious>Previous</button>-->
-  <!--    </app-address-form>-->
-  <!--  </mat-step>-->
+  <mat-step [stepControl]="addressForm">
+    <ng-template matStepLabel>Fill out your address</ng-template>
+    <app-address-form [addressForm]="addressForm">
+      <button mat-button matStepperNext>Next</button>
+      <button mat-button matStepperPrevious>Previous</button>
+    </app-address-form>
+  </mat-step>
 
   <mat-step [stepControl]="payStepControl">
     <ng-template matStepLabel>Payment method</ng-template>
@@ -22,5 +22,10 @@
     </app-payment-form>
   </mat-step>
 
-  <mat-step label="done"> done </mat-step>
+  <mat-step label="done"
+    ><app-confirm-table
+      [address]="(addressAsString$ | async)!"
+      [products]="(productsForTable$ | async)!"
+    ></app-confirm-table
+  ></mat-step>
 </mat-stepper>

@@ -3,9 +3,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CreditCardForm, GroupOne, PayPalForm } from '@interfaces/form-types';
 import { CheckoutFormsService } from '@pages/checkout/checkout-forms.service';
+import { CreateProductDetailsClass } from '@pages/checkout/create-product-details/create-product-details.class';
 import { ShoppingCartService } from '@services/shopping-cart.service';
-import { combineLatest, debounceTime, map, merge, mergeMap, Observable, Subject, tap } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+
+import { combineLatest, debounceTime, map, merge, Observable, Subject, switchMap, tap } from 'rxjs';
+import { shareReplay, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-check-out',
@@ -20,6 +22,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   cardForm: CreditCardForm = this.checkoutFormsService.createCreditCardForm();
 
   payStepControl = new FormControl('false', Validators.pattern(/^(true)$/i));
+  addressAsString$ = this.getAddressAsString$();
+  productsForTable$ = this.getProductsForTable$();
 
   constructor(
     private checkoutFormsService: CheckoutFormsService,
@@ -29,6 +33,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   get cartData$() {
     return this.cartService.data$.pipe(
+      takeUntil(this.destroy$),
       tap(data => {
         // this will redirect user if cart is empty
         if (data.length <= 0) this.router.navigateByUrl('').then();
@@ -55,19 +60,33 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  finalize() {
-    const observables = {
-      data: this.groupOne$.pipe(mergeMap(value => value.valueChanges)),
-      address: this.addressForm.valueChanges,
-      payInfo: merge(this.paypalForm.valueChanges, this.cardForm.valueChanges),
-    };
-    combineLatest(observables)
-      .pipe(
-        map(value => {
-          // do something with data
-          return value;
-        })
-      )
-      .subscribe(value => console.log(value));
+  finalize() {}
+
+  getAddressAsString$() {
+    return this.addressForm.valueChanges.pipe(
+      map(value => {
+        return `${value.address}, shipping: ${value.shipping}`;
+      }),
+      shareReplay(1)
+    );
+  }
+  getProductsForTable$() {
+    return combineLatest(
+      this.cartData$,
+      this.groupOne$.pipe(switchMap(value => value.valueChanges))
+    ).pipe(
+      takeUntil(this.destroy$),
+      map(([cartData, formData]) => {
+        return cartData.map((product, i) => {
+          return new CreateProductDetailsClass(
+            product.id,
+            product.name,
+            formData.colors?.at(i) ?? '',
+            formData.sizes?.at(i) ?? ''
+          );
+        });
+      }),
+      shareReplay(1)
+    );
   }
 }

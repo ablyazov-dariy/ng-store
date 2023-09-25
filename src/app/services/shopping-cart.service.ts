@@ -59,6 +59,11 @@ export class ShoppingCartService {
     this.observe();
   }
 
+  clearAll() {
+    this.data = [];
+    this.observe();
+  }
+
   private getItemIndexById(id: number): number {
     return this.data.findIndex(el => el.id === id);
   }
