@@ -1,3 +1,4 @@
+import { adminGuard } from '@admin/guards/admin.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -24,6 +25,15 @@ const routes: Routes = [
     path: 'thank',
     loadChildren: () =>
       import('@pages/thank-for-order/thank-for-order.module').then(m => m.ThankForOrderModule),
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('@app/admin/admin.module').then(m => m.AdminModule),
+    canMatch: [adminGuard],
+  },
+  {
+    path: '**',
+    redirectTo: '/',
   },
 ];
 

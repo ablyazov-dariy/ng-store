@@ -8,11 +8,20 @@ export class LocalStorageService {
   notifier = fromEvent(window, 'storage') as Observable<StorageEvent>;
 
   getItem(key: string): unknown {
-    return JSON.parse(localStorage.getItem(key) ?? 'null') as unknown;
+    let str = localStorage.getItem(key) ?? 'null';
+    try {
+      return JSON.parse(str) as unknown;
+    } catch (err) {
+      return str;
+    }
   }
 
   setItem<T>(key: string, value: T) {
-    localStorage.setItem(key, JSON.stringify(value));
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch (err) {
+      localStorage.setItem(key, (err as Error).message);
+    }
   }
 
   removeItem(key: string): void {
