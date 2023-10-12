@@ -7,6 +7,13 @@ const routes: Routes = [
     path: '',
     component: AdminComponent,
   },
+  {
+    path: 'manage',
+    loadComponent: () =>
+      import('./pages/products-manage/products-manage.component').then(
+        m => m.ProductsManageComponent
+      ),
+  },
 ];
 
 @NgModule({
