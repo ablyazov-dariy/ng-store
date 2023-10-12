@@ -24,5 +24,5 @@ module.exports = {
       Ovo: ['Ovo'],
     },
   },
-  plugins: [],
+  plugins: [require('daisyui')],
 };
