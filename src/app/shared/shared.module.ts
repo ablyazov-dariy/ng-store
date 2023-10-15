@@ -26,6 +26,11 @@ import { DiscountCalculatorPipe } from '@shared/pipes/discount-calculator.pipe';
     MatGridListModule,
     RouterLink,
   ],
-  exports: [ProductsRenderContainerComponent, DiscountCalculatorPipe, CharacterLimitPipe],
+  exports: [
+    ProductsRenderContainerComponent,
+    DiscountCalculatorPipe,
+    CharacterLimitPipe,
+    ProductsRenderItemComponent,
+  ],
 })
 export class SharedModule {}

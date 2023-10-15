@@ -13,7 +13,7 @@ export class ProductsService implements OnDestroy {
   private destroy$ = new Subject<boolean>();
 
   constructor(private api: APIService, private likeService: LikeService) {}
-
+  // TODO: create interface for params
   getProductsObservable(params: { [key: string]: any }): Observable<ProductInterface[]> {
     const options: ProductsFilterInterface = {
       id: params['id'] ?? undefined,

@@ -1,2 +1,91 @@
-<button class="btn">Button</button>
-<button mat-raised-button color="primary">Button</button>
+<h2 class="text-3xl">{{ (productForm.controls.new.valueChanges | async) ? 'new' : 'edit' }}</h2>
+<div class="flex w-full flex-col lg:flex-row">
+  <div class="card rounded-box relative grid w-full flex-grow place-items-center">
+    <form action="/upload" [formGroup]="productForm" class="flex flex-col">
+      <mat-form-field appearance="fill">
+        <mat-label>Id</mat-label>
+        <input matInput formControlName="id" type="text" />
+        <mat-hint>Enter the product ID</mat-hint>
+        <mat-error *ngIf="productForm.get('id')?.hasError('required')">Id is required</mat-error>
+      </mat-form-field>
+
+      <input (change)="onFileUpload($event)" type="file" />
+
+      <mat-form-field appearance="fill">
+        <mat-label>Price</mat-label>
+        <input matInput formControlName="price" type="number" />
+        <mat-hint>Enter the product price</mat-hint>
+        <mat-error *ngIf="productForm.get('price')?.hasError('required')"
+          >Price is required</mat-error
+        >
+        <mat-error *ngIf="productForm.get('price')?.hasError('min')"
+          >Price must be greater than or equal to 0</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Discount</mat-label>
+        <input matInput formControlName="discount" type="number" />
+        <mat-hint>Enter the product discount (optional)</mat-hint>
+        <mat-error *ngIf="productForm.get('discount')?.hasError('min')"
+          >Discount must be greater than or equal to 0</mat-error
+        >
+        <mat-error *ngIf="productForm.get('discount')?.hasError('max')"
+          >Discount must be less than or equal to 100</mat-error
+        >
+      </mat-form-field>
+
+      <mat-checkbox formControlName="featured">Featured</mat-checkbox>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Collection</mat-label>
+        <input matInput formControlName="collection" type="text" />
+        <mat-hint>Enter the product collection</mat-hint>
+        <mat-error *ngIf="productForm.get('collection')?.hasError('required')"
+          >Collection is required</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" type="text" />
+        <mat-hint>Enter the product name</mat-hint>
+        <mat-error *ngIf="productForm.get('name')?.hasError('required')"
+          >Name is required</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+        <mat-hint>Enter the product description</mat-hint>
+        <mat-error *ngIf="productForm.get('description')?.hasError('required')"
+          >Description is required</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Discount Until</mat-label>
+        <input matInput formControlName="discountUntil" type="text" />
+      </mat-form-field>
+
+      <mat-select multiple formControlName="colors">
+        <mat-option value="red">Red</mat-option>
+        <mat-option value="green">Green</mat-option>
+        <mat-option value="blue">Blue</mat-option>
+      </mat-select>
+
+      <mat-select multiple formControlName="sizes">
+        <mat-option value="small">Small</mat-option>
+        <mat-option value="medium">Medium</mat-option>
+        <mat-option value="large">Large</mat-option>
+      </mat-select>
+
+      <button mat-flat-button type="submit">Submit</button>
+    </form>
+  </div>
+  <div class="divider lg:divider-horizontal">IT</div>
+  <div class="card rounded-box relative grid w-full flex-grow place-items-center">
+    <app-preview-product [product]="(productFormValue | async)!" />
+  </div>
+</div>

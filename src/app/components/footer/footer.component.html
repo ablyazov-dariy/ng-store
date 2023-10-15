@@ -1,52 +1,57 @@
-<div class="w-full justify-between sm:flex">
-  <div class="mbs-20">
-    <h4 class="mat-headline-6">Participle+</h4>
-    <mat-list class="mat-body-2">
-      132 Smith Street <br />
-      Brooklyn, NY 14231
-    </mat-list>
-    <mat-list class="mat-body-1"><a routerLink="contacts">Contact Us</a></mat-list>
-  </div>
-  <div class="mbs-20">
-    <h4 class="mat-headline-6">CUSTOMER CARE</h4>
-    <mat-list>
-      <mat-list-item class="mat-body-2"><a routerLink="">FAQs</a></mat-list-item>
-      <mat-list-item class="mat-body-2"><a routerLink="">Orders & Returns</a></mat-list-item>
-      <mat-list-item class="mat-body-2"><a routerLink="">Account</a></mat-list-item>
-      <mat-list-item class="mat-body-2"><a routerLink="about">About Us</a></mat-list-item>
-    </mat-list>
-  </div>
-  <div class="mbs-20">
-    <h4 class="mat-headline-6">CONNECT</h4>
-    <mat-list>
-      <mat-list-item class="mat-body-2">
-        <a href="https://www.instagram.com/">Instagram</a>
-      </mat-list-item>
-      <mat-list-item class="mat-body-2">
-        <a href="https://www.facebook.com/">Facebook</a>
-      </mat-list-item>
-      <mat-list-item class="mat-body-2">
-        <a href="https://www.twitter.com/">Twitter</a>
-      </mat-list-item>
-      <mat-list-item class="mat-body-2">
-        <a href="https://www.pinterest.com/">Pinterest</a>
-      </mat-list-item>
-    </mat-list>
-  </div>
-</div>
-
-<form class="flex flex-wrap items-center gap-3.5 max-sm:justify-between sm:flex-nowrap">
-  <mat-form-field class="max-sm:w-full">
-    <mat-label>Email</mat-label>
-    <input type="email" matInput [formControl]="emailFormControl" placeholder="ex.pat@gmail.com" />
-    <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
-      Please enter a valid email address
-    </mat-error>
-    <mat-error *ngIf="emailFormControl.hasError('required')">
-      Email is <strong>required</strong>
-    </mat-error>
-  </mat-form-field>
-  <button (click)="onSubmit()" mat-flat-button color="accent" class="max-sm:w-full">
-    Sing Up!
-  </button>
-</form>
+<footer class="footer bg-base-200 p-10 text-base-content">
+  <nav>
+    <header class="footer-title">Services</header>
+    <a class="link-hover link">Branding</a>
+    <a class="link-hover link">Design</a>
+    <a class="link-hover link">Marketing</a>
+    <a class="link-hover link">Advertisement</a>
+  </nav>
+  <nav>
+    <header class="footer-title">Company</header>
+    <a routerLink="about" class="link-hover link">About us</a>
+    <a routerLink="contacts" class="link-hover link">Contact</a>
+    <a class="link-hover link">Jobs</a>
+    <a class="link-hover link">Press kit</a>
+  </nav>
+  <nav>
+    <header class="footer-title">Legal</header>
+    <a class="link-hover link">Terms of use</a>
+    <a class="link-hover link">Privacy policy</a>
+    <a class="link-hover link">Cookie policy</a>
+  </nav>
+  <form [formGroup]="newsletterForm" (ngSubmit)="onSubmit()">
+    <header class="footer-title">Newsletter</header>
+    <fieldset class="form-control w-80">
+      <label class="label">
+        <span class="label-text">Enter your email address</span>
+      </label>
+      <div class="relative">
+        <input
+          formControlName="emailControl"
+          type="email"
+          placeholder="username@site.com"
+          class="input-bordered input w-full pr-16"
+          [ngClass]="{
+            'input-error': newsletterForm.controls.emailControl.errors && newsletterForm.touched,
+            'input-success': newsletterForm.controls.emailControl.valid && newsletterForm.touched
+          }"
+        />
+        <button type="submit" class="btn-primary btn absolute right-0 top-0 rounded-l-none">
+          Subscribe
+        </button>
+      </div>
+      <label
+        *ngIf="newsletterForm.controls.emailControl.errors && newsletterForm.touched"
+        class="label"
+      >
+        <span class="label-text-alt text-error">enter a valid email</span>
+      </label>
+      <label
+        *ngIf="newsletterForm.controls.emailControl.valid && newsletterForm.touched"
+        class="label"
+      >
+        <span class="label-text-alt text-success">successfully subscribed</span>
+      </label>
+    </fieldset>
+  </form>
+</footer>

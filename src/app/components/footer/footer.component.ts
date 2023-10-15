@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { asyncScheduler } from 'rxjs';
 
 @Component({
   selector: 'app-footer',
@@ -7,12 +8,18 @@ import { FormControl, Validators } from '@angular/forms';
   styleUrls: ['./footer.component.scss'],
 })
 export class FooterComponent {
-  emailFormControl: FormControl = new FormControl('', [Validators.required, Validators.email]);
-
+  newsletterForm = new FormGroup({
+    emailControl: new FormControl('', [Validators.required, Validators.email]),
+  });
 
   onSubmit(): void {
-    if (this.emailFormControl.valid) {
-      console.log(this.emailFormControl.value);
+    if (this.newsletterForm.valid) {
+      console.log('subscribed to newsletter' + this.newsletterForm.value);
     }
+    asyncScheduler.schedule(this.resetForm.bind(this), 5000);
+  }
+
+  private resetForm() {
+    this.newsletterForm.reset();
   }
 }
