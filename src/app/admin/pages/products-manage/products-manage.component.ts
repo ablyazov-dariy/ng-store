@@ -1,16 +1,32 @@
+import { AdminModule } from '@admin/admin.module';
 import { PreviewProductComponent } from '@admin/pages/products-manage/preview-product/preview-product.component';
-import { AdminProductsService } from '@admin/services/admin-products.service';
+import { ManageService } from '@admin/services/manage.service';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, DestroyRef, effect, signal } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { ProductInterface } from '@interfaces/product.interface';
+import { Product } from '@app/classes/product';
+import { ProductInterface, Size } from '@interfaces/product.interface';
 import { ProductForm } from '@interfaces/ProductForm.type';
+import { StringProductInterface } from '@interfaces/string-product.interface';
 import { SharedModule } from '@shared/shared.module';
-import { debounceTime, distinctUntilChanged, filter, Observable, switchMap } from 'rxjs';
+import {
+  debounce,
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  mergeMap,
+  Observable,
+  shareReplay,
+  switchMap,
+  tap,
+  timer,
+} from 'rxjs';
 
 @Component({
   selector: 'app-products-manage',
@@ -24,63 +40,62 @@ import { debounceTime, distinctUntilChanged, filter, Observable, switchMap } fro
     MatCheckboxModule,
     MatInputModule,
     PreviewProductComponent,
+    AdminModule,
   ],
+  providers: [ManageService],
   templateUrl: './products-manage.component.html',
   styleUrls: ['./products-manage.component.scss'],
 })
-export class ProductsManageComponent implements OnInit {
-  productForm: ProductForm = this.createForm();
-  get productFormValue() {
-    return this.productForm.valueChanges as Observable<ProductInterface>;
-  }
+export class ProductsManageComponent {
+  //todo: can deactivate ?
+  chooseControl = new FormControl('', [Validators.pattern(/^(0|[1-9]\d*)$/)], []);
+  formSig = signal<ProductForm | undefined>(undefined);
+  private httpRes = toSignal(this.handelChooseInput$());
 
-  constructor(private fb: FormBuilder, private adminProductsService: AdminProductsService) {}
+  constructor(private destroyRef: DestroyRef, private manageService: ManageService) {}
 
-  ngOnInit(): void {
-    this.checkNew()?.subscribe(product => {
-      if (product[0]) {
-        for (let key in product[0]) {
-          // @ts-ignore
-          this.productForm.get(key)?.patchValue(product[key]);
-        }
-        this.productForm.controls.new.patchValue(false);
-      } else {
-      }
-    });
-  }
+  private resEffect = effect(() => {
+    if (!this.httpRes()) return;
+    alert(this.httpRes());
+  });
 
-  onFileUpload(event: Event): void {
-    this.productForm.controls.id;
-    this.productForm
-      .get('imgUrl')
-      ?.patchValue(URL.createObjectURL((event.target as HTMLInputElement).files![0]));
-  }
-
-  private checkNew() {
-    return this.productForm.get('id')?.valueChanges.pipe(
+  private handelChooseInput$() {
+    return this.chooseControl.valueChanges.pipe(
+      takeUntilDestroyed(this.destroyRef),
       debounceTime(300),
       distinctUntilChanged(),
-      filter(() => this.productForm.get('id')!.valid),
-      switchMap((id: number) => this.adminProductsService.getProductsObservable({ id: id }))
+      filter(value => !!value),
+      map((value: string | null) => Number(value) || undefined),
+      switchMap(value => this.manageService.productManageForm(value)),
+      shareReplay(2),
+      tap(form => this.formSig.set(form)),
+      // filter(form => form.valid),
+      mergeMap(form => form.valueChanges),
+      filter(form => !!this.formSig()?.valid),
+      map(data => this.createProduct(data)),
+      debounce(() => this.debounce()),
+      switchMap(data => this.manageService.saveChange(data))
     );
   }
 
-  private createForm(): FormGroup {
-    return this.fb.group({
-      id: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
-      imgUrl: ['', [Validators.required]],
-      price: ['', [Validators.required, Validators.min(0)]],
-      discount: ['', [Validators.min(0), Validators.max(100)]],
-      featured: [false, []],
-      collection: ['', [Validators.required]],
-      name: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      discountUntil: ['', []],
-      new: [true, []],
-      colors: [[''], [Validators.required]],
-      sizes: [[''], [Validators.required]],
-      reviews: [[], []],
-      favorite: [false, []],
-    });
+  private createProduct(data: StringProductInterface): ProductInterface {
+    return new Product(
+      +data.id,
+      data.name,
+      data.imgUrl,
+      data.description,
+      +data.price,
+      data.collection,
+      data.colors.split(','),
+      data.sizes.split(',') as Size[],
+      !!data.featured,
+      data.discount ? +data.discount : 0,
+      new Date(data.discountUntil ?? '')
+    );
+  }
+
+  private debounce(): Observable<unknown> {
+    return timer(1000);
+    // .pipe(raceWith(of()));
   }
 }

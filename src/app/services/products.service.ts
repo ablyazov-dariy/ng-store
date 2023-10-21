@@ -14,6 +14,7 @@ export class ProductsService implements OnDestroy {
 
   constructor(private api: APIService, private likeService: LikeService) {}
   // TODO: create interface for params
+  // TODO: convert date string to Date object
   getProductsObservable(params: { [key: string]: any }): Observable<ProductInterface[]> {
     const options: ProductsFilterInterface = {
       id: params['id'] ?? undefined,

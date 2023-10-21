@@ -14,4 +14,7 @@ export class APIService {
   put(url: string, body: any) {
     return this.http.put(url, body);
   }
+  post(url: string, body: any) {
+    return this.http.post(url, body);
+  }
 }
