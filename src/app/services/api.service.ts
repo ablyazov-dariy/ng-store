@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
 
 @Injectable({
@@ -7,7 +8,7 @@ import { shareReplay } from 'rxjs/operators';
 })
 export class APIService {
   constructor(private http: HttpClient) {}
-  get(url: string) {
+  get(url: string): Observable<any> {
     return this.http.get(url).pipe(shareReplay(3));
   }
 

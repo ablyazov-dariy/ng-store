@@ -41,6 +41,7 @@ export class ManageService {
           collection: [prod?.collection ?? '', []],
           description: [prod?.description ?? '', [Validators.required]],
           discountUntil: [
+            // todo:
             // prod?.discountUntil?.toDateString() ?? null,
             prod?.discountUntil?.toString() ?? null,
             [Validators.pattern(/^\d{4}-\d{2}-\d{2}$/)],
@@ -62,5 +63,12 @@ export class ManageService {
 
   private uniqID(): number {
     return Date.now();
+  }
+
+  fileFromUrl(url: string): Observable<File> {
+    return this.apiService.get(url).pipe(
+      map(res => res.blob()),
+      map(blob => new File([blob], 'name'))
+    );
   }
 }
