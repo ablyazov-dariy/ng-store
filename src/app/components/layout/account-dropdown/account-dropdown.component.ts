@@ -5,4 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './account-dropdown.component.html',
   styleUrls: ['./account-dropdown.component.scss'],
 })
-export class AccountDropdownComponent {}
+export class AccountDropdownComponent {
+  // todo: user service for profile
+}

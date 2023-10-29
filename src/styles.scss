@@ -99,7 +99,7 @@ body {
 }
 body {
   margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  font-family: Roboto, sans-serif;
 }
 @tailwind base;
 @tailwind components;
@@ -115,4 +115,8 @@ body {
     position: absolute;
     inset: 0;
   }
+}
+
+.full-bleed-inset {
+  clip-path: inset(0 -100vmax);
 }

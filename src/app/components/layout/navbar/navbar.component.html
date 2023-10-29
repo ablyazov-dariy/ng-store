@@ -1,0 +1,19 @@
+<div class="navbar bg-base-100 text-primary-content">
+  <ng-content select="button"></ng-content>
+  <a routerLink=""><span class="logo">Participle+</span></a>
+  <div class="toolbar-container">
+    <app-search-open-btn [isXSmall]="false" />
+
+    <app-popup-cart />
+  </div>
+
+  <div class="toolbar-container">
+    <button mat-button>
+      <!--      (click)="dialogElement.show()"-->
+      {{ 'New Arrivals' }}
+    </button>
+    <button mat-button routerLink="shop">Shop</button>
+    <button mat-button routerLink="about">About Us</button>
+  </div>
+  <app-account-dropdown />
+</div>

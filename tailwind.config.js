@@ -18,6 +18,9 @@ module.exports = {
           900: '#111827',
         },
       },
+      boxShadow: {
+        'full-bleed': '0 0 0 100vmax rgba(0, 0, 0, 0.3)',
+      },
     },
     fontFamily: {
       mulish: ['Mulish'],

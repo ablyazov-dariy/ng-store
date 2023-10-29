@@ -1,17 +1,15 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ProductInterface } from '@interfaces/product.interface';
 import { ProductsFilterInterface } from '@interfaces/products-filter.interface';
 import { APIService } from '@services/api.service';
 import { LikeService } from '@services/like.service';
-import { combineLatest, Observable, scan, Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { combineLatest, Observable, scan } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProductsService implements OnDestroy {
-  private destroy$ = new Subject<boolean>();
-
+export class ProductsService {
   constructor(private api: APIService, private likeService: LikeService) {}
   // TODO: create interface for params
   // TODO: convert date string to Date object
@@ -23,6 +21,7 @@ export class ProductsService implements OnDestroy {
       startWith: params['startWith'] ?? 0,
       limit: params['limit'] ?? 12,
       newOnly: params['newOnly'] ?? false,
+      favorite: params['favorite'] ?? false,
     };
     const url = 'assets/data.json';
     const apiProductsData$ = this.api.get(url).pipe(
@@ -31,8 +30,8 @@ export class ProductsService implements OnDestroy {
       map(arr => this.filter(arr, options))
     );
     return combineLatest([apiProductsData$, this.likeService.likesMap$]).pipe(
-      takeUntil(this.destroy$),
-      map(([productsData, likesData]) => this.mergeFav(productsData, likesData))
+      map(([productsData, likesData]) => this.mergeFav(productsData, likesData)),
+      map(data => (params['favorite'] ? data.filter(item => item.favorite) : data))
     );
   }
 
@@ -54,10 +53,5 @@ export class ProductsService implements OnDestroy {
       product.favorite = likesMap.get(product.id);
       return product;
     });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.complete();
   }
 }

@@ -7,4 +7,5 @@ export interface ProductsFilterInterface {
   sortDirection: SortDirection;
   startWith: number;
   limit: number;
+  favorite: boolean;
 }

@@ -1,0 +1,29 @@
+<button [cdkMenuTriggerFor]="menu" class="btn-ghost btn-circle avatar btn">
+  <div class="w-10 rounded-full">
+    <img
+      ngSrc="assets/photo-1534528741775-53994a69daeb.jpg"
+      height="844"
+      width="844"
+      alt="Profile"
+    />
+  </div>
+</button>
+
+<ng-template #menu>
+  <ul class="menu rounded-box w-56 bg-base-200" cdkMenu>
+    <li cdkMenuItem>
+      <a routerLink=""><mat-icon>person</mat-icon>My Account</a>
+    </li>
+    <li cdkMenuItem>
+      <a routerLink=""><mat-icon>shopping_bag</mat-icon>My Orders</a>
+    </li>
+    <li cdkMenuItem>
+      <a routerLink="/shop" [queryParams]="{ favorite: true }">
+        <mat-icon>favorite</mat-icon>My Favorites
+      </a>
+    </li>
+    <li cdkMenuItem>
+      <a routerLink=""><mat-icon>logout</mat-icon>Log Out</a>
+    </li>
+  </ul>
+</ng-template>

@@ -1,6 +1,6 @@
 <div class="card w-96 bg-base-100 shadow-xl">
-  <figure>
-    <img [src]="url()" alt="Shoes" />
+  <figure *ngIf="url() as url">
+    <img [src]="url" alt="Shoes" />
   </figure>
   <div class="card-body">
     <h2 class="card-title">Shoes!</h2>
