@@ -1,5 +1,5 @@
-import { Component, effect, Injector, OnInit } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, DestroyRef, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -10,10 +10,8 @@ import { Router } from '@angular/router';
 })
 export class SearchOpenBtnComponent implements OnInit {
   form = this.buildForm();
-  // toSignal works as async pipe, so I don`t need to unsubscribe
-  private formValue = toSignal(this.form.valueChanges);
 
-  constructor(private fb: FormBuilder, private router: Router, private injector: Injector) {}
+  constructor(private fb: FormBuilder, private router: Router, private destroyRef: DestroyRef) {}
 
   ngOnInit(): void {
     this.initializeNavigation();
@@ -28,19 +26,16 @@ export class SearchOpenBtnComponent implements OnInit {
   }
 
   private initializeNavigation(): void {
-    effect(
-      () => {
-        this.router
-          .navigate(['/shop'], {
-            queryParams: {
-              searchQuery: this.formValue()?.search,
-              newOnly: this.formValue()?.new,
-              featured: this.formValue()?.featured,
-            },
-          })
-          .then();
-      },
-      { injector: this.injector }
-    );
+    this.form.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value => {
+      this.router
+        .navigate(['/shop'], {
+          queryParams: {
+            searchQuery: value.search,
+            newOnly: value.new,
+            featured: value.featured,
+          },
+        })
+        .then();
+    });
   }
 }
