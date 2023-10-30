@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./account-dropdown.component.scss'],
 })
 export class AccountDropdownComponent {
-  // todo: user service for profile
+  private user: any;
+
+  logout() {
+    console.log('logout');
+    this.user?.logout();
+  }
 }

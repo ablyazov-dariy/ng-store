@@ -8,4 +8,5 @@ export interface ProductsFilterInterface {
   startWith: number;
   limit: number;
   favorite: boolean;
+  featured: boolean;
 }

@@ -13,6 +13,7 @@ export class ProductsService {
   constructor(private api: APIService, private likeService: LikeService) {}
   // TODO: create interface for params
   // TODO: convert date string to Date object
+  // TODO: pagination or infinite scroll
   getProductsObservable(params: { [key: string]: any }): Observable<ProductInterface[]> {
     const options: ProductsFilterInterface = {
       id: params['id'] ?? undefined,
@@ -20,8 +21,10 @@ export class ProductsService {
       sortDirection: params['sortDirection'] ?? 'asc',
       startWith: params['startWith'] ?? 0,
       limit: params['limit'] ?? 12,
-      newOnly: params['newOnly'] ?? false,
-      favorite: params['favorite'] ?? false,
+      // js moment string "false" is true (not empty string) 🤦‍♂️🤦‍♂️🤦‍♂️
+      newOnly: params['newOnly'] == 'true' ?? false,
+      featured: params['featured'] == 'true' ?? false,
+      favorite: params['favorite'] == 'true' ?? false,
     };
     const url = 'assets/data.json';
     const apiProductsData$ = this.api.get(url).pipe(
@@ -42,6 +45,7 @@ export class ProductsService {
           (!filters.searchQuery ||
             item.name.toLowerCase().includes(filters.searchQuery.toLowerCase())) &&
           (!filters.newOnly || item.new) &&
+          (!filters.featured || item.featured) &&
           (!filters.id || item.id === Number(filters.id))
       )
       .sort((a, b) => (filters.sortDirection === 'desc' ? b.price - a.price : a.price - b.price))
