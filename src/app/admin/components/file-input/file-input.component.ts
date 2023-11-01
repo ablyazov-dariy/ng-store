@@ -25,6 +25,7 @@ export class FileInputComponent implements ControlValueAccessor, OnInit {
     if (!file) return;
     if (typeof file !== 'string') {
       try {
+        // do I have to revokeObjectURL() ?
         return URL.createObjectURL(file);
       } catch (error) {
         console.error(error);

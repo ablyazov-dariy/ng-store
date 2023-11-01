@@ -15,6 +15,7 @@ import { ProductForm } from '@interfaces/ProductForm.type';
 import { StringProductInterface } from '@interfaces/string-product.interface';
 import { SharedModule } from '@shared/shared.module';
 import {
+  debounce,
   debounceTime,
   distinctUntilChanged,
   filter,
@@ -46,7 +47,6 @@ import {
   styleUrls: ['./products-manage.component.scss'],
 })
 export class ProductsManageComponent implements OnInit {
-  //todo: can deactivate ?
   chooseControl = new FormControl('', [Validators.pattern(/^(0|[1-9]\d*)$/)], []);
   formSig = signal<ProductForm | undefined>(undefined);
   private httpRes = toSignal(this.handelChooseInput$());
@@ -54,9 +54,8 @@ export class ProductsManageComponent implements OnInit {
   constructor(private destroyRef: DestroyRef, private manageService: ManageService) {}
 
   private resEffect = effect(() => {
-    this.formSig()?.controls.imgUrl.valueChanges.subscribe(console.log);
     if (!this.httpRes()) return;
-    // alert(this.httpRes());
+    alert(this.httpRes());
   });
 
   private handelChooseInput$() {
@@ -70,10 +69,10 @@ export class ProductsManageComponent implements OnInit {
       shareReplay(2),
       tap(form => this.formSig.set(form)),
       mergeMap(form => form.valueChanges),
-      // filter(form => !!this.formSig()?.valid),
-      map(data => this.createProduct(data))
-      // debounce(() => this.debounce()),
-      // switchMap(data => this.manageService.saveChange(data))
+      filter(form => !!this.formSig()?.valid),
+      map(data => this.createProduct(data)),
+      debounce(() => this.debounce()),
+      switchMap(data => this.manageService.saveChange(data))
     );
   }
 
