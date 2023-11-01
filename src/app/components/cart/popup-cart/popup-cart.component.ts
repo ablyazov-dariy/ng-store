@@ -1,13 +1,19 @@
+import { FocusMonitor } from '@angular/cdk/a11y';
+import { CdkConnectedOverlay, CdkOverlayOrigin } from '@angular/cdk/overlay';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
-  OnDestroy,
+  signal,
   ViewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ProductWithCountInterface } from '@interfaces/product-with-count.interface';
 import { ShoppingCartService } from '@services/shopping-cart.service';
-import { Observable, Subject } from 'rxjs';
+
+import { filter, map, merge } from 'rxjs';
 
 @Component({
   selector: 'app-popup-cart',
@@ -15,27 +21,39 @@ import { Observable, Subject } from 'rxjs';
   styleUrls: ['./popup-cart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PopupCartComponent implements OnDestroy {
-  private destroy$: Subject<boolean> = new Subject();
-  @ViewChild('dialogElement') private dialogElement!: ElementRef<HTMLDialogElement>;
+export class PopupCartComponent implements AfterViewInit {
+  public isCardOpen = signal(false);
+  public data$ = this.cartService.data$;
 
-  public data$: Observable<ProductWithCountInterface[]>;
+  @ViewChild(CdkOverlayOrigin, { read: ElementRef }) private cartOpenButton?: ElementRef;
+  @ViewChild(CdkConnectedOverlay) private connectedOverlay?: CdkConnectedOverlay;
 
-  constructor(private cartService: ShoppingCartService) {
-    this.data$ = this.cartService.data$;
-  }
+  constructor(
+    private cartService: ShoppingCartService,
+    private focusMonitor: FocusMonitor,
+    private destroyRef: DestroyRef
+  ) {}
 
-  toggleDialog() {
-    const element = this.dialogElement.nativeElement;
-    element.open ? element.close() : element.show();
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.complete();
+  ngAfterViewInit(): void {
+    if (this.cartOpenButton && this.connectedOverlay) {
+      merge(this.backdropClick$(this.connectedOverlay), this.focus$(this.cartOpenButton))
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(value => this.isCardOpen.set(value));
+    }
   }
 
   getTotalPrice(data: ProductWithCountInterface[]): number {
     return data.reduce((total, product) => total + product.price * product.__count, 0);
+  }
+
+  private focus$(btn: ElementRef) {
+    return this.focusMonitor.monitor(btn).pipe(
+      filter(focused => !!focused),
+      map(() => true)
+    );
+  }
+
+  private backdropClick$(overlay: CdkConnectedOverlay) {
+    return overlay.backdropClick.pipe(map(() => false));
   }
 }

@@ -1,3 +1,4 @@
+import { A11yModule } from '@angular/cdk/a11y';
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ScrollingModule } from '@angular/cdk/scrolling';
@@ -13,8 +14,6 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
-
-import { MatMenuModule } from '@angular/material/menu';
 
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -55,20 +54,20 @@ import { AppComponent } from './app.component';
     MatButtonModule,
     SharedModule,
     FormsModule,
+    NgOptimizedImage,
     ReactiveFormsModule,
     MatInputModule,
     MatSidenavModule,
     MatIconModule,
     MatListModule,
     MatTabsModule,
-    MatMenuModule,
     MatGridListModule,
-    NgOptimizedImage,
     MatCardModule,
     ScrollingModule,
     MatBadgeModule,
     CdkMenuModule,
     OverlayModule,
+    A11yModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

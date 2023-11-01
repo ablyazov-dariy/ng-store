@@ -10,6 +10,7 @@ import { CharacterLimitPipe } from '@pipes/character-limit.pipe';
 import { ProductsRenderContainerComponent } from '@shared/components/products-render-container/products-render-container.component';
 import { ProductsRenderItemComponent } from '@shared/components/products-render-item/products-render-item.component';
 import { DiscountCalculatorPipe } from '@shared/pipes/discount-calculator.pipe';
+import { CartIconComponent } from './components/cart-icon/cart-icon.component';
 
 import { DuiInputComponent } from './components/dui-input/dui-input.component';
 
@@ -20,6 +21,7 @@ import { DuiInputComponent } from './components/dui-input/dui-input.component';
     DiscountCalculatorPipe,
     CharacterLimitPipe,
     DuiInputComponent,
+    CartIconComponent,
   ],
   imports: [
     CommonModule,
@@ -38,6 +40,7 @@ import { DuiInputComponent } from './components/dui-input/dui-input.component';
     CharacterLimitPipe,
     ProductsRenderItemComponent,
     DuiInputComponent,
+    CartIconComponent,
   ],
 })
 export class SharedModule {}

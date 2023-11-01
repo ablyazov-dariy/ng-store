@@ -1,31 +1,55 @@
 <ng-container *ngIf="data$ | async as data">
-  <button *ngIf="data.length > 0; else emptyCart" mat-icon-button (click)="toggleDialog()">
-    <mat-icon [matBadge]="data.length" matBadgeColor="warn"> shopping_cart </mat-icon>
-  </button>
-  <ng-template #emptyCart>
-    <button mat-icon-button disabled>
-      <mat-icon> shopping_cart </mat-icon>
-    </button>
-  </ng-template>
-
-  <dialog class="dialog" #dialogElement *ngIf="data.length > 0">
-    <div class="pipa"></div>
-    <span class="bock bg-white text-xl font-medium">Your bag({{ data.length }})</span>
-
-    <cdk-virtual-scroll-viewport
-      itemSize="130"
-      class="cart-virtual-scroll-viewport"
-      minBufferPx="131"
-    >
-      <app-cart-item *cdkVirtualFor="let item of data$" [item]="item" />
-    </cdk-virtual-scroll-viewport>
-    <div class="grid grid-cols-2 gap-4">
-      <span class="col-span-2 inline-flex justify-between text-xl font-medium">
-        Total:
-        <span>{{ getTotalPrice(data) | currency : 'EUR' }}</span>
-      </span>
-      <button mat-raised-button>View Bag</button>
-      <button mat-raised-button color="accent" routerLink="/checkout">Go To Checkout</button>
+  <button
+    class="btn-ghost btn-circle btn"
+    [disabled]="data.length <= 0"
+    cdkOverlayOrigin
+    #originOverlay="cdkOverlayOrigin"
+  >
+    <div class="indicator">
+      <app-cart-icon />
+      <span *ngIf="data.length > 0" class="badge badge-secondary badge-sm indicator-item">{{
+        data.length
+      }}</span>
     </div>
-  </dialog>
+  </button>
+
+  <ng-template
+    #overlay="cdkConnectedOverlay"
+    cdkConnectedOverlay
+    cdkConnectedOverlayHasBackdrop
+    cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+    [cdkConnectedOverlayOrigin]="originOverlay"
+    [cdkConnectedOverlayOpen]="isCardOpen() && data.length > 0"
+  >
+    <div class="card w-96 bg-base-200 shadow-xl">
+      <!--TODO: responsive-->
+      <div class="card-body">
+        <div class="card-title justify-between text-accent-content">
+          Your bag({{ data.length }})
+          <span>
+            Total:
+            <span class="text-accent-content">{{ getTotalPrice(data) | currency : 'EUR' }}</span>
+          </span>
+        </div>
+
+        <cdk-virtual-scroll-viewport
+          itemSize="130"
+          class="cdk-virtual-scroll-viewport"
+          minBufferPx="131"
+        >
+          <app-cart-item *cdkVirtualFor="let item of data" [item]="item" />
+        </cdk-virtual-scroll-viewport>
+
+        <div class="card-actions justify-end">
+          <button
+            (click)="overlay.backdropClick.emit()"
+            routerLink="/checkout"
+            class="btn-accent btn"
+          >
+            Checkout Now
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
 </ng-container>
