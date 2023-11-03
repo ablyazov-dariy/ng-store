@@ -1,3 +1,6 @@
+import { A11yModule } from '@angular/cdk/a11y';
+import { CdkMenuModule } from '@angular/cdk/menu';
+import { OverlayModule } from '@angular/cdk/overlay';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { NgOptimizedImage } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -7,13 +10,10 @@ import { MatBadgeModule } from '@angular/material/badge';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatNativeDateModule } from '@angular/material/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
-
-import { MatMenuModule } from '@angular/material/menu';
 
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -22,12 +22,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CartItemComponent } from '@components/cart/cart-item/cart-item.component';
 
 import { PopupCartComponent } from '@components/cart/popup-cart/popup-cart.component';
-import { FooterComponent } from '@components/footer/footer.component';
-import { AccountDropdownComponent } from '@components/nav/account-dropdown/account-dropdown.component';
-import { DrawerTabsComponent } from '@components/nav/drawer/drawer-tabs/drawer-tabs.component';
-import { SearchOpenBtnComponent } from '@components/nav/search-open-btn/search-open-btn.component';
-import { SidenavComponent } from '@components/nav/sidenav/sidenav.component';
-import { ShippingAddComponent } from '@components/shipping-add/shipping-add.component';
+import { AccountDropdownComponent } from '@components/layout/account-dropdown/account-dropdown.component';
+import { DrawerTabsComponent } from '@components/layout/drawer/drawer-tabs/drawer-tabs.component';
+import { FooterComponent } from '@components/layout/footer/footer.component';
+import { NavbarComponent } from '@components/layout/navbar/navbar.component';
+import { SearchOpenBtnComponent } from '@components/layout/search-open-btn/search-open-btn.component';
+import { SidenavComponent } from '@components/layout/sidenav/sidenav.component';
 
 import { SharedModule } from '@shared/shared.module';
 
@@ -43,8 +43,8 @@ import { AppComponent } from './app.component';
     AccountDropdownComponent,
     PopupCartComponent,
     SearchOpenBtnComponent,
-    ShippingAddComponent,
     CartItemComponent,
+    NavbarComponent,
   ],
   imports: [
     HttpClientModule,
@@ -54,19 +54,20 @@ import { AppComponent } from './app.component';
     MatButtonModule,
     SharedModule,
     FormsModule,
+    NgOptimizedImage,
     ReactiveFormsModule,
     MatInputModule,
     MatSidenavModule,
     MatIconModule,
     MatListModule,
     MatTabsModule,
-    MatMenuModule,
     MatGridListModule,
-    NgOptimizedImage,
     MatCardModule,
     ScrollingModule,
     MatBadgeModule,
-    MatNativeDateModule,
+    CdkMenuModule,
+    OverlayModule,
+    A11yModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
