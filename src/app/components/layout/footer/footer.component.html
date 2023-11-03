@@ -1,0 +1,59 @@
+<footer
+  class="full-bleed-inset footer bg-base-200 py-10 text-base-content shadow-full-bleed shadow-base-200"
+>
+  <nav>
+    <header class="footer-title">Services</header>
+    <a class="link-hover link">Branding</a>
+    <a class="link-hover link">Design</a>
+    <a class="link-hover link">Marketing</a>
+    <a class="link-hover link">Advertisement</a>
+  </nav>
+  <nav>
+    <header class="footer-title">Company</header>
+    <a routerLink="about" class="link-hover link">About us</a>
+    <a routerLink="contacts" class="link-hover link">Contact</a>
+    <a class="link-hover link">Jobs</a>
+    <a class="link-hover link">Press kit</a>
+  </nav>
+  <nav>
+    <header class="footer-title">Legal</header>
+    <a class="link-hover link">Terms of use</a>
+    <a class="link-hover link">Privacy policy</a>
+    <a class="link-hover link">Cookie policy</a>
+  </nav>
+  <form [formGroup]="newsletterForm" (ngSubmit)="onSubmit()">
+    <header class="footer-title">Newsletter</header>
+    <fieldset class="form-control w-80">
+      <label class="label">
+        <span class="label-text">Enter your email address</span>
+      </label>
+      <div class="relative">
+        <input
+          formControlName="emailControl"
+          type="email"
+          placeholder="username@site.com"
+          class="input-bordered input w-full pr-16"
+          [ngClass]="{
+            'input-error': newsletterForm.controls.emailControl.errors && newsletterForm.touched,
+            'input-success': newsletterForm.controls.emailControl.valid && newsletterForm.touched
+          }"
+        />
+        <button type="submit" class="btn-primary btn absolute right-0 top-0 rounded-l-none">
+          Subscribe
+        </button>
+      </div>
+      <label
+        *ngIf="newsletterForm.controls.emailControl.errors && newsletterForm.touched"
+        class="label"
+      >
+        <span class="label-text-alt text-error">enter a valid email</span>
+      </label>
+      <label
+        *ngIf="newsletterForm.controls.emailControl.valid && newsletterForm.touched"
+        class="label"
+      >
+        <span class="label-text-alt text-success">successfully subscribed</span>
+      </label>
+    </fieldset>
+  </form>
+</footer>

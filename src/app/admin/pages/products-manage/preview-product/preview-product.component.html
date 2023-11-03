@@ -1,0 +1,22 @@
+<div class="card w-96 bg-base-100 shadow-xl" *ngIf="product">
+  <figure><img [src]="product.imgUrl" /></figure>
+  <div class="card-body">
+    <h2 class="card-title">
+      {{ product.name }}
+
+      <div *ngIf="product.new" class="badge badge-secondary">NEW</div>
+    </h2>
+    <p>Id: {{ product.id }}</p>
+    <p>Image URL: {{ product.imgUrl }}</p>
+    <p>Price: {{ product.price }}</p>
+    <p>Discount: {{ product.discount }}</p>
+    <p>Featured: {{ product.featured }}</p>
+    <p>Collection: {{ product.collection }}</p>
+    <p>Name: {{ product.name }}</p>
+    <p>Description: {{ product.description }}</p>
+    <p>Discount Until: {{ product.discountUntil }}</p>
+    <p>New: {{ product.new }}</p>
+    <p>Colors: {{ product.colors }}</p>
+    <p>Sizes: {{ product.sizes }}</p>
+  </div>
+</div>

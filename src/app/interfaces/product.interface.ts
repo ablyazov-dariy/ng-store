@@ -13,9 +13,8 @@ export interface ProductInterface {
   new?: boolean;
   colors: string[];
   sizes: Size[];
-  reviews: ReviewInterface[];
+  reviews?: ReviewInterface[];
   favorite?: boolean;
 }
 
-type Size = 'S' | 'M' | 'L' | 'XL' | 'XXL';
-// isArrayOfProductInterface
+export type Size = 'S' | 'M' | 'L' | 'XL' | 'XXL';

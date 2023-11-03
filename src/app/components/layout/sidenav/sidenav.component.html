@@ -1,0 +1,39 @@
+<mat-sidenav-container class="h-full text-base-content">
+  <mat-sidenav
+    #drawer
+    *ngIf="isSmall$ | async"
+    class="w-10/12 max-w-sm bg-base-100"
+    fixedInViewport="false"
+    [attr.role]="(isSmall$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isSmall$ | async) ? 'over' : 'side'"
+    [opened]="(isSmall$ | async) === false"
+  >
+    <mat-nav-list>
+      <app-drawer-tabs />
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="app-container bg-base-100">
+      <app-navbar>
+        <button
+          *ngIf="isSmall$ | async; else search"
+          type="button"
+          aria-label="Toggle sidenav"
+          mat-icon-button
+          (click)="drawerToggle()"
+        >
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+      </app-navbar>
+
+      <!-- Add Content Here -->
+      <div class="main">
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<ng-template #search>
+  <app-search-open-btn />
+</ng-template>

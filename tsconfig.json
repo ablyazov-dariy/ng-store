@@ -12,7 +12,8 @@
         "@services/*": ["app/services/*"],
         "@pages/*": ["app/pages/*"],
         "@assets/*": ["assets/*"],
-        "@pipes/*": ["app/shared/pipes/*"]
+        "@pipes/*": ["app/shared/pipes/*"],
+        "@admin/*" : ["app/admin/*"]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
