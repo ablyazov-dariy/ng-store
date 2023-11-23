@@ -1,7 +1,7 @@
 import { ReviewInterface } from '@interfaces/review.interface';
 
 export interface ProductInterface {
-  id: number;
+  id: string;
   imgUrl: string;
   price: number;
   discount?: number;

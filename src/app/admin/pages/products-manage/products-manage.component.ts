@@ -78,7 +78,7 @@ export class ProductsManageComponent implements OnInit {
 
   private createProduct(data: StringProductInterface): ProductInterface {
     return new Product(
-      +data.id,
+      data.id,
       data.name,
       data.imgUrl,
       data.description,

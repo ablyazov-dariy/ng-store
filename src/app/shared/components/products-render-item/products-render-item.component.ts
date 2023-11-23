@@ -9,7 +9,7 @@ import { ProductInterface } from '@interfaces/product.interface';
 export class ProductsRenderItemComponent {
   @Input({ required: true }) product?: ProductInterface;
   @Output() cartProductEvent: EventEmitter<ProductInterface> = new EventEmitter();
-  @Output() likeProductEvent: EventEmitter<{ id: number; like: boolean }> = new EventEmitter();
+  @Output() likeProductEvent: EventEmitter<{ id: string; like: boolean }> = new EventEmitter();
 
   addToCart() {
     this.cartProductEvent.emit(this.product);

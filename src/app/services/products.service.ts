@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { collection, collectionData, Firestore } from '@angular/fire/firestore';
 import { ProductInterface } from '@interfaces/product.interface';
 import { ProductsFilterInterface } from '@interfaces/products-filter.interface';
 import { APIService } from '@services/api.service';
@@ -11,6 +12,13 @@ import { map } from 'rxjs/operators';
 })
 export class ProductsService {
   constructor(private api: APIService, private likeService: LikeService) {}
+  firestore: Firestore = inject(Firestore);
+
+  test() {
+    collectionData(collection(this.firestore, 'products'), { idField: 'id' }).subscribe(
+      console.log
+    );
+  }
   // TODO: create interface for params
   // TODO: convert date string to Date object
   // TODO: pagination or infinite scroll
@@ -46,13 +54,13 @@ export class ProductsService {
             item.name.toLowerCase().includes(filters.searchQuery.toLowerCase())) &&
           (!filters.newOnly || item.new) &&
           (!filters.featured || item.featured) &&
-          (!filters.id || item.id === Number(filters.id))
+          (!filters.id || item.id === filters.id)
       )
       .sort((a, b) => (filters.sortDirection === 'desc' ? b.price - a.price : a.price - b.price))
       .slice(filters.startWith, filters.startWith + filters.limit);
   }
 
-  private mergeFav(prodData: ProductInterface[], likesMap: Map<number, boolean>) {
+  private mergeFav(prodData: ProductInterface[], likesMap: Map<string, boolean>) {
     return prodData.map(product => {
       product.favorite = likesMap.get(product.id);
       return product;

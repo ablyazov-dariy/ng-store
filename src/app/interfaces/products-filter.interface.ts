@@ -1,7 +1,7 @@
 import { SortDirection } from '@angular/material/sort';
 
 export interface ProductsFilterInterface {
-  id: number;
+  id: string;
   searchQuery: string;
   newOnly: boolean;
   sortDirection: SortDirection;
