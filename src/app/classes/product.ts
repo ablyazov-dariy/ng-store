@@ -7,11 +7,10 @@ export class Product implements ProductInterface {
     public imgUrl: string,
     public description: string,
     public price: number,
-    public collection: string,
     public colors: string[],
     public sizes: Size[],
     public featured?: boolean,
     public discount?: number,
-    public discountUntil?: Date
+    public discountUntil?: string
   ) {}
 }

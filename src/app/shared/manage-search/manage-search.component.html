@@ -1,0 +1,51 @@
+<div class="form-control w-full max-w-xs">
+  <div class="join">
+    <div>
+      <div>
+        <input
+          [formControl]="chooseControl"
+          type="text"
+          placeholder="Enter Existing Or New ID"
+          class="input-bordered input join-item"
+          [ngClass]="{
+            'input-error': chooseControl.errors && chooseControl.touched
+          }"
+        />
+      </div>
+    </div>
+    <button
+      [cdkMenuTriggerFor]="menu"
+      [cdkMenuPosition]="[
+        {
+          originX: 'start',
+          originY: 'bottom',
+          overlayX: 'start',
+          overlayY: 'top'
+        }
+      ]"
+      class="select-bordered select no-animation join-item btn capitalize hover:border-neutral hover:bg-base-100 focus:outline-none"
+    >
+      {{ currentRoute | async }}
+    </button>
+    <button class="join-item btn">Search</button>
+  </div>
+  <label class="label">
+    <span *ngIf="chooseControl.invalid && chooseControl.touched" class="label-text-alt text-error">
+      Product with ID {{ chooseControl.valueChanges | async }} does not exist.
+    </span>
+  </label>
+</div>
+
+<ng-template #menu>
+  <ul class="menu rounded-box w-56 bg-base-200" cdkMenu>
+    <li cdkMenuItem>
+      <a routerLink="form">Form</a>
+    </li>
+    <li cdkMenuItem>
+      <a routerLink="card">Card</a>
+    </li>
+    <li cdkMenuItem>
+      <a routerLink="preview">Preview</a>
+    </li>
+  </ul>
+</ng-template>

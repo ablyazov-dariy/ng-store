@@ -1,48 +1,42 @@
-import { inject, Injectable } from '@angular/core';
-import { collection, collectionData, Firestore } from '@angular/fire/firestore';
+import { Injectable } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ProductInterface } from '@interfaces/product.interface';
 import { ProductsFilterInterface } from '@interfaces/products-filter.interface';
-import { APIService } from '@services/api.service';
 import { LikeService } from '@services/like.service';
-import { combineLatest, Observable, scan } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { combineLatestWith, iif, map, Observable, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService {
-  constructor(private api: APIService, private likeService: LikeService) {}
-  firestore: Firestore = inject(Firestore);
+  private cash: ProductInterface[] = [];
 
-  test() {
-    collectionData(collection(this.firestore, 'products'), { idField: 'id' }).subscribe(
-      console.log
-    );
-  }
-  // TODO: create interface for params
+  constructor(private likeService: LikeService, protected angularFirestore: AngularFirestore) {}
+
   // TODO: convert date string to Date object
-  // TODO: pagination or infinite scroll
   getProductsObservable(params: { [key: string]: any }): Observable<ProductInterface[]> {
     const options: ProductsFilterInterface = {
-      id: params['id'] ?? undefined,
-      searchQuery: params['searchQuery'] ?? '',
+      id: params['id'],
+      searchQuery: params['searchQuery'],
       sortDirection: params['sortDirection'] ?? 'asc',
       startWith: params['startWith'] ?? 0,
       limit: params['limit'] ?? 12,
-      // js moment string "false" is true (not empty string) 🤦‍♂️🤦‍♂️🤦‍♂️
       newOnly: params['newOnly'] == 'true' ?? false,
       featured: params['featured'] == 'true' ?? false,
       favorite: params['favorite'] == 'true' ?? false,
     };
-    const url = 'assets/data.json';
-    const apiProductsData$ = this.api.get(url).pipe(
-      map(data => data as ProductInterface[]),
-      scan((acc, value) => [...acc, ...value]),
-      map(arr => this.filter(arr, options))
-    );
-    return combineLatest([apiProductsData$, this.likeService.likesMap$]).pipe(
+    return this.getData(options);
+  }
+
+  private getData(options: ProductsFilterInterface): Observable<ProductInterface[]> {
+    return iif(
+      () => this.filter(this.cash, options).length > 0,
+      this.getDataFromCash(),
+      this.getDataFromFirebase(options)
+    ).pipe(
+      combineLatestWith(this.likeService.likesMap$),
       map(([productsData, likesData]) => this.mergeFav(productsData, likesData)),
-      map(data => (params['favorite'] ? data.filter(item => item.favorite) : data))
+      map(arr => this.filter(arr, options))
     );
   }
 
@@ -53,6 +47,7 @@ export class ProductsService {
           (!filters.searchQuery ||
             item.name.toLowerCase().includes(filters.searchQuery.toLowerCase())) &&
           (!filters.newOnly || item.new) &&
+          (!filters.favorite || item.favorite) &&
           (!filters.featured || item.featured) &&
           (!filters.id || item.id === filters.id)
       )
@@ -65,5 +60,28 @@ export class ProductsService {
       product.favorite = likesMap.get(product.id);
       return product;
     });
+  }
+
+  private setCash(data: ProductInterface[]) {
+    this.cash = this.cash.concat(data).reduce((acc, curr) => {
+      !acc.some(el => el.id === curr.id) ? acc.push(curr) : null;
+      return acc;
+    }, [] as ProductInterface[]);
+  }
+
+  private getDataFromCash() {
+    return of(this.cash).pipe(tap(_ => console.log('data from CASH')));
+  }
+
+  private getDataFromFirebase(options: ProductsFilterInterface): Observable<ProductInterface[]> {
+    return this.angularFirestore
+      .collection<ProductInterface>('products', ref =>
+        ref.limit(options.limit).orderBy('price', options.sortDirection as any)
+      )
+      .valueChanges({ idField: 'id' })
+      .pipe(
+        tap(_ => console.log('data from Firebase')),
+        tap(data => this.setCash(data))
+      );
   }
 }

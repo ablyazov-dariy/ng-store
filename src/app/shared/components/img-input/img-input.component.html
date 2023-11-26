@@ -1,0 +1,24 @@
+<div class="form-control">
+  <label class="label">
+    <span class="label-text">Product Image</span>
+  </label>
+  <input
+    [disabled]="disabled"
+    #input
+    accept="image/*"
+    (change)="onFileChange(input)"
+    (blur)="onInputTouched()"
+    type="file"
+    class="file-input-bordered file-input"
+  />
+  <label class="label">
+    <ng-content select="label-text-alt"></ng-content>
+    <span
+      *ngIf="uploadState"
+      class="label-text-alt"
+      [ngClass]="uploadState === 'success' ? 'text-success' : 'text-error'"
+      >{{ uploadState }}</span
+    >
+  </label>
+</div>
+<!--<progress class="progress-primary progress w-56" value="45" max="100"></progress>-->

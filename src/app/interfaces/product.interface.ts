@@ -6,10 +6,9 @@ export interface ProductInterface {
   price: number;
   discount?: number;
   featured?: boolean;
-  collection: string;
   name: string;
   description: string;
-  discountUntil?: Date;
+  discountUntil?: string;
   new?: boolean;
   colors: string[];
   sizes: Size[];
