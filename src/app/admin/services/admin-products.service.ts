@@ -11,19 +11,24 @@ export class AdminProductsService extends ProductsService {
     super(likeService, angularFirestore);
   }
 
-  createNewProduct(product: ProductInterface) {
-    return from(this.angularFirestore.collection<ProductInterface>('products').add({ ...product }));
+  products$ = this.getProductsObservable({ limit: 99 });
+
+  createNewProduct(product: Omit<ProductInterface, 'id'>) {
+    return from(
+      this.angularFirestore.collection<Omit<ProductInterface, 'id'>>('products').add({ ...product })
+    );
   }
 
-  updateProduct(product: ProductInterface) {
-    return this.angularFirestore
-      .collection<ProductInterface>('products')
-      .doc(product.id)
-      .update({ ...product });
-  }
-  deleteProduct(product: ProductInterface) {
+  updateProduct(id: string, product: Omit<ProductInterface, 'id'>) {
     return from(
-      this.angularFirestore.collection<ProductInterface>('products').doc(product.id).delete()
+      this.angularFirestore
+        .collection<ProductInterface>('products')
+        .doc(id)
+        .update({ ...product })
     );
+  }
+
+  deleteProduct(id: string) {
+    return from(this.angularFirestore.collection<ProductInterface>('products').doc(id).delete());
   }
 }

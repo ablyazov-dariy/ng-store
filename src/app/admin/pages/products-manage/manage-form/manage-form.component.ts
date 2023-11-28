@@ -17,4 +17,8 @@ export class ManageFormComponent {
   get form() {
     return this.manageService.form();
   }
+  debounceRace() {
+    // TODO
+    return this.manageService.debounceTrigger.next(true);
+  }
 }

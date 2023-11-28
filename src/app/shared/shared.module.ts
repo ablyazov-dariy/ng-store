@@ -11,7 +11,7 @@ import { CharacterLimitPipe } from '@pipes/character-limit.pipe';
 
 import { ProductsRenderContainerComponent } from '@shared/components/products-render-container/products-render-container.component';
 import { ProductsRenderItemComponent } from '@shared/components/products-render-item/products-render-item.component';
-import { ManageSearchComponent } from '@shared/manage-search/manage-search.component';
+
 import { DiscountCalculatorPipe } from '@shared/pipes/discount-calculator.pipe';
 import { CartIconComponent } from './components/cart-icon/cart-icon.component';
 
@@ -26,7 +26,6 @@ import { ImgInputComponent } from './components/img-input/img-input.component';
     CharacterLimitPipe,
     DuiInputComponent,
     CartIconComponent,
-    ManageSearchComponent,
     ImgInputComponent,
   ],
   imports: [
@@ -48,7 +47,6 @@ import { ImgInputComponent } from './components/img-input/img-input.component';
     ProductsRenderItemComponent,
     DuiInputComponent,
     CartIconComponent,
-    ManageSearchComponent,
     ImgInputComponent,
   ],
 })

@@ -1,14 +1,14 @@
-<div class="form-control w-full max-w-xs">
-  <div class="join">
+<div class="form-control w-96">
+  <div cdkOverlayOrigin #originOverlay="cdkOverlayOrigin" class="join">
     <div>
       <div>
         <input
           [formControl]="chooseControl"
           type="text"
-          placeholder="Enter Existing Or New ID"
+          placeholder="Search ID to Edit"
           class="input-bordered input join-item"
           [ngClass]="{
-            'input-error': chooseControl.errors && chooseControl.touched
+            'input-error': chooseControl.errors && chooseControl.touched,
           }"
         />
       </div>
@@ -27,7 +27,16 @@
     >
       {{ currentRoute | async }}
     </button>
-    <button class="join-item btn">Search</button>
+    <button
+      class="join-item btn w-32"
+      [ngClass]="{
+        'btn-error': state() === 'delete',
+        'btn-secondary': state() === 'create'
+      }"
+      (click)="clicksEvents.emit(state())"
+    >
+      {{ state() }}
+    </button>
   </div>
   <label class="label">
     <span *ngIf="chooseControl.invalid && chooseControl.touched" class="label-text-alt text-error">
@@ -46,6 +55,20 @@
     </li>
     <li cdkMenuItem>
       <a routerLink="preview">Preview</a>
+    </li>
+  </ul>
+</ng-template>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="originOverlay"
+  [cdkConnectedOverlayOpen]="!!autocomplete()"
+>
+  <!--  -->
+
+  <ul class="menu rounded-box w-96 bg-base-200 empty:hidden" (click)="onAutocompleteClick($event)">
+    <li *ngFor="let option of autocomplete()">
+      <span [attr.data-my-id]="option.id">{{ option.name }}</span>
     </li>
   </ul>
 </ng-template>

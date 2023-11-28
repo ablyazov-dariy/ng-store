@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ProductInterface } from '@interfaces/product.interface';
 import { ProductsFilterInterface } from '@interfaces/products-filter.interface';
 import { LikeService } from '@services/like.service';
-import { combineLatestWith, iif, map, Observable, of, tap } from 'rxjs';
+import { combineLatestWith, iif, map, Observable, of, share, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +20,7 @@ export class ProductsService {
       searchQuery: params['searchQuery'],
       sortDirection: params['sortDirection'] ?? 'asc',
       startWith: params['startWith'] ?? 0,
-      limit: params['limit'] ?? 12,
+      limit: params['limit'] ?? 8,
       newOnly: params['newOnly'] == 'true' ?? false,
       featured: params['featured'] == 'true' ?? false,
       favorite: params['favorite'] == 'true' ?? false,
@@ -30,13 +30,14 @@ export class ProductsService {
 
   private getData(options: ProductsFilterInterface): Observable<ProductInterface[]> {
     return iif(
-      () => this.filter(this.cash, options).length > 0,
+      () => this.filter(this.cash, options).length > options.limit,
       this.getDataFromCash(),
       this.getDataFromFirebase(options)
     ).pipe(
       combineLatestWith(this.likeService.likesMap$),
       map(([productsData, likesData]) => this.mergeFav(productsData, likesData)),
-      map(arr => this.filter(arr, options))
+      map(arr => this.filter(arr, options)),
+      share()
     );
   }
 

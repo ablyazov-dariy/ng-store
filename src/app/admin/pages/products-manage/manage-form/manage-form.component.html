@@ -5,14 +5,19 @@
       <div *ngIf="form.value.new" class="badge badge-secondary">NEW</div>
     </span>
 
-    <label class="label cursor-pointer">
-      <span class="label-text">Featured: </span>
-      <input formControlName="featured" type="checkbox" class="toggle-accent toggle" />
-    </label>
-
-    <app-img-input formControlName="imgUrl" />
-
     <div class="grid grid-cols-2 gap-4">
+      <label class="label cursor-pointer">
+        <span class="label-text">Featured: </span>
+        <input formControlName="featured" type="checkbox" class="toggle-accent toggle" />
+      </label>
+      <label class="label cursor-pointer">
+        <span class="label-text">new: </span>
+        <input formControlName="new" type="checkbox" class="toggle-accent toggle" />
+      </label>
+      <app-img-input formControlName="imgUrl" />
+      <button [disabled]="form.invalid" (click)="debounceRace()" class="btn-accent btn-active btn">
+        Accent
+      </button>
       <app-dui-input>
         <span class="label-text">Product Name</span>
         <input

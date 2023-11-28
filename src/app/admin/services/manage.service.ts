@@ -1,47 +1,73 @@
 import { AdminProductsService } from '@admin/services/admin-products.service';
-import { DestroyRef, Injectable, signal } from '@angular/core';
+
+import { Injectable, signal } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Product } from '@app/classes/product';
 import { ProductInterface, Size } from '@interfaces/product.interface';
 import { ProductForm } from '@interfaces/ProductForm.type';
 import { StringProductInterface } from '@interfaces/string-product.interface';
-import { debounceTime, distinctUntilChanged, filter, switchMap, tap } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {
+  debounce,
+  filter,
+  map,
+  Observable,
+  of,
+  raceWith,
+  Subject,
+  switchMap,
+  tap,
+  timer,
+} from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ManageService {
+  public debounceTrigger = new Subject();
   public form = signal<ProductForm | undefined>(undefined);
-  public chooseControl = new FormControl('', [Validators.required, Validators.pattern(/^NEW$/)]);
+  public chooseControl = new FormControl('', [], []);
 
-  constructor(
-    private fb: FormBuilder,
-    private adminProductsService: AdminProductsService,
-    private destroyRef: DestroyRef
-  ) {}
+  constructor(private fb: FormBuilder, private adminProductsService: AdminProductsService) {}
 
-  test = this.chooseControl.valueChanges
-    .pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      filter(() => this.chooseControl.valid),
-      switchMap(str => this.adminProductsService.getProductsObservable({})),
-      map(prod => this.createForm(prod[0])),
+  public createNewProduct() {
+    return of(null).pipe(
+      map(() => this.createForm()),
       tap(form => this.form.set(form)),
-      switchMap(form => form.valueChanges)
-    )
-    .subscribe(console.log);
+      switchMap(form => form.valueChanges),
+      filter(() => this.form()?.valid ?? false),
+      debounce(() => this.debounce()),
+      map(data => this.productFromForm(data as Partial<StringProductInterface>)),
+      switchMap(product => this.adminProductsService.createNewProduct(product)),
+      map(res => res.id),
+      tap(id => this.form.set(undefined))
+    );
+  }
 
-  createForm(product?: ProductInterface): ProductForm {
+  public editProduct(id: string) {
+    return this.adminProductsService.getProductsObservable({ id: id, limit: 99 }).pipe(
+      map(data => this.createForm(data.at(0))),
+      tap(form => this.form.set(form)),
+      switchMap(form => form.valueChanges),
+      filter(() => this.form()?.valid ?? false),
+      debounce(() => this.debounce()),
+      map(data => this.productFromForm(data as Partial<StringProductInterface>)),
+      switchMap(data => this.adminProductsService.updateProduct(id, data)),
+      tap(id => this.form.set(undefined))
+    );
+  }
+
+  public deleteProduct(id: string) {
+    return this.adminProductsService.deleteProduct(id).pipe(tap(id => this.form.set(undefined)));
+  }
+
+  private createForm(product?: ProductInterface): ProductForm {
     return this.fb.group({
       new: [product?.new ?? true, []],
       name: [product?.name ?? '', [Validators.required]],
       imgUrl: [product?.imgUrl ?? '', [Validators.required]],
       price: [
-        product?.price ?? 0,
+        product?.price ?? null,
         [Validators.required, Validators.min(0), Validators.pattern(/^\d+(?:\.\d+)?$/)],
       ],
       discount: [
-        product?.discount ?? 0,
+        product?.discount ?? null,
         [Validators.min(0), Validators.max(100), Validators.pattern(/^\d+$/)],
       ],
       featured: [product?.featured ?? false, [Validators.pattern(/^(true|false)$/)]],
@@ -62,67 +88,22 @@ export class ManageService {
     });
   }
 
-  private createProduct(data: StringProductInterface): ProductInterface {
-    return new Product(
-      data.id,
-      data.name,
-      data.imgUrl,
-      data.description,
-      +data.price,
-      data.colors.split(','),
-      data.sizes.split(',') as Size[],
-      !!data.featured,
-      data.discount ? +data.discount : 0,
-      data.discountUntil ?? ''
-    );
+  private productFromForm(data: Partial<StringProductInterface>): Omit<ProductInterface, 'id'> {
+    // TODO create class
+    return {
+      name: data.name ?? 'name not provided',
+      imgUrl: data.imgUrl ?? 'url not provided',
+      description: data.description ?? 'url not provided',
+      discount: data.discount ? +data.discount : 0,
+      featured: data.featured == 'true' ?? false,
+      new: data.new == 'true' ?? false,
+      price: data.price ? +data.price : 0,
+      colors: data.colors ? data.colors.split(',') : [],
+      sizes: data.sizes ? (data.sizes.split(',') as Size[]) : [],
+    };
   }
 
-  // productManageForm(prodId?: string): Observable<ProductForm> {
-  //   return iif(
-  //     () => !prodId,
-  //     of(undefined),
-  //     this.adminProductsService.getProductsObservable({ id: prodId, limit: 1 })
-  //   ).pipe(
-  //     map(data => {
-  //       const prod = data?.at(0);
-  //       return this.createForm();
-  //     })
-  //   );
-  // }
-  //
-  // saveChange(product: ProductInterface) {
-  //   return iif(
-  //     () => !product.new,
-  //     this.adminProductsService.updateProduct(product),
-  //     this.adminProductsService.createNewProduct(product)
-  //   ).pipe(catchError(error => of(error.message)));
-  // }
-  //
-  // private httpRes = toSignal(this.handelChooseInput$());
-  //
-  // private resEffect = effect(() => {
-  //   if (!this.httpRes()) return;
-  //   alert(this.httpRes());
-  // });
-  //
-  // private handelChooseInput$() {
-  //   return this.chooseControl.valueChanges.pipe(
-  //     filter(value => !!value),
-  //     map((value: string | null) => value || undefined),
-  //     switchMap(value => this.manageService.productManageForm(value)),
-  //     shareReplay(2),
-  //     tap(form => this.formSig.set(form)),
-  //     mergeMap(form => form.valueChanges),
-  //     filter(form => !!this.formSig()?.valid),
-  //     map(data => this.createProduct(data)),
-  //     debounce(() => this.debounce()),
-  //     tap(console.log),
-  //     switchMap(data => this.manageService.saveChange(data))
-  //   );
-  // }
-  //
-  // private debounce(): Observable<unknown> {
-  //   return timer(1000);
-  //   // .pipe(raceWith(of()));
-  // }
+  private debounce(): Observable<unknown> {
+    return timer(10000).pipe(raceWith(this.debounceTrigger));
+  }
 }
