@@ -9,9 +9,10 @@ import { SharedModule } from '@shared/shared.module';
 import { ShopRoutingModule } from './shop-routing.module';
 import { ShopComponent } from './shop.component';
 import { ViewControllerComponent } from './view-controller/view-controller.component';
+import { PaginationComponent } from './pagination/pagination.component';
 
 @NgModule({
-  declarations: [ShopComponent, ViewControllerComponent],
+  declarations: [ShopComponent, ViewControllerComponent, PaginationComponent],
   imports: [
     CommonModule,
     ShopRoutingModule,

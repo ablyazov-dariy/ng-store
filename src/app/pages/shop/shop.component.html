@@ -1,3 +1,7 @@
 <app-view-controller />
 
 <app-products-render-container [products]="(products$ | async)!" [cols]="gridSize()" />
+
+<div class="my-8 flex justify-center">
+  <app-pagination />
+</div>

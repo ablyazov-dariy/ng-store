@@ -25,7 +25,7 @@ export class ProductsManageComponent implements OnInit {
   ngOnInit(): void {
     merge(this.create$(), this.delete$(), this.edit$())
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(console.log);
+      .subscribe(() => this.manageService.chooseControl.patchValue(''));
   }
 
   create$() {

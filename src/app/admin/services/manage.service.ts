@@ -1,10 +1,9 @@
-import { AdminProductsService } from '@admin/services/admin-products.service';
-
 import { Injectable, signal } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ProductInterface, Size } from '@interfaces/product.interface';
 import { ProductForm } from '@interfaces/ProductForm.type';
 import { StringProductInterface } from '@interfaces/string-product.interface';
+import { ProductsService } from '@services/products.service';
 import {
   debounce,
   filter,
@@ -24,7 +23,7 @@ export class ManageService {
   public form = signal<ProductForm | undefined>(undefined);
   public chooseControl = new FormControl('', [], []);
 
-  constructor(private fb: FormBuilder, private adminProductsService: AdminProductsService) {}
+  constructor(private fb: FormBuilder, private productsService: ProductsService) {}
 
   public createNewProduct() {
     return of(null).pipe(
@@ -34,27 +33,28 @@ export class ManageService {
       filter(() => this.form()?.valid ?? false),
       debounce(() => this.debounce()),
       map(data => this.productFromForm(data as Partial<StringProductInterface>)),
-      switchMap(product => this.adminProductsService.createNewProduct(product)),
+      switchMap(product => this.productsService.createNewProduct(product)),
       map(res => res.id),
       tap(id => this.form.set(undefined))
     );
   }
 
   public editProduct(id: string) {
-    return this.adminProductsService.getProductsObservable({ id: id, limit: 99 }).pipe(
-      map(data => this.createForm(data.at(0))),
+    return this.productsService.getProductById$(id).pipe(
+      filter(data => data.exists),
+      map(data => this.createForm(data.data())),
       tap(form => this.form.set(form)),
       switchMap(form => form.valueChanges),
       filter(() => this.form()?.valid ?? false),
       debounce(() => this.debounce()),
       map(data => this.productFromForm(data as Partial<StringProductInterface>)),
-      switchMap(data => this.adminProductsService.updateProduct(id, data)),
+      switchMap(data => this.productsService.updateProduct(id, data)),
       tap(id => this.form.set(undefined))
     );
   }
 
   public deleteProduct(id: string) {
-    return this.adminProductsService.deleteProduct(id).pipe(tap(id => this.form.set(undefined)));
+    return this.productsService.deleteProduct(id).pipe(tap(id => this.form.set(undefined)));
   }
 
   private createForm(product?: ProductInterface): ProductForm {

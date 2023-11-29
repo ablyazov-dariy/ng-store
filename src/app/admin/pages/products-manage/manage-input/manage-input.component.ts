@@ -1,4 +1,3 @@
-import { AdminProductsService } from '@admin/services/admin-products.service';
 import { ManageService } from '@admin/services/manage.service';
 import { A11yModule, FocusMonitor } from '@angular/cdk/a11y';
 import { CdkMenu, CdkMenuModule } from '@angular/cdk/menu';
@@ -8,7 +7,20 @@ import { Component, DestroyRef, EventEmitter, OnInit, Output } from '@angular/co
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { combineLatestWith, debounce, filter, map, merge, Observable, startWith } from 'rxjs';
+import { ProductsService } from '@services/products.service';
+import {
+  debounce,
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  merge,
+  mergeMap,
+  Observable,
+  share,
+  startWith,
+  switchMap,
+} from 'rxjs';
 
 @Component({
   selector: 'app-manage-input',
@@ -33,7 +45,7 @@ export class ManageInputComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private manageService: ManageService,
-    private adminProductsService: AdminProductsService,
+    private productsService: ProductsService,
     private focusMonitor: FocusMonitor,
     private destroyRef: DestroyRef
   ) {}
@@ -51,14 +63,29 @@ export class ManageInputComponent implements OnInit {
   }
 
   mergedState$(): Observable<string> {
-    return merge(this.setCreateState$(), this.setEditSearchState$(), this.setDeleteState$());
+    return merge(
+      this.setCreateState$(),
+      this.setSearchState$(),
+      this.setDeleteState$(),
+      this.setEditState$()
+    );
   }
 
-  setEditSearchState$() {
-    return this.adminProductsService.products$.pipe(
-      combineLatestWith(this.chooseControl.valueChanges),
-      filter(([data, value]) => !!value),
-      map(([data, value]) => (data.some(item => item.id === value) ? 'edit' : 'search'))
+  setEditState$() {
+    return this.chooseControl.valueChanges.pipe(
+      filter(value => !!value),
+      debounceTime(400),
+      distinctUntilChanged(),
+      switchMap(value => this.productsService.getProductById$(value!)),
+      filter(value => value.exists),
+      map(() => 'edit')
+    );
+  }
+  setSearchState$() {
+    return this.chooseControl.valueChanges.pipe(
+      filter(value => !!value),
+      map(() => 'search'),
+      share()
     );
   }
 
@@ -71,26 +98,21 @@ export class ManageInputComponent implements OnInit {
   }
 
   setDeleteState$() {
-    return this.chooseControl.valueChanges.pipe(
-      filter(() => this.state() === 'edit'),
+    return this.setEditState$().pipe(
       debounce(() => this.clicksEvents),
       map(() => 'delete')
     );
   }
 
   private autocomplete$(): Observable<{ id: string; name: string }[]> {
-    return this.adminProductsService.products$.pipe(
-      combineLatestWith(this.chooseControl.valueChanges),
-      map(([data, query]) =>
+    return this.chooseControl.valueChanges.pipe(
+      distinctUntilChanged(),
+      debounceTime(200),
+      mergeMap(value => this.productsService.getProducts$({ searchQuery: value })),
+      map(data =>
         data
           .map(item => ({ id: item.id, name: item.name }))
-          .filter(
-            item =>
-              (item.name.toLowerCase().includes(query?.toLowerCase() ?? '') ||
-                item.id.startsWith(query ?? '')) &&
-              query !== '' &&
-              item.id !== query
-          )
+          .filter(item => this.chooseControl.value !== '' && item.id !== this.chooseControl.value)
           .slice(0, 4)
       )
     );

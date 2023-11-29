@@ -9,4 +9,5 @@ export interface ProductsFilterInterface {
   limit: number;
   favorite: boolean;
   featured: boolean;
+  noCash: boolean;
 }

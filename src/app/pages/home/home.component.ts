@@ -1,20 +1,19 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { CollectionInterface } from '@interfaces/collection.interface';
 import { ProductInterface } from '@interfaces/product.interface';
 import { ProductsService } from '@services/products.service';
 
-import { Observable, of, Subject } from 'rxjs';
-import { switchMap, takeUntil } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnDestroy {
-  private destroy$: Subject<boolean> = new Subject();
+export class HomeComponent {
   public products$: Observable<ProductInterface[]> = this.productsData();
   // // TODO: get collections from server
+  // this will be removed
   collections: CollectionInterface[] = [
     {
       name: 'Best Sellers',
@@ -31,17 +30,9 @@ export class HomeComponent implements OnDestroy {
   constructor(private productsService: ProductsService) {}
 
   private productsData(): Observable<ProductInterface[]> {
-    return of({
+    return this.productsService.getProducts$({
       limit: 4,
       newOnly: true,
-    }).pipe(
-      takeUntil(this.destroy$),
-      switchMap(params => this.productsService.getProductsObservable(params))
-    );
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.complete();
+    });
   }
 }
