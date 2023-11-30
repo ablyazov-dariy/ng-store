@@ -29,7 +29,7 @@ export class ProductsService {
       favorite: params['favorite'] == 'true',
       noCash: params['noCash'] == 'true',
     };
-    return this.getData(options).pipe(tap(console.log));
+    return this.getData(options);
   }
 
   private getData(options: ProductsFilterInterface): Observable<ProductInterface[]> {
