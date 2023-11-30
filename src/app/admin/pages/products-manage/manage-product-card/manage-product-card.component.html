@@ -1,1 +1,20 @@
-<p>manage-product-card works!</p>
+<div class="card w-96 bg-base-100 shadow-xl">
+  <figure><img [src]="product?.imgUrl" alt="not provided" /></figure>
+  <div class="card-body">
+    <h2 class="card-title">
+      {{ product?.name }}
+      <div *ngIf="product?.new" class="badge badge-secondary">NEW</div>
+    </h2>
+    <p>{{ product?.description ?? 'not provided' | characterLimit : 30 }}</p>
+    <div class="card-actions justify-end">
+      <span class="text-gray-500" [ngClass]="product?.discount ? 'line-through' : ''">{{
+        product?.price | currency : 'EUR' : 'symbol' : '1.0-2'
+      }}</span>
+      <span class="text-red" *ngIf="product?.discount && (product?.discount ?? 0 !== 0)">{{
+        product?.price ?? 0
+          | discountCalculator : product?.discount ?? 0
+          | currency : 'EUR' : 'symbol' : '1.0-2'
+      }}</span>
+    </div>
+  </div>
+</div>
