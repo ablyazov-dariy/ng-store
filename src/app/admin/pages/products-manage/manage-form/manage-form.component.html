@@ -1,23 +1,18 @@
-<ng-container *ngIf="form as form">
-  <form [formGroup]="form" class="">
-    <span class="card-title text-accent-content">
-      <!--      Product ID: {{ form.value.id }}-->
-      <div *ngIf="form.value.new" class="badge badge-secondary">NEW</div>
-    </span>
-
+<ng-container *ngIf="form">
+  <form [formGroup]="form">
     <div class="grid grid-cols-2 gap-4">
-      <label class="label cursor-pointer">
-        <span class="label-text">Featured: </span>
-        <input formControlName="featured" type="checkbox" class="toggle-accent toggle" />
-      </label>
-      <label class="label cursor-pointer">
-        <span class="label-text">new: </span>
-        <input formControlName="new" type="checkbox" class="toggle-accent toggle" />
-      </label>
+      <div class="flex justify-between">
+        <label class="label flex cursor-pointer gap-4">
+          <span class="label-text">Featured: </span>
+          <input formControlName="featured" type="checkbox" class="toggle-accent toggle" />
+        </label>
+        <label class="label flex cursor-pointer gap-4">
+          <span class="label-text">new: </span>
+          <input formControlName="new" type="checkbox" class="toggle-accent toggle" />
+        </label>
+      </div>
       <app-img-input formControlName="imgUrl" />
-      <button [disabled]="form.invalid" (click)="debounceRace()" class="btn-accent btn-active btn">
-        Accent
-      </button>
+
       <app-dui-input>
         <span class="label-text">Product Name</span>
         <input
@@ -26,10 +21,13 @@
           placeholder="name"
           class="input-bordered input w-full pr-16 text-neutral-content"
           [ngClass]="{
-            'input-error': form.controls.name.errors && form.touched
+            'input-error': form.controls.name.errors && form.controls.name.touched
           }"
         />
-        <span *ngIf="form.controls.name.errors && form.touched" class="label-text-alt">
+        <span
+          *ngIf="form.controls.name.errors && form.controls.name.touched"
+          class="label-text-alt"
+        >
           enter valid name
         </span>
       </app-dui-input>
@@ -58,10 +56,13 @@
           placeholder="discount"
           class="input-bordered input w-full pr-16 text-neutral-content"
           [ngClass]="{
-            'input-error': form.controls.discount.errors && form.touched
+            'input-error': form.controls.discount.errors && form.controls.discount.touched
           }"
         />
-        <span *ngIf="form.controls.discount.errors && form.touched" class="label-text-alt">
+        <span
+          *ngIf="form.controls.discount.errors && form.controls.discount.touched"
+          class="label-text-alt"
+        >
           enter integer from 0 to 100
         </span>
       </app-dui-input>
@@ -74,10 +75,13 @@
           type="date"
           class="input-bordered input w-full pr-16 text-neutral-content"
           [ngClass]="{
-            'input-error': form.controls.discountUntil.errors && form.touched
+            'input-error': form.controls.discountUntil.errors && form.controls.discountUntil.touched
           }"
         />
-        <span *ngIf="form.controls.discountUntil.errors && form.touched" class="label-text-alt">
+        <span
+          *ngIf="form.controls.discountUntil.errors && form.controls.discountUntil.touched"
+          class="label-text-alt"
+        >
           enter valid date
         </span>
       </app-dui-input>
@@ -90,10 +94,13 @@
           placeholder="Your Colors"
           class="input-bordered input w-full pr-16 text-neutral-content"
           [ngClass]="{
-            'input-error': form.controls.colors.errors && form.touched
+            'input-error': form.controls.colors.errors && form.controls.colors.touched
           }"
         />
-        <span *ngIf="form.controls.colors.errors && form.touched" class="label-text-alt">
+        <span
+          *ngIf="form.controls.colors.errors && form.controls.colors.touched"
+          class="label-text-alt"
+        >
           enter comma separated colors
         </span>
       </app-dui-input>
@@ -106,10 +113,13 @@
           placeholder="Your Sizes"
           class="input-bordered input w-full pr-16 text-neutral-content"
           [ngClass]="{
-            'input-error': form.controls.sizes.errors && form.touched
+            'input-error': form.controls.sizes.errors && form.controls.sizes.touched
           }"
         />
-        <span *ngIf="form.controls.sizes.errors && form.touched" class="label-text-alt">
+        <span
+          *ngIf="form.controls.sizes.errors && form.controls.sizes.touched"
+          class="label-text-alt"
+        >
           enter comma separated sizes
         </span>
       </app-dui-input>
@@ -123,12 +133,23 @@
         formControlName="description"
         class="textarea-bordered textarea h-24 w-full pr-16 text-neutral-content"
         [ngClass]="{
-          'input-error': form.controls.description.errors && form.touched
+          'input-error': form.controls.description.errors && form.controls.description.touched
         }"
       ></textarea>
-      <span *ngIf="form.controls.description.errors && form.touched" class="label-text-alt">
+      <span
+        *ngIf="form.controls.description.errors && form.controls.description.touched"
+        class="label-text-alt"
+      >
         enter valid description
       </span>
+    </div>
+
+    <div class="mt-4 grid grid-cols-2 gap-4">
+      <button (click)="form.reset()" class="btn-active btn">Clear</button>
+
+      <button [disabled]="form.invalid" (click)="debounceRace()" class="btn-accent btn-active btn">
+        Save
+      </button>
     </div>
   </form>
 </ng-container>
