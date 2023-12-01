@@ -1,0 +1,155 @@
+<ng-container *ngIf="form">
+  <form [formGroup]="form">
+    <div class="grid grid-cols-2 gap-4">
+      <div class="flex justify-between">
+        <label class="label flex cursor-pointer gap-4">
+          <span class="label-text">Featured: </span>
+          <input formControlName="featured" type="checkbox" class="toggle-accent toggle" />
+        </label>
+        <label class="label flex cursor-pointer gap-4">
+          <span class="label-text">new: </span>
+          <input formControlName="new" type="checkbox" class="toggle-accent toggle" />
+        </label>
+      </div>
+      <app-img-input formControlName="imgUrl" />
+
+      <app-dui-input>
+        <span class="label-text">Product Name</span>
+        <input
+          formControlName="name"
+          type="text"
+          placeholder="name"
+          class="input-bordered input w-full pr-16 text-neutral-content"
+          [ngClass]="{
+            'input-error': form.controls.name.errors && form.controls.name.touched
+          }"
+        />
+        <span
+          *ngIf="form.controls.name.errors && form.controls.name.touched"
+          class="label-text-alt"
+        >
+          enter valid name
+        </span>
+      </app-dui-input>
+
+      <app-dui-input>
+        <span class="label-text">Product Price</span>
+        <input
+          formControlName="price"
+          type="text"
+          placeholder="price"
+          class="input-bordered input w-full pr-16 text-neutral-content"
+          [ngClass]="{
+            'input-error': form.controls.price.errors && form.touched
+          }"
+        />
+        <span *ngIf="form.controls.price.errors && form.touched" class="label-text-alt">
+          enter valid price
+        </span>
+      </app-dui-input>
+
+      <app-dui-input>
+        <span class="label-text">Discount</span>
+        <input
+          formControlName="discount"
+          type="text"
+          placeholder="discount"
+          class="input-bordered input w-full pr-16 text-neutral-content"
+          [ngClass]="{
+            'input-error': form.controls.discount.errors && form.controls.discount.touched
+          }"
+        />
+        <span
+          *ngIf="form.controls.discount.errors && form.controls.discount.touched"
+          class="label-text-alt"
+        >
+          enter integer from 0 to 100
+        </span>
+      </app-dui-input>
+
+      <app-dui-input>
+        <!--      todo: date pick-->
+        <span class="label-text">Discount Until</span>
+        <input
+          formControlName="discountUntil"
+          type="date"
+          class="input-bordered input w-full pr-16 text-neutral-content"
+          [ngClass]="{
+            'input-error': form.controls.discountUntil.errors && form.controls.discountUntil.touched
+          }"
+        />
+        <span
+          *ngIf="form.controls.discountUntil.errors && form.controls.discountUntil.touched"
+          class="label-text-alt"
+        >
+          enter valid date
+        </span>
+      </app-dui-input>
+
+      <app-dui-input>
+        <span class="label-text">Colors comma separated</span>
+        <input
+          formControlName="colors"
+          type="text"
+          placeholder="Your Colors"
+          class="input-bordered input w-full pr-16 text-neutral-content"
+          [ngClass]="{
+            'input-error': form.controls.colors.errors && form.controls.colors.touched
+          }"
+        />
+        <span
+          *ngIf="form.controls.colors.errors && form.controls.colors.touched"
+          class="label-text-alt"
+        >
+          enter comma separated colors
+        </span>
+      </app-dui-input>
+
+      <app-dui-input>
+        <span class="label-text">Sizes comma separated</span>
+        <input
+          formControlName="sizes"
+          type="text"
+          placeholder="Your Sizes"
+          class="input-bordered input w-full pr-16 text-neutral-content"
+          [ngClass]="{
+            'input-error': form.controls.sizes.errors && form.controls.sizes.touched
+          }"
+        />
+        <span
+          *ngIf="form.controls.sizes.errors && form.controls.sizes.touched"
+          class="label-text-alt"
+        >
+          enter comma separated sizes
+        </span>
+      </app-dui-input>
+    </div>
+
+    <div class="form-control col-span-2">
+      <label class="label">
+        <span class="label-text">Description</span>
+      </label>
+      <textarea
+        formControlName="description"
+        class="textarea-bordered textarea h-24 w-full pr-16 text-neutral-content"
+        [ngClass]="{
+          'input-error': form.controls.description.errors && form.controls.description.touched
+        }"
+      ></textarea>
+      <span
+        *ngIf="form.controls.description.errors && form.controls.description.touched"
+        class="label-text-alt"
+      >
+        enter valid description
+      </span>
+    </div>
+
+    <div class="mt-4 grid grid-cols-2 gap-4">
+      <button (click)="form.reset()" class="btn-active btn">Clear</button>
+
+      <button [disabled]="form.invalid" (click)="debounceRace()" class="btn-accent btn-active btn">
+        Save
+      </button>
+    </div>
+  </form>
+</ng-container>

@@ -27,7 +27,7 @@ export class ConfirmCartComponent {
     return this.formGroup?.controls.colors.controls;
   }
 
-  decrement(id: number) {
+  decrement(id: string) {
     this.cartService.decrement(id);
   }
 
@@ -35,7 +35,7 @@ export class ConfirmCartComponent {
     this.cartService.increment(prod);
   }
 
-  delete(id: number, index: number) {
+  delete(id: string, index: number) {
     this.cartService.remove(id);
   }
 }

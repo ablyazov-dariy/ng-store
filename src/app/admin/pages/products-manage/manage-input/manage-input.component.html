@@ -1,0 +1,74 @@
+<div class="form-control w-96">
+  <div cdkOverlayOrigin #originOverlay="cdkOverlayOrigin" class="join">
+    <div>
+      <div>
+        <input
+          [formControl]="chooseControl"
+          type="text"
+          placeholder="Search ID to Edit"
+          class="input-bordered input join-item"
+          [ngClass]="{
+            'input-error': chooseControl.errors && chooseControl.touched,
+          }"
+        />
+      </div>
+    </div>
+    <button
+      [cdkMenuTriggerFor]="menu"
+      [cdkMenuPosition]="[
+        {
+          originX: 'start',
+          originY: 'bottom',
+          overlayX: 'start',
+          overlayY: 'top'
+        }
+      ]"
+      class="select-bordered select no-animation join-item btn capitalize hover:border-neutral hover:bg-base-100 focus:outline-none"
+    >
+      {{ currentRoute | async }}
+    </button>
+    <button
+      class="join-item btn w-32"
+      [ngClass]="{
+        'btn-error': state() === 'delete',
+        'btn-secondary': state() === 'create'
+      }"
+      (click)="clicksEvents.emit(state())"
+    >
+      {{ state() }}
+    </button>
+  </div>
+  <label class="label">
+    <span *ngIf="chooseControl.invalid && chooseControl.touched" class="label-text-alt text-error">
+      Product with ID {{ chooseControl.valueChanges | async }} does not exist.
+    </span>
+  </label>
+</div>
+
+<ng-template #menu>
+  <ul class="menu rounded-box w-56 bg-base-200" cdkMenu>
+    <li cdkMenuItem>
+      <a routerLink="form">Form</a>
+    </li>
+    <li cdkMenuItem>
+      <a routerLink="card">Card</a>
+    </li>
+    <li cdkMenuItem>
+      <a routerLink="preview">Preview</a>
+    </li>
+  </ul>
+</ng-template>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="originOverlay"
+  [cdkConnectedOverlayOpen]="!!autocomplete()"
+>
+  <!--  -->
+
+  <ul class="menu rounded-box w-96 bg-base-200 empty:hidden" (click)="onAutocompleteClick($event)">
+    <li *ngFor="let option of autocomplete()">
+      <span [attr.data-my-id]="option.id">{{ option.name }}</span>
+    </li>
+  </ul>
+</ng-template>

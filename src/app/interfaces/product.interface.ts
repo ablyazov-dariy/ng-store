@@ -1,15 +1,14 @@
 import { ReviewInterface } from '@interfaces/review.interface';
 
 export interface ProductInterface {
-  id: number;
+  id: string;
   imgUrl: string;
   price: number;
   discount?: number;
   featured?: boolean;
-  collection: string;
   name: string;
   description: string;
-  discountUntil?: Date;
+  discountUntil?: string;
   new?: boolean;
   colors: string[];
   sizes: Size[];

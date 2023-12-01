@@ -13,6 +13,29 @@ const routes: Routes = [
       import('./pages/products-manage/products-manage.component').then(
         m => m.ProductsManageComponent
       ),
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'form',
+      },
+      {
+        path: 'form',
+        loadComponent: () =>
+          import('./pages/products-manage/manage-form/manage-form.component').then(
+            m => m.ManageFormComponent
+          ),
+        // todo:
+        canDeactivate: [],
+      },
+      {
+        path: 'card',
+        loadComponent: () =>
+          import('./pages/products-manage/manage-product-card/manage-product-card.component').then(
+            m => m.ManageProductCardComponent
+          ),
+      },
+    ],
   },
 ];
 

@@ -29,14 +29,15 @@ export class ProductComponent implements OnDestroy {
   private getProductObservable(): Observable<ProductInterface> {
     return this.route.params.pipe(
       takeUntil(this.destroy$),
-      switchMap(params => this.productsService.getProductsObservable(params)),
-      map(arr => arr[0])
+      switchMap(params => this.productsService.getProductById$(params['id'] as string)),
+      map(data => data.data()!)
     );
   }
 
   private getProductsRecommendation(): Observable<ProductInterface[]> {
-    return this.productsService.getProductsObservable({
+    return this.productsService.getProducts$({
       limit: 4,
+      featured: true,
     });
   }
 

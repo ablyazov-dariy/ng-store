@@ -9,11 +9,11 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class LikeService {
   private readonly accessKey = environment.likeAccessKey;
-  private likesMap: Map<number, boolean>;
-  public likesMap$: BehaviorSubject<Map<number, boolean>>;
+  private likesMap: Map<string, boolean>;
+  public likesMap$: BehaviorSubject<Map<string, boolean>>;
 
   constructor(private ls: LocalStorageService) {
-    const storedData = this.ls.getItem(this.accessKey) as [number, boolean][];
+    const storedData = this.ls.getItem(this.accessKey) as [string, boolean][];
 
     storedData ? (this.likesMap = new Map(storedData)) : (this.likesMap = new Map());
 
@@ -35,7 +35,7 @@ export class LikeService {
     });
   }
 
-  public toggleLike(id: number, like: boolean): void {
+  public toggleLike(id: string, like: boolean): void {
     if (like) {
       this.likesMap.set(id, like);
     } else this.likesMap.delete(id);

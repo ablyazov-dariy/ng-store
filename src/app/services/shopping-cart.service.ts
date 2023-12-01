@@ -41,7 +41,7 @@ export class ShoppingCartService {
     this.observe();
   }
 
-  decrement(id: number) {
+  decrement(id: string) {
     const index = this.getItemIndexById(id);
     if (index === -1) return;
     this.data[index].__count--;
@@ -52,7 +52,7 @@ export class ShoppingCartService {
     this.observe();
   }
 
-  remove(id: number) {
+  remove(id: string) {
     const index = this.getItemIndexById(id);
     if (index === -1) return;
     this.data.splice(index, 1);
@@ -64,7 +64,7 @@ export class ShoppingCartService {
     this.observe();
   }
 
-  private getItemIndexById(id: number): number {
+  private getItemIndexById(id: string): number {
     return this.data.findIndex(el => el.id === id);
   }
 
