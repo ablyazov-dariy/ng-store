@@ -22,8 +22,8 @@
 
 <ng-template #menu>
   <ul class="menu rounded-box w-56 bg-base-200" cdkMenu>
-    <li cdkMenuItem>
-      <a routerLink=""><mat-icon>person</mat-icon>My Account</a>
+    <li cdkMenuItem *ngIf="userLevel >= 1000">
+      <a routerLink=""><mat-icon>account_circle</mat-icon>My Account</a>
     </li>
     <li cdkMenuItem>
       <a routerLink=""><mat-icon>shopping_bag</mat-icon>My Orders</a>
@@ -33,11 +33,33 @@
         <mat-icon>favorite</mat-icon>My Favorites
       </a>
     </li>
-    <li cdkMenuItem>
+    <li *ngIf="userLevel >= 1000" cdkMenuItem>
       <a (click)="logout()"><mat-icon>logout</mat-icon>Log Out</a>
     </li>
-    <li cdkMenuItem>
-      <a routerLink="/admin">Admin</a>
+    <li *ngIf="userLevel >= 5000" cdkMenuItem>
+      <a routerLink="/admin"><mat-icon>admin_panel_settings</mat-icon>Admin Panel</a>
+    </li>
+    <li *ngIf="userLevel < 1000">
+      <details>
+        <summary><mat-icon>login</mat-icon>Log In</summary>
+        <ul>
+          <li cdkMenuItem (click)="setRole(1000)">
+            <a><mat-icon>person</mat-icon>As User</a>
+          </li>
+          <li cdkMenuItem (click)="setRole(5000)">
+            <a><mat-icon>supervisor_account</mat-icon>As Admin</a>
+          </li>
+          <li cdkMenuItem (click)="setRole(10000)">
+            <a><mat-icon>copyright</mat-icon>As Owner</a>
+          </li>
+          <!--          <li cdkMenuItem>-->
+          <!--            <a><mat-icon>person</mat-icon>Sign In</a>-->
+          <!--          </li>-->
+          <!--          <li cdkMenuItem>-->
+          <!--            <a><mat-icon>person</mat-icon>Sign Up</a>-->
+          <!--          </li>-->
+        </ul>
+      </details>
     </li>
   </ul>
 </ng-template>

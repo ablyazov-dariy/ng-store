@@ -12,6 +12,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ProductWithCountInterface } from '@interfaces/product-with-count.interface';
 import { ShoppingCartService } from '@services/shopping-cart.service';
+import { UserService } from '@services/user.service';
 
 import { filter, map, merge } from 'rxjs';
 
@@ -31,7 +32,8 @@ export class PopupCartComponent implements AfterViewInit {
   constructor(
     private cartService: ShoppingCartService,
     private focusMonitor: FocusMonitor,
-    private destroyRef: DestroyRef
+    private destroyRef: DestroyRef,
+    private userService: UserService
   ) {}
 
   ngAfterViewInit(): void {
@@ -40,6 +42,10 @@ export class PopupCartComponent implements AfterViewInit {
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(value => this.isCardOpen.set(value));
     }
+  }
+
+  get userLevel() {
+    return this.userService.roleLevel;
   }
 
   getTotalPrice(data: ProductWithCountInterface[]): number {

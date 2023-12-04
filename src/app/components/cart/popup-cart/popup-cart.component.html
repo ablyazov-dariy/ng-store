@@ -42,12 +42,17 @@
 
         <div class="card-actions justify-end">
           <button
+            *ngIf="userLevel >= 1000; else notLoggedIn"
             (click)="overlay.backdropClick.emit()"
             routerLink="/checkout"
             class="btn-accent btn"
           >
             Checkout Now
           </button>
+          <ng-template #notLoggedIn>
+            <!-- TODO: add link-->
+            <button routerLink="/" class="btn">Please Login To Continue</button>
+          </ng-template>
         </div>
       </div>
     </div>
