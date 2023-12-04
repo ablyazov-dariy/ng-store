@@ -3,11 +3,13 @@ import { A11yModule, FocusMonitor } from '@angular/cdk/a11y';
 import { CdkMenu, CdkMenuModule } from '@angular/cdk/menu';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { AccessLevel } from '@app/enums/access-level';
 import { ProductsService } from '@services/products.service';
+import { UserService } from '@services/user.service';
 import {
   debounce,
   debounceTime,
@@ -47,7 +49,7 @@ export class ManageInputComponent implements OnInit {
     private manageService: ManageService,
     private productsService: ProductsService,
     private focusMonitor: FocusMonitor,
-    private destroyRef: DestroyRef
+    private userService: UserService
   ) {}
 
   get chooseControl() {
@@ -92,7 +94,7 @@ export class ManageInputComponent implements OnInit {
   setCreateState$() {
     return this.chooseControl.valueChanges.pipe(
       startWith(null),
-      filter(value => !value),
+      filter(value => !value && this.userService.roleLevel < AccessLevel.owner),
       map(() => 'create')
     );
   }
