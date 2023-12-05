@@ -1,13 +1,19 @@
-:host(app-home) {
-  & > * {
-    margin-block-start: 3rem;
+:host {
+  grid-column: full-width !important;
+  display: grid;
+  grid-template-columns: inherit;
+
+  & > :not(.breakout, .full-width) {
+    grid-column: content;
   }
+
   .text-center {
     h2 {
       margin-bottom: 0 !important;
     }
   }
 }
+
 .hr {
   height: 1px;
 }
