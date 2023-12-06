@@ -13,23 +13,14 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <div class="content-grid bg-base-100">
-      <app-navbar class="breakout">
-        <button
-          *ngIf="isSmall$ | async; else search"
-          type="button"
-          aria-label="Toggle sidenav"
-          mat-icon-button
-          (click)="drawerToggle()"
-        >
-          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-        </button>
-        <ng-template #search>
-          <app-search-open-btn />
-        </ng-template>
-      </app-navbar>
+    <div class="content-grid min-h-screen grid-rows-[auto_1fr_auto] bg-base-100">
+      <app-navbar
+        class="breakout h-12"
+        [showMenu]="!!(isSmall$ | async)"
+        (menuClicks)="drawerToggle()"
+      />
 
-      <main class="full-width">
+      <main class="full-width grid-rows-[0_1fr]">
         <ng-content></ng-content>
       </main>
       <app-footer class="full-width bg-base-200 py-10" />
