@@ -10,9 +10,12 @@ import { CollectionPreviewComponent } from './collection-preview/collection-prev
 
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
+import { HeroMainComponent } from './hero-main/hero-main.component';
+import { HeroCardComponent } from './hero-card/hero-card.component';
+import { HeroFormComponent } from './hero-form/hero-form.component';
 
 @NgModule({
-  declarations: [HomeComponent, CollectionPreviewComponent, CarouselComponent],
+  declarations: [HomeComponent, CollectionPreviewComponent, CarouselComponent, HeroMainComponent, HeroCardComponent, HeroFormComponent],
   imports: [
     CommonModule,
     HomeRoutingModule,
