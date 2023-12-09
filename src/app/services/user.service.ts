@@ -5,6 +5,18 @@ import { AccessLevel } from '@app/enums/access-level';
   providedIn: 'root',
 })
 export class UserService {
+  user?: { permissions: string[] };
+  public isAuthenticated() {
+    return !!this.user;
+  }
+
+  public hasAdminPermissions() {
+    return !!this.user?.permissions.includes('admin');
+  }
+
+  public hasOwnerPermissions() {
+    return !!this.user?.permissions.includes('owner');
+  }
   private role: AccessLevel = AccessLevel.unknown;
 
   constructor() {}
