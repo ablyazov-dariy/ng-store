@@ -95,6 +95,7 @@ export class ManageInputComponent implements OnInit {
     // @ts-ignore
     return this.chooseControl.valueChanges.pipe(
       startWith(null),
+      // any is to avoid data['canCreate'] syntax
       combineLatestWith(this.route.data as Observable<any>),
       filter(([value, data]) => !value && data.canCreate),
       map(() => 'create')

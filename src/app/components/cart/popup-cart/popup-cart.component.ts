@@ -36,16 +36,15 @@ export class PopupCartComponent implements AfterViewInit {
     private userService: UserService
   ) {}
 
+  get userIsAuthenticated() {
+    return this.userService.isAuthenticated();
+  }
   ngAfterViewInit(): void {
     if (this.cartOpenButton && this.connectedOverlay) {
       merge(this.backdropClick$(this.connectedOverlay), this.focus$(this.cartOpenButton))
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(value => this.isCardOpen.set(value));
     }
-  }
-
-  get userLevel() {
-    return this.userService.roleLevel;
   }
 
   getTotalPrice(data: ProductWithCountInterface[]): number {

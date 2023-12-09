@@ -22,42 +22,41 @@
 
 <ng-template #menu>
   <ul class="menu rounded-box w-56 bg-base-200" cdkMenu>
-    <li cdkMenuItem *ngIf="userLevel >= 1000">
+    <li cdkMenuItem *ngIf="userIsAuthenticated">
+      <!--todo: add link to profile -->
       <a routerLink=""><mat-icon>account_circle</mat-icon>My Account</a>
     </li>
-    <li cdkMenuItem>
-      <a routerLink=""><mat-icon>shopping_bag</mat-icon>My Orders</a>
-    </li>
+    <!--    <li cdkMenuItem>-->
+    <!--      <a routerLink=""><mat-icon>shopping_bag</mat-icon>My Orders</a>-->
+    <!--    </li>-->
     <li cdkMenuItem>
       <a routerLink="/shop" [queryParams]="{ favorite: true }">
         <mat-icon>favorite</mat-icon>My Favorites
       </a>
     </li>
-    <li *ngIf="userLevel >= 1000" cdkMenuItem>
+    <li *ngIf="userIsAuthenticated" cdkMenuItem>
       <a (click)="logout()"><mat-icon>logout</mat-icon>Log Out</a>
     </li>
-    <li *ngIf="userLevel >= 5000" cdkMenuItem>
+    <li *ngIf="userHasOwnerPermissions || userHasAdminPermissions" cdkMenuItem>
       <a routerLink="/admin"><mat-icon>admin_panel_settings</mat-icon>Admin Panel</a>
     </li>
-    <li *ngIf="userLevel < 1000">
+    <li *ngIf="userIsAuthenticated">
       <details>
-        <summary><mat-icon>login</mat-icon>Log In</summary>
+        <summary><mat-icon>login</mat-icon>Permission:</summary>
         <ul>
-          <li cdkMenuItem (click)="setRole(1000)">
-            <a><mat-icon>person</mat-icon>As User</a>
+          <li *ngIf="!userHasAdminPermissions" cdkMenuItem (click)="setPermission('admin')">
+            <a><mat-icon>supervisor_account</mat-icon>Add Admin</a>
           </li>
-          <li cdkMenuItem (click)="setRole(5000)">
-            <a><mat-icon>supervisor_account</mat-icon>As Admin</a>
+          <li *ngIf="userHasAdminPermissions" cdkMenuItem (click)="removePermission('admin')">
+            <a><mat-icon>supervisor_account</mat-icon>Remove Admin</a>
           </li>
-          <li cdkMenuItem (click)="setRole(10000)">
-            <a><mat-icon>copyright</mat-icon>As Owner</a>
+
+          <li *ngIf="!userHasOwnerPermissions" cdkMenuItem (click)="setPermission('owner')">
+            <a><mat-icon>copyright</mat-icon>Add Owner</a>
           </li>
-          <!--          <li cdkMenuItem>-->
-          <!--            <a><mat-icon>person</mat-icon>Sign In</a>-->
-          <!--          </li>-->
-          <!--          <li cdkMenuItem>-->
-          <!--            <a><mat-icon>person</mat-icon>Sign Up</a>-->
-          <!--          </li>-->
+          <li *ngIf="userHasOwnerPermissions" cdkMenuItem (click)="removePermission('owner')">
+            <a><mat-icon>copyright</mat-icon>Remove Owner</a>
+          </li>
         </ul>
       </details>
     </li>

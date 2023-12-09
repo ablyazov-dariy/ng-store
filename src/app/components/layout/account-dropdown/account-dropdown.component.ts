@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AccessLevel } from '@app/enums/access-level';
 import { UserService } from '@services/user.service';
 
 @Component({
@@ -10,15 +9,24 @@ import { UserService } from '@services/user.service';
 export class AccountDropdownComponent {
   constructor(private userService: UserService) {}
 
-  get userLevel() {
-    return this.userService.roleLevel;
+  get userIsAuthenticated() {
+    return this.userService.isAuthenticated();
+  }
+  get userHasOwnerPermissions() {
+    return this.userService.hasOwnerPermissions();
+  }
+  get userHasAdminPermissions() {
+    return this.userService.hasAdminPermissions();
   }
 
   logout() {
     this.userService.signOut();
   }
 
-  setRole(level: AccessLevel) {
-    this.userService.roleLevel = level;
+  setPermission(permission: string) {
+    this.userService.setPermission(permission);
+  }
+  removePermission(permission: string) {
+    this.userService.removePermission(permission);
   }
 }

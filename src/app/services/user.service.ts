@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
-import { AccessLevel } from '@app/enums/access-level';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  // this is an object from firebase
   user?: { permissions: string[] } = { permissions: [''] };
+
+  constructor(private router: Router) {}
+
   public isAuthenticated() {
     return !!this.user;
   }
@@ -17,19 +21,23 @@ export class UserService {
   public hasOwnerPermissions() {
     return !!this.user?.permissions.includes('owner');
   }
-  private role: AccessLevel = AccessLevel.unknown;
 
-  constructor() {}
-
-  get roleLevel(): number {
-    return this.role;
+  setPermission(permission: string) {
+    this.user?.permissions.push(permission);
   }
 
-  set roleLevel(role: AccessLevel) {
-    this.role = role;
+  removePermission(permission: string) {
+    let permissions = this.user?.permissions;
+    if (permissions?.includes(permission)) {
+      permissions?.splice(permissions.indexOf(permission), 1);
+    }
+  }
+
+  signIn() {
+    this.user = { permissions: [] };
   }
 
   public signOut() {
-    this.role = AccessLevel.unknown;
+    this.user = undefined;
   }
 }
