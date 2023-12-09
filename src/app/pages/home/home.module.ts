@@ -1,5 +1,6 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatRadioModule } from '@angular/material/radio';
@@ -15,7 +16,14 @@ import { HeroCardComponent } from './hero-card/hero-card.component';
 import { HeroFormComponent } from './hero-form/hero-form.component';
 
 @NgModule({
-  declarations: [HomeComponent, CollectionPreviewComponent, CarouselComponent, HeroMainComponent, HeroCardComponent, HeroFormComponent],
+  declarations: [
+    HomeComponent,
+    CollectionPreviewComponent,
+    CarouselComponent,
+    HeroMainComponent,
+    HeroCardComponent,
+    HeroFormComponent,
+  ],
   imports: [
     CommonModule,
     HomeRoutingModule,
@@ -24,6 +32,7 @@ import { HeroFormComponent } from './hero-form/hero-form.component';
     MatGridListModule,
     NgOptimizedImage,
     MatRadioModule,
+    FormsModule,
   ],
   providers: [],
 })

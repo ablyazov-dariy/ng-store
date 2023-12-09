@@ -34,7 +34,9 @@ export class UserService {
   }
 
   signIn() {
-    this.user = { permissions: [] };
+    if (!this.user) {
+      this.user = { permissions: [] };
+    }
   }
 
   public signOut() {

@@ -42,7 +42,7 @@ export class CarouselComponent implements OnInit, OnDestroy {
   }
 
   autoplay() {
-    return interval(5000).pipe(
+    return interval(25000).pipe(
       takeUntilDestroyed(this.destroyRef),
       tap(console.log),
       filter(() => !this.isMouseOver())
