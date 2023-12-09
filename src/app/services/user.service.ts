@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserInterface } from '@interfaces/user.interface';
+import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -7,11 +10,12 @@ import { Router } from '@angular/router';
 export class UserService {
   // this is an object from firebase
   user?: { permissions: string[] } = { permissions: [''] };
+  user$ = new BehaviorSubject<UserInterface | undefined>(undefined);
 
   constructor(private router: Router) {}
 
   public isAuthenticated() {
-    return !!this.user;
+    return this.user$.pipe(map(value => !!value));
   }
 
   public hasAdminPermissions() {

@@ -22,7 +22,7 @@
 
 <ng-template #menu>
   <ul class="menu rounded-box w-56 bg-base-200" cdkMenu>
-    <li cdkMenuItem *ngIf="userIsAuthenticated">
+    <li cdkMenuItem *ngIf="userIsAuthenticated | async">
       <!--todo: add link to profile -->
       <a routerLink=""><mat-icon>account_circle</mat-icon>My Account</a>
     </li>
@@ -34,7 +34,7 @@
         <mat-icon>favorite</mat-icon>My Favorites
       </a>
     </li>
-    <li *ngIf="userIsAuthenticated" cdkMenuItem>
+    <li *ngIf="userIsAuthenticated | async" cdkMenuItem>
       <a (click)="logout()"><mat-icon>logout</mat-icon>Log Out</a>
     </li>
     <li *ngIf="userHasOwnerPermissions || userHasAdminPermissions" cdkMenuItem>

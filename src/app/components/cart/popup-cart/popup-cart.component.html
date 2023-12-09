@@ -42,7 +42,7 @@
 
         <div class="card-actions justify-end">
           <button
-            *ngIf="userIsAuthenticated; else notLoggedIn"
+            *ngIf="userIsAuthenticated | async; else notLoggedIn"
             (click)="overlay.backdropClick.emit()"
             routerLink="/checkout"
             class="btn-accent btn"
