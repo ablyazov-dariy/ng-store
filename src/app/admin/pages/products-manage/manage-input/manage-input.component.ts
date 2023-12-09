@@ -7,10 +7,10 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { AccessLevel } from '@app/enums/access-level';
 import { ProductsService } from '@services/products.service';
 import { UserService } from '@services/user.service';
 import {
+  combineLatestWith,
   debounce,
   debounceTime,
   distinctUntilChanged,
@@ -92,9 +92,11 @@ export class ManageInputComponent implements OnInit {
   }
 
   setCreateState$() {
+    // @ts-ignore
     return this.chooseControl.valueChanges.pipe(
       startWith(null),
-      filter(value => !value && this.userService.roleLevel < AccessLevel.owner),
+      combineLatestWith(this.route.data as Observable<any>),
+      filter(([value, data]) => !value && data.canCreate),
       map(() => 'create')
     );
   }

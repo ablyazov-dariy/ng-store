@@ -5,7 +5,7 @@ import { AccessLevel } from '@app/enums/access-level';
   providedIn: 'root',
 })
 export class UserService {
-  user?: { permissions: string[] };
+  user?: { permissions: string[] } = { permissions: [''] };
   public isAuthenticated() {
     return !!this.user;
   }

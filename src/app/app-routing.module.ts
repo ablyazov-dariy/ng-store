@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AccessLevel } from '@app/enums/access-level';
-import { accessGuard } from '@app/guards/access.guard';
+import { adminAccessGuard } from '@app/guards/admin-access.guard';
+import { authGuard } from '@app/guards/auth.guard';
+import { ownerAccessGuard } from '@app/guards/owner-access.guard';
 
 const routes: Routes = [
   { path: '', loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule) },
@@ -24,7 +25,7 @@ const routes: Routes = [
   {
     path: 'checkout',
     loadChildren: () => import('@pages/checkout/checkout.module').then(m => m.CheckoutModule),
-    canActivate: [accessGuard(AccessLevel.user)],
+    canActivate: [authGuard],
   },
   {
     path: 'thank',
@@ -36,7 +37,14 @@ const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () => import('@app/admin/admin.module').then(m => m.AdminModule),
-    canMatch: [accessGuard(AccessLevel.admin)],
+    canMatch: [adminAccessGuard],
+    data: { canCreate: true },
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('@app/admin/admin.module').then(m => m.AdminModule),
+    canMatch: [ownerAccessGuard],
+    data: { canCreate: false },
   },
   {
     path: '**',
