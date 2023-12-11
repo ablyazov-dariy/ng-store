@@ -37,13 +37,13 @@ const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () => import('@app/admin/admin.module').then(m => m.AdminModule),
-    canMatch: [adminAccessGuard],
+    canMatch: [authGuard, adminAccessGuard],
     data: { canCreate: true },
   },
   {
     path: 'admin',
     loadChildren: () => import('@app/admin/admin.module').then(m => m.AdminModule),
-    canMatch: [ownerAccessGuard],
+    canMatch: [authGuard, ownerAccessGuard],
     data: { canCreate: false },
   },
   {

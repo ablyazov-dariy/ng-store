@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { UserService } from '@services/user.service';
+import { Observable } from 'rxjs';
+import { shareReplay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-account-dropdown',
@@ -9,14 +11,14 @@ import { UserService } from '@services/user.service';
 export class AccountDropdownComponent {
   constructor(private userService: UserService) {}
 
-  get userIsAuthenticated() {
+  get userIsAuthenticated(): Observable<boolean> {
     return this.userService.isAuthenticated();
   }
   get userHasOwnerPermissions() {
-    return this.userService.hasOwnerPermissions();
+    return this.userService.hasOwnerPermissions().pipe(shareReplay(2));
   }
   get userHasAdminPermissions() {
-    return this.userService.hasAdminPermissions();
+    return this.userService.hasAdminPermissions().pipe(shareReplay(2));
   }
 
   logout() {

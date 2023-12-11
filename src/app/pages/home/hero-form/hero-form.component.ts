@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { UserInterface } from '@interfaces/user.interface';
 import { UserService } from '@services/user.service';
 
 @Component({
@@ -7,5 +8,10 @@ import { UserService } from '@services/user.service';
   styleUrls: ['./hero-form.component.scss'],
 })
 export class HeroFormComponent {
-  userService = inject(UserService);
+  private userService = inject(UserService);
+
+  signIn() {
+    const testUser: UserInterface = { permissions: [] };
+    this.userService.signIn(testUser);
+  }
 }

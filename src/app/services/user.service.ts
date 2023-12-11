@@ -1,49 +1,72 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserInterface } from '@interfaces/user.interface';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  // this is an object from firebase
-  user?: { permissions: string[] } = { permissions: [''] };
   user$ = new BehaviorSubject<UserInterface | undefined>(undefined);
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
   public isAuthenticated() {
     return this.user$.pipe(map(value => !!value));
   }
 
-  public hasAdminPermissions() {
-    return !!this.user?.permissions.includes('admin');
+  public permissionsChanges() {
+    return this.user$.pipe(
+      map(value => value?.permissions),
+      distinctUntilChanged((previous, current) => previous?.toString() === current?.toString())
+    );
   }
 
-  public hasOwnerPermissions() {
-    return !!this.user?.permissions.includes('owner');
+  public hasAdminPermissions(): Observable<boolean> {
+    return this.user$.pipe(map(value => value?.permissions.includes('admin') ?? false));
+  }
+
+  public hasOwnerPermissions(): Observable<boolean> {
+    return this.user$.pipe(map(value => value?.permissions.includes('owner') ?? false));
   }
 
   setPermission(permission: string) {
-    this.user?.permissions.push(permission);
+    if (!this.user$.value) return;
+    const permissions = [...this.user$.value.permissions, permission];
+    const user = {
+      ...this.user$.value,
+      permissions: permissions,
+    };
+    this.user$.next(user);
   }
 
   removePermission(permission: string) {
-    let permissions = this.user?.permissions;
-    if (permissions?.includes(permission)) {
-      permissions?.splice(permissions.indexOf(permission), 1);
+    if (!this.user$.value) return;
+    const permissionIndex = this.user$.value.permissions.indexOf(permission);
+
+    if (permissionIndex !== -1) {
+      // @ts-ignore
+      const permissions = this.user$.value.permissions.toSpliced(permissionIndex, 1);
+
+      const user = {
+        ...this.user$.value,
+        permissions: permissions,
+      };
+      this.user$.next(user);
     }
   }
 
-  signIn() {
-    if (!this.user) {
-      this.user = { permissions: [] };
+  signIn(user: UserInterface) {
+    if (!this.user$.value) {
+      this.user$.next(user);
     }
   }
 
   public signOut() {
-    this.user = undefined;
+    if (this.user$.value) {
+      this.user$.next(undefined);
+      this.router.navigateByUrl('').then();
+    }
   }
 }
