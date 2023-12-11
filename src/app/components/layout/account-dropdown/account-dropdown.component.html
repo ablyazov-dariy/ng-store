@@ -40,41 +40,41 @@
     <li *ngIf="(userHasOwnerPermissions | async) || (userHasAdminPermissions | async)" cdkMenuItem>
       <a routerLink="/admin"><mat-icon>admin_panel_settings</mat-icon>Admin Panel</a>
     </li>
-    <li *ngIf="userIsAuthenticated | async">
-      <details>
-        <summary><mat-icon>login</mat-icon>Permission:</summary>
-        <ul>
-          <li
-            *ngIf="!(userHasAdminPermissions | async)"
-            cdkMenuItem
-            (click)="setPermission('admin')"
-          >
-            <a><mat-icon>supervisor_account</mat-icon>Add Admin</a>
-          </li>
-          <li
-            *ngIf="userHasAdminPermissions | async"
-            cdkMenuItem
-            (click)="removePermission('admin')"
-          >
-            <a><mat-icon>supervisor_account</mat-icon>Remove Admin</a>
-          </li>
+    <!--    <li *ngIf="userIsAuthenticated | async">-->
+    <!--      <details>-->
+    <!--        <summary><mat-icon>login</mat-icon>Permission:</summary>-->
+    <!--        <ul>-->
+    <!--          <li-->
+    <!--            *ngIf="!(userHasAdminPermissions | async)"-->
+    <!--            cdkMenuItem-->
+    <!--            (click)="setPermission('admin')"-->
+    <!--          >-->
+    <!--            <a><mat-icon>supervisor_account</mat-icon>Add Admin</a>-->
+    <!--          </li>-->
+    <!--          <li-->
+    <!--            *ngIf="userHasAdminPermissions | async"-->
+    <!--            cdkMenuItem-->
+    <!--            (click)="removePermission('admin')"-->
+    <!--          >-->
+    <!--            <a><mat-icon>supervisor_account</mat-icon>Remove Admin</a>-->
+    <!--          </li>-->
 
-          <li
-            *ngIf="!(userHasOwnerPermissions | async)"
-            cdkMenuItem
-            (click)="setPermission('owner')"
-          >
-            <a><mat-icon>copyright</mat-icon>Add Owner</a>
-          </li>
-          <li
-            *ngIf="userHasOwnerPermissions | async"
-            cdkMenuItem
-            (click)="removePermission('owner')"
-          >
-            <a><mat-icon>copyright</mat-icon>Remove Owner</a>
-          </li>
-        </ul>
-      </details>
-    </li>
+    <!--          <li-->
+    <!--            *ngIf="!(userHasOwnerPermissions | async)"-->
+    <!--            cdkMenuItem-->
+    <!--            (click)="setPermission('owner')"-->
+    <!--          >-->
+    <!--            <a><mat-icon>copyright</mat-icon>Add Owner</a>-->
+    <!--          </li>-->
+    <!--          <li-->
+    <!--            *ngIf="userHasOwnerPermissions | async"-->
+    <!--            cdkMenuItem-->
+    <!--            (click)="removePermission('owner')"-->
+    <!--          >-->
+    <!--            <a><mat-icon>copyright</mat-icon>Remove Owner</a>-->
+    <!--          </li>-->
+    <!--        </ul>-->
+    <!--      </details>-->
+    <!--    </li>-->
   </ul>
 </ng-template>

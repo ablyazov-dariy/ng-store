@@ -8,24 +8,46 @@
       </p>
     </div>
     <div class="card w-full max-w-sm shrink-0 bg-base-100 shadow-2xl">
-      <form (ngSubmit)="signIn()" class="card-body">
+      <form [formGroup]="form" class="card-body">
         <div class="form-control">
           <label class="label">
             <span class="label-text">Email</span>
           </label>
-          <input type="email" placeholder="email" class="input-bordered input" required />
+          <input
+            formControlName="email"
+            type="email"
+            placeholder="email"
+            class="input-bordered input"
+          />
         </div>
         <div class="form-control">
           <label class="label">
-            <span class="label-text">Password</span>
+            <span class="label-text">Roles</span>
           </label>
-          <input type="password" placeholder="password" class="input-bordered input" required />
+          <input
+            formControlName="role"
+            type="text"
+            placeholder="roles"
+            class="input-bordered input"
+          />
           <label class="label">
-            <a href="#" class="link-hover label-text-alt link">Forgot password?</a>
+            <span
+              *ngIf="form.controls.role.invalid && form.controls.role.touched"
+              class="link-hover label-text-alt link"
+            >
+              admin or owner are valid
+            </span>
           </label>
         </div>
         <div class="form-control mt-6">
-          <button type="submit" class="btn-primary btn">Login</button>
+          <button
+            [disabled]="form.invalid || (auth | async)"
+            (click)="onSignInClicked()"
+            type="submit"
+            class="btn-primary btn"
+          >
+            {{ (auth | async) ? 'You Are Authenticated' : 'Login' }}
+          </button>
         </div>
       </form>
     </div>
