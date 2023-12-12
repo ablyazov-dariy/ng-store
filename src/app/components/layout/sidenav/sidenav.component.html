@@ -4,8 +4,8 @@
     *ngIf="isSmall$ | async"
     class="w-10/12 max-w-sm bg-base-100"
     fixedInViewport="false"
-    [attr.role]="(isSmall$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isSmall$ | async) ? 'over' : 'side'"
+    [attr.role]="'dialog'"
+    [mode]="'over'"
     [opened]="(isSmall$ | async) === false"
   >
     <mat-nav-list>
@@ -13,27 +13,17 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <div class="app-container bg-base-100">
-      <app-navbar>
-        <button
-          *ngIf="isSmall$ | async; else search"
-          type="button"
-          aria-label="Toggle sidenav"
-          mat-icon-button
-          (click)="drawerToggle()"
-        >
-          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-        </button>
-      </app-navbar>
+    <div class="content-grid min-h-screen grid-rows-[auto_1fr_auto] bg-base-100">
+      <app-navbar
+        class="breakout h-12"
+        [showMenu]="!!(isSmall$ | async)"
+        (menuClicks)="drawerToggle()"
+      />
 
-      <!-- Add Content Here -->
-      <div class="main">
+      <main class="full-width grid-rows-[0_1fr]">
         <ng-content></ng-content>
-      </div>
+      </main>
+      <app-footer class="full-width bg-base-200 py-10" />
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
-
-<ng-template #search>
-  <app-search-open-btn />
-</ng-template>

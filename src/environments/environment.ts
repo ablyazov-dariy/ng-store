@@ -2,7 +2,6 @@ export const environment = {
   production: false,
   cartAccessKey: 'cartStorageKey',
   likeAccessKey: 'likesStorageKey',
-  url: 'url',
   firebase: {
     apiKey: 'AIzaSyDmy04ILCudXNcl3NCE9YBYAUk_5iq8-O4',
     authDomain: 'ng-s-d16a9.firebaseapp.com',

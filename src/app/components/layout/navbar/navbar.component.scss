@@ -1,3 +1,18 @@
 :host {
-  @apply navbar bg-base-100 text-primary-content;
+  @apply navbar sticky top-0 z-10 bg-transparent text-primary-content;
+  animation: navbar linear;
+  animation-timeline: scroll();
+  clip-path: inset(0 -100vmax);
+}
+
+@keyframes navbar {
+  0% {
+  }
+
+  0.001% {
+    @apply bg-base-200 shadow-full-bleed shadow-base-200;
+  }
+  to {
+    @apply bg-base-200 shadow-full-bleed shadow-base-200;
+  }
 }

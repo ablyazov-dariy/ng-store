@@ -23,7 +23,7 @@
   >
     <div class="card w-96 bg-base-200 shadow-xl">
       <!--TODO: responsive-->
-      <div class="card-body">
+      <div class="card-body gap-4">
         <div class="card-title justify-between text-accent-content">
           Your bag({{ data.length }})
           <span>
@@ -42,12 +42,17 @@
 
         <div class="card-actions justify-end">
           <button
+            *ngIf="userIsAuthenticated | async; else notLoggedIn"
             (click)="overlay.backdropClick.emit()"
             routerLink="/checkout"
             class="btn-accent btn"
           >
             Checkout Now
           </button>
+          <ng-template #notLoggedIn>
+            <!-- TODO: add link-->
+            <button routerLink="/" class="btn">Please Login To Continue</button>
+          </ng-template>
         </div>
       </div>
     </div>

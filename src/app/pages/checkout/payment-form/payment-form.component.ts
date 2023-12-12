@@ -1,9 +1,9 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl } from '@angular/forms';
 import { CreditCardForm, PaymentMethod, PayPalForm } from '@interfaces/form-types';
-import { debounceTime, Observable, startWith, Subject, tap } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { debounceTime, Observable, startWith, tap } from 'rxjs';
 
 @Component({
   selector: 'app-payment-form',
@@ -28,10 +28,10 @@ import { takeUntil } from 'rxjs/operators';
     ]),
   ],
 })
-export class PaymentFormComponent implements OnInit, OnDestroy {
+export class PaymentFormComponent implements OnInit {
   @Input({ required: true }) paypalForm!: PayPalForm;
   @Input({ required: true }) creditCardForm!: CreditCardForm;
-  private destroy$ = new Subject();
+  private destroyRef = inject(DestroyRef);
   pmControl = new FormControl<PaymentMethod>('card');
   isBack = false;
 
@@ -67,7 +67,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   private rotateObserve(): void {
     this.creditCardForm.controls.cvv.valueChanges
       .pipe(
-        takeUntil(this.destroy$),
+        takeUntilDestroyed(this.destroyRef),
         tap(() => (this.isBack = true)),
         debounceTime(3000)
       )
@@ -75,11 +75,4 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
         this.isBack = false;
       });
   }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.complete();
-  }
-
-  protected readonly startWith = startWith;
 }

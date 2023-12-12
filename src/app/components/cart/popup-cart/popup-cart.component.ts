@@ -12,6 +12,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ProductWithCountInterface } from '@interfaces/product-with-count.interface';
 import { ShoppingCartService } from '@services/shopping-cart.service';
+import { UserService } from '@services/user.service';
 
 import { filter, map, merge } from 'rxjs';
 
@@ -31,9 +32,13 @@ export class PopupCartComponent implements AfterViewInit {
   constructor(
     private cartService: ShoppingCartService,
     private focusMonitor: FocusMonitor,
-    private destroyRef: DestroyRef
+    private destroyRef: DestroyRef,
+    private userService: UserService
   ) {}
 
+  get userIsAuthenticated() {
+    return this.userService.isAuthenticated();
+  }
   ngAfterViewInit(): void {
     if (this.cartOpenButton && this.connectedOverlay) {
       merge(this.backdropClick$(this.connectedOverlay), this.focus$(this.cartOpenButton))

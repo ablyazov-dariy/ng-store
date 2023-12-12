@@ -3,12 +3,14 @@ import { A11yModule, FocusMonitor } from '@angular/cdk/a11y';
 import { CdkMenu, CdkMenuModule } from '@angular/cdk/menu';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ProductsService } from '@services/products.service';
+import { UserService } from '@services/user.service';
 import {
+  combineLatestWith,
   debounce,
   debounceTime,
   distinctUntilChanged,
@@ -47,7 +49,7 @@ export class ManageInputComponent implements OnInit {
     private manageService: ManageService,
     private productsService: ProductsService,
     private focusMonitor: FocusMonitor,
-    private destroyRef: DestroyRef
+    private userService: UserService
   ) {}
 
   get chooseControl() {
@@ -90,9 +92,12 @@ export class ManageInputComponent implements OnInit {
   }
 
   setCreateState$() {
+    // @ts-ignore
     return this.chooseControl.valueChanges.pipe(
       startWith(null),
-      filter(value => !value),
+      // any is to avoid data['canCreate'] syntax
+      combineLatestWith(this.route.data as Observable<any>),
+      filter(([value, data]) => !value && data.canCreate),
       map(() => 'create')
     );
   }

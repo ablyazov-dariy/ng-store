@@ -35,7 +35,7 @@
       }"
       (click)="clicksEvents.emit(state())"
     >
-      {{ state() }}
+      {{ state() ?? 'Search' }}
     </button>
   </div>
   <label class="label">
