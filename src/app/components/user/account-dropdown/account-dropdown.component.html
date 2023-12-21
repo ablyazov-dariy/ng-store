@@ -1,0 +1,59 @@
+<button
+  [cdkMenuTriggerFor]="menu"
+  [cdkMenuPosition]="[
+    {
+      originX: 'end',
+      originY: 'bottom',
+      overlayX: 'end',
+      overlayY: 'top'
+    }
+  ]"
+  class="placeholder btn-ghost btn-circle avatar btn"
+>
+  <div class="w-10 rounded-full">
+    <img
+      *ngIf="userData()?.photoURL ?? user()?.photoURL as photoURL; else placeholder"
+      [src]="photoURL"
+      height="844"
+      width="844"
+      alt="Profile"
+    />
+    <ng-template #placeholder>
+      <div
+        class="grid h-full w-full place-items-center rounded-full bg-base-300 text-neutral-content"
+      >
+        <span class="text-xl">{{
+          user()?.displayName ?? (userData()?.name ?? 'NA') | characterLimit : 2 : false
+        }}</span>
+      </div>
+    </ng-template>
+  </div>
+</button>
+
+<ng-template #menu>
+  <ul class="menu rounded-box w-56 bg-base-200" cdkMenu>
+    <li cdkMenuItem *ngIf="userIsAuthenticated()">
+      <a [routerLink]="['/', { outlets: { auth: 'profile' } }]">
+        <mat-icon>account_circle_outline</mat-icon>My Account
+      </a>
+    </li>
+    <li cdkMenuItem>
+      <!--TODO: add orders-->
+      <a routerLink=""><mat-icon>shopping_bag</mat-icon>My Orders</a>
+    </li>
+    <li cdkMenuItem>
+      <a routerLink="/shop" [queryParams]="{ favorite: true }">
+        <mat-icon>favorite</mat-icon>My Favorites
+      </a>
+    </li>
+    <li *ngIf="userIsAuthenticated()" cdkMenuItem>
+      <a (click)="logout()"><mat-icon>logout</mat-icon>Log Out</a>
+    </li>
+    <li *ngIf="userHasOwnerPermissions() || userHasAdminPermissions()" cdkMenuItem>
+      <a routerLink="/admin"><mat-icon>admin_panel_settings</mat-icon>Admin Panel</a>
+    </li>
+    <li *ngIf="!userIsAuthenticated()">
+      <a [routerLink]="[{ outlets: { auth: 'login' } }]"><mat-icon>login</mat-icon>Login</a>
+    </li>
+  </ul>
+</ng-template>

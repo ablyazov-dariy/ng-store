@@ -1,0 +1,66 @@
+<form [formGroup]="form" class="card min-h-[65vh]">
+  <figure (click)="nextMask()" class="avatar flex justify-center p-10">
+    <div
+      class="mask w-24 ring ring-primary ring-offset-2 ring-offset-base-100"
+      [ngClass]="activeMask ?? 'rounded-full'"
+    >
+      <img
+        [src]="
+          this.form.controls.photoURL.value ??
+          this.userData()?.photoURL ??
+          this.user()?.photoURL ??
+          'assets/photo-1534528741775-53994a69daeb.jpg'
+        "
+        height="844"
+        width="844"
+        alt="profile"
+      />
+    </div>
+  </figure>
+
+  <div class="card-body">
+    <app-img-input *ngIf="editMode()" formControlName="photoURL" />
+    <h2 class="card-title justify-between capitalize">
+      <span
+        formControlName="name"
+        contenteditable
+        class="tooltip outline-none"
+        [attr.data-tip]="user()?.metadata?.lastSignInTime ?? ''"
+      ></span>
+      <button
+        (click)="updateMode()"
+        [ngClass]="!editMode() ? 'btn-ghost' : 'btn-error'"
+        class="btn-sm btn self-baseline"
+      >
+        {{ editMode() ? 'save' : 'edit mode' }}
+      </button>
+    </h2>
+
+    <div class="label flex flex-col items-start gap-1">
+      <span
+        *ngIf="user()?.email"
+        [cdkCopyToClipboard]="user()?.email ?? ''"
+        class="link-hover label-text-alt link"
+        >{{ user()?.email }}</span
+      >
+      <span
+        *ngIf="user()?.phoneNumber"
+        [cdkCopyToClipboard]="user()?.phoneNumber ?? ''"
+        class="link-hover label-text-alt link"
+        >{{ user()?.phoneNumber }}</span
+      >
+    </div>
+
+    <p formControlName="bio" contenteditable class="max-h-[200px] flex-auto">bio</p>
+    <div class="card-actions justify-end">
+      <div
+        *ngFor="let permission of userData()?.permissions"
+        [ngClass]="permission === 'admin' ? 'text-error' : 'text-accent'"
+        class="badge badge-outline"
+      >
+        {{ permission }}
+      </div>
+      <div class="badge badge-outline">member</div>
+    </div>
+  </div>
+</form>

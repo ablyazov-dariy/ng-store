@@ -1,72 +1,68 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UserInterface } from '@interfaces/user.interface';
-import { BehaviorSubject, distinctUntilChanged, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Auth, user } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Router } from '@angular/router';
+import { UserDataInterface } from '@interfaces/user-data.interface';
+import { Observable, switchMap } from 'rxjs';
+import { map, shareReplay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  user$ = new BehaviorSubject<UserInterface | undefined>(undefined);
+  public user$ = user(this.auth);
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  public userData$: Observable<UserDataInterface | undefined> = this.createUserData();
 
-  public isAuthenticated() {
-    return this.user$.pipe(map(value => !!value));
+  private isAuthenticated$?: Observable<boolean>;
+  private userPermissions$?: Observable<string[] | undefined>;
+
+  constructor(
+    private router: Router,
+    private auth: Auth,
+    private angularFirestore: AngularFirestore
+  ) {}
+
+  public isAuthenticated(): Observable<boolean> {
+    if (!this.isAuthenticated$) {
+      this.isAuthenticated$ = this.user$.pipe(
+        map(value => !!value),
+        shareReplay(2)
+      );
+    }
+    return this.isAuthenticated$;
   }
 
-  public permissionsChanges() {
+  private createUserData(): Observable<UserDataInterface | undefined> {
     return this.user$.pipe(
-      map(value => value?.permissions),
-      distinctUntilChanged((previous, current) => previous?.toString() === current?.toString())
+      switchMap(user =>
+        this.angularFirestore.doc<UserDataInterface>('users/' + user?.uid).valueChanges()
+      ),
+      shareReplay(2)
     );
   }
 
   public hasAdminPermissions(): Observable<boolean> {
-    return this.user$.pipe(map(value => value?.permissions.includes('admin') ?? false));
+    if (!this.userPermissions$) {
+      this.userPermissions$ = this.userData$.pipe(map(value => value?.permissions));
+    }
+    return this.userPermissions$.pipe(map(value => value?.includes('admin') ?? false));
   }
 
   public hasOwnerPermissions(): Observable<boolean> {
-    return this.user$.pipe(map(value => value?.permissions.includes('owner') ?? false));
-  }
-
-  setPermission(permission: string) {
-    if (!this.user$.value) return;
-    const permissions = [...this.user$.value.permissions, permission];
-    const user = {
-      ...this.user$.value,
-      permissions: permissions,
-    };
-    this.user$.next(user);
-  }
-
-  removePermission(permission: string) {
-    if (!this.user$.value) return;
-    const permissionIndex = this.user$.value.permissions.indexOf(permission);
-
-    if (permissionIndex !== -1) {
-      // @ts-ignore
-      const permissions = this.user$.value.permissions.toSpliced(permissionIndex, 1);
-
-      const user = {
-        ...this.user$.value,
-        permissions: permissions,
-      };
-      this.user$.next(user);
+    if (!this.userPermissions$) {
+      this.userPermissions$ = this.userData$.pipe(map(value => value?.permissions));
     }
+    return this.userPermissions$.pipe(map(value => value?.includes('owner') ?? false));
   }
 
-  signIn(user: UserInterface) {
-    if (!this.user$.value) {
-      this.user$.next(user);
-    }
+  public signOut(): void {
+    this.auth.signOut().then(() => this.router.navigateByUrl('/'));
   }
 
-  public signOut() {
-    if (this.user$.value) {
-      this.user$.next(undefined);
-      this.router.navigateByUrl('').then();
-    }
+  public updateUserData(data: Partial<UserDataInterface>) {
+    this.angularFirestore
+      .doc<UserDataInterface>('users/' + this.auth.currentUser?.uid)
+      .update(data);
   }
 }

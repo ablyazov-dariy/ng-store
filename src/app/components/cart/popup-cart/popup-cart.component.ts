@@ -9,8 +9,9 @@ import {
   signal,
   ViewChild,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ProductWithCountInterface } from '@interfaces/product-with-count.interface';
+import { AuthService } from '@services/auth.service';
 import { ShoppingCartService } from '@services/shopping-cart.service';
 import { UserService } from '@services/user.service';
 
@@ -23,6 +24,7 @@ import { filter, map, merge } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PopupCartComponent implements AfterViewInit {
+  public userIsAuthenticated = toSignal(this.userService.isAuthenticated());
   public isCardOpen = signal(false);
   public data$ = this.cartService.data$;
 
@@ -33,12 +35,10 @@ export class PopupCartComponent implements AfterViewInit {
     private cartService: ShoppingCartService,
     private focusMonitor: FocusMonitor,
     private destroyRef: DestroyRef,
-    private userService: UserService
+    private userService: UserService,
+    private authService: AuthService
   ) {}
 
-  get userIsAuthenticated() {
-    return this.userService.isAuthenticated();
-  }
   ngAfterViewInit(): void {
     if (this.cartOpenButton && this.connectedOverlay) {
       merge(this.backdropClick$(this.connectedOverlay), this.focus$(this.cartOpenButton))
@@ -47,7 +47,7 @@ export class PopupCartComponent implements AfterViewInit {
     }
   }
 
-  getTotalPrice(data: ProductWithCountInterface[]): number {
+  public getTotalPrice(data: ProductWithCountInterface[]): number {
     return data.reduce((total, product) => total + product.price * product.__count, 0);
   }
 

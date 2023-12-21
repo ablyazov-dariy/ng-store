@@ -1,5 +1,5 @@
 import { ManageService } from '@admin/services/manage.service';
-import { A11yModule, FocusMonitor } from '@angular/cdk/a11y';
+import { A11yModule } from '@angular/cdk/a11y';
 import { CdkMenu, CdkMenuModule } from '@angular/cdk/menu';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
@@ -8,7 +8,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ProductsService } from '@services/products.service';
-import { UserService } from '@services/user.service';
 import {
   combineLatestWith,
   debounce,
@@ -47,9 +46,7 @@ export class ManageInputComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private manageService: ManageService,
-    private productsService: ProductsService,
-    private focusMonitor: FocusMonitor,
-    private userService: UserService
+    private productsService: ProductsService
   ) {}
 
   get chooseControl() {
