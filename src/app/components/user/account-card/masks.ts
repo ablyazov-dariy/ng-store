@@ -1,0 +1,17 @@
+export const masks = [
+  'mask-squircle',
+  'mask-heart',
+  'mask-hexagon',
+  'mask-hexagon-2',
+  'mask-decagon',
+  'mask-pentagon',
+  'mask-diamond',
+  'mask-circle',
+  'mask-parallelogram',
+  'mask-parallelogram-2',
+  'mask-parallelogram-3',
+  'mask-parallelogram-4',
+  'mask-star',
+  'mask-star-2',
+  'mask-triangle',
+];

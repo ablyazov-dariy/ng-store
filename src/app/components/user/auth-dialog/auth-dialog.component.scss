@@ -1,0 +1,19 @@
+:host {
+  @apply grid min-h-[60vh] place-items-center rounded-xl bg-base-200;
+  box-shadow: rgba(240, 46, 170, 0.4) -5px 5px, rgba(240, 46, 170, 0.3) -10px 10px,
+    rgba(240, 46, 170, 0.2) -15px 15px, rgba(240, 46, 170, 0.1) -20px 20px,
+    rgba(240, 46, 170, 0.05) -25px 25px, rgba(240, 46, 170, 0.4) 5px 5px,
+    rgba(240, 46, 170, 0.3) 10px 10px, rgba(240, 46, 170, 0.2) 15px 15px,
+    rgba(240, 46, 170, 0.1) 20px 20px, rgba(240, 46, 170, 0.05) 25px 25px;
+  animation: custom-dialog-enter 1s ease;
+}
+
+@keyframes custom-dialog-enter {
+  from {
+    transform: scale(0) rotate(360deg);
+  }
+
+  to {
+    transform: none;
+  }
+}

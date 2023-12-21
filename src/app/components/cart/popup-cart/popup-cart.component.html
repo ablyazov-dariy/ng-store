@@ -42,16 +42,17 @@
 
         <div class="card-actions justify-end">
           <button
-            *ngIf="userIsAuthenticated | async; else notLoggedIn"
-            (click)="overlay.backdropClick.emit()"
+            *ngIf="userIsAuthenticated(); else notLoggedIn"
             routerLink="/checkout"
+            (click)="overlay.backdropClick.emit()"
             class="btn-accent btn"
           >
             Checkout Now
           </button>
           <ng-template #notLoggedIn>
-            <!-- TODO: add link-->
-            <button routerLink="/" class="btn">Please Login To Continue</button>
+            <button [routerLink]="[{ outlets: { auth: 'login' } }]" class="btn">
+              Please Login To Continue
+            </button>
           </ng-template>
         </div>
       </div>

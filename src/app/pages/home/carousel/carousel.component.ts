@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import KeenSlider, { KeenSliderInstance } from 'keen-slider';
-import { filter, interval, tap } from 'rxjs';
+import { filter, interval } from 'rxjs';
 
 @Component({
   selector: 'app-carousel',
@@ -29,9 +29,6 @@ export class CarouselComponent implements OnInit, OnDestroy {
       this.sliderRef.nativeElement,
       {
         loop: true,
-        created: () => {
-          console.log('created');
-        },
       },
       [
         slider => {
@@ -44,7 +41,6 @@ export class CarouselComponent implements OnInit, OnDestroy {
   autoplay() {
     return interval(25000).pipe(
       takeUntilDestroyed(this.destroyRef),
-      tap(console.log),
       filter(() => !this.isMouseOver())
     );
   }

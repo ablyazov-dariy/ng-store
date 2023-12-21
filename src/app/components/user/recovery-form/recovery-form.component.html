@@ -1,0 +1,40 @@
+<form (ngSubmit)="onSubmit()" class="flex flex-col justify-center gap-4 px-10 py-10 lg:px-16">
+  <div *ngIf="sent" class="alert alert-success text-xs">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-5 w-5 shrink-0 stroke-current"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+      />
+    </svg>
+    <span>Recovery email sent successfully</span>
+  </div>
+
+  <div class="form-control">
+    <label class="label"><span class="label-text">Email</span></label>
+    <input
+      [formControl]="emailControl"
+      type="email"
+      placeholder="email"
+      class="input-bordered input"
+      [ngClass]="{
+        'input-error': emailControl.invalid && emailControl.touched,
+        'input-success': emailControl.valid
+      }"
+    />
+  </div>
+
+  <button [disabled]="emailControl.invalid" class="btn-success btn" type="submit">Recover</button>
+
+  <div class="label justify-end">
+    <a [routerLink]="['/', { outlets: { auth: 'login' } }]" class="link-hover label-text-alt link">
+      Login
+    </a>
+  </div>
+</form>
